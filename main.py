@@ -96,8 +96,16 @@ def run_trace(target: str, limit: int | None = None, start_app: str | None = Non
         payload = engine.trace_case(str(script))
         report_path = engine.artifacts.case_report_path(script, case_id=script.stem, suite_name=script.parent.name)
         reports.append(engine.reporter._case_payload if False else payload)
+        engine.reporter.export_suite_bundle_from_payloads(
+            reports,
+            include_trace=True,
+            include_migration=False,
+            include_replay=False,
+        )
         print(_line("trace_case_end", case=script.stem, report=report_path))
-    engine.reporter.export_suite_bundle_from_payloads(reports, include_trace=True, include_migration=False, include_replay=False)
+        if not bool(payload.get("migration_success")):
+            print(_line("trace_failed_stop", case=script.stem, report=report_path))
+            raise SystemExit(1)
     print(_line("trace_end", cases=len(reports), seconds=_elapsed(started)))
 
 
@@ -121,8 +129,13 @@ def run_replay(target: str, limit: int | None = None, start_app: str | None = No
         }
         engine.reporter.export_case_payload(script.stem, script.parent.name, payload)
         reports.append(payload)
+        engine.reporter.export_suite_bundle_from_payloads(
+            reports,
+            include_trace=False,
+            include_migration=False,
+            include_replay=True,
+        )
         print(_line("replay_case_end", case=script.stem, success=result.success, seconds=round(result.duration_seconds, 3)))
-    engine.reporter.export_suite_bundle_from_payloads(reports, include_trace=False, include_migration=False, include_replay=True)
     print(_line("replay_end", cases=len(reports), seconds=_elapsed(started)))
 
 

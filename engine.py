@@ -4,7 +4,6 @@ import ast
 import codeop
 import json
 import re
-import shutil
 import subprocess
 import time
 import traceback
@@ -354,7 +353,6 @@ class IntentionMigrationEngine:
         replay_dir = self.artifacts.case_stage_dir(case_id, suite_name, "replay")
         migrated_script = replay_dir / f"migrated_{script_path.name}"
         self._copy_original_script_to_replay(script_path, migrated_script)
-        self._copy_replay_resources(script_path, replay_dir)
 
         attempts: list[FulfillmentAttemptRecord] = []
         validations: list[ValidationResult] = []
@@ -734,15 +732,6 @@ class IntentionMigrationEngine:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         lines = [line.replace("\ufeff", "") for line in self.script_analyzer.read_lines(script_path)]
         output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
-
-    def _copy_replay_resources(self, script_path: Path, replay_dir: Path) -> None:
-        replay_dir.mkdir(parents=True, exist_ok=True)
-        for source in script_path.parent.iterdir():
-            if not source.is_file() or source.suffix.lower() == ".py":
-                continue
-            target = replay_dir / source.name
-            if source.resolve() != target.resolve():
-                shutil.copy2(source, target)
 
     def _execution_namespace(self) -> dict[str, Any]:
         namespace: dict[str, Any] = {

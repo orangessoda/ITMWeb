@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import sys
+import threading
 import time
 import textwrap
 from dataclasses import dataclass
@@ -339,6 +340,15 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
     if _hold_seconds < 1:
         _hold_seconds = 1
 
+    def _stop_trace_on_error(exc):
+        try:
+            tb_text = "".join(traceback.format_exception(type(exc), exc, exc.__traceback__))
+            _safe_print("[stderr]")
+            _safe_print(tb_text.rstrip("\\n"))
+        except Exception:
+            pass
+        os._exit(1)
+
     if _hold_on_error:
         def _hold_excepthook(exc_type, exc, tb):
             _safe_print("[stderr]")
@@ -404,7 +414,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "get", f"url={url} error={exc}", "page open failed")
                 _capture_page_state(self, "failed_get", f"url={url}")
-                raise
+                _stop_trace_on_error(exc)
 
         def _find_with_log(self, by=None, value=None):
             global _trace_action_index
@@ -421,7 +431,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "find_element", f"by={by} value={value} error={exc}", "element lookup failed")
                 _capture_page_state(self, "failed_find_element", f"by={by} value={value}")
-                raise
+                _stop_trace_on_error(exc)
 
         def _click_with_log(self):
             global _trace_action_index
@@ -436,7 +446,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "click", f"locator={locator} error={exc}", "click failed")
                 _capture_page_state(getattr(self, "_parent", None), "failed_click", f"locator={locator}")
-                raise
+                _stop_trace_on_error(exc)
 
         def _send_keys_with_log(self, *value):
             global _trace_action_index
@@ -450,7 +460,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
                 return result
             except Exception as exc:
                 _log("FAIL", "send_keys", f"locator={locator} error={exc}", "typing failed")
-                raise
+                _stop_trace_on_error(exc)
 
         def _clear_with_log(self):
             global _trace_action_index
@@ -463,7 +473,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
                 return result
             except Exception as exc:
                 _log("FAIL", "clear", f"locator={locator} error={exc}", "clear failed")
-                raise
+                _stop_trace_on_error(exc)
 
         def _submit_with_log(self):
             global _trace_action_index
@@ -478,7 +488,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "submit", f"locator={locator} error={exc}", "submit failed")
                 _capture_page_state(getattr(self, "_parent", None), "failed_submit", f"locator={locator}")
-                raise
+                _stop_trace_on_error(exc)
 
         def _execute_script_with_log(self, script, *args):
             global _trace_action_index
@@ -493,7 +503,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "execute_script", f"script={json.dumps(snippet)} error={exc}", "javascript execution failed")
                 _capture_page_state(self, "failed_execute_script", f"script={snippet}")
-                raise
+                _stop_trace_on_error(exc)
 
         RemoteWebDriver.get = _get_with_log
         RemoteWebDriver.find_element = _find_with_log
@@ -519,7 +529,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "switch_window", f"value={window_name} error={exc}", "window switch failed")
                 _capture_page_state(driver, "failed_switch_window", f"value={window_name}")
-                raise
+                _stop_trace_on_error(exc)
 
         def _frame_with_log(self, frame_reference):
             global _trace_action_index
@@ -535,7 +545,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "switch_frame", f"locator={detail} error={exc}", "frame switch failed")
                 _capture_page_state(driver, "failed_switch_frame", f"locator={detail}")
-                raise
+                _stop_trace_on_error(exc)
 
         RemoteSwitchTo.window = _window_with_log
         RemoteSwitchTo.frame = _frame_with_log
@@ -564,7 +574,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception as exc:
                 _log("FAIL", "hover", f"locator={locator} error={exc}", "action chain failed")
                 _capture_page_state(driver, "failed_hover", f"locator={locator}")
-                raise
+                _stop_trace_on_error(exc)
 
         SeleniumActionChains.move_to_element = _move_to_element_with_log
         SeleniumActionChains.perform = _perform_with_log
@@ -597,51 +607,69 @@ class InstrumentedScriptRunner:
         existing_pythonpath = env.get("PYTHONPATH", "")
         env["PYTHONPATH"] = str(bootstrap_dir) + (os.pathsep + existing_pythonpath if existing_pythonpath else "")
         env["ITMWEB_TRACE_LOG_FILE"] = str(log_path)
-        hold_on_error = self.config.trace.keep_browser_on_trace_failure or environment == "old"
-        env["ITMWEB_TRACE_HOLD_ON_ERROR"] = "1" if hold_on_error else "0"
+        env["ITMWEB_TRACE_HOLD_ON_ERROR"] = "0"
         env["ITMWEB_TRACE_HOLD_SECONDS"] = str(max(1, self.config.trace.hold_seconds_on_failure))
         env["ITMWEB_BROWSER_NO_PROXY_SERVER"] = "1" if self.config.browser.force_no_proxy_server else "0"
         env["ITMWEB_BROWSER_ISOLATED_PROFILE"] = "1" if self.config.browser.use_isolated_user_data_dir else "0"
         env["ITMWEB_BROWSER_ISOLATED_PROFILE_ROOT"] = str(self.config.browser.isolated_user_data_root)
 
         started = time.perf_counter()
+        stdout_parts: list[str] = []
+        stderr_parts: list[str] = []
+        process: subprocess.Popen[str] | None = None
+        stdout_thread: threading.Thread | None = None
+        stderr_thread: threading.Thread | None = None
         try:
-            result = subprocess.run(
+            process = subprocess.Popen(
                 [sys.executable, str(script_path)],
                 cwd=str(script_path.parent),
-                capture_output=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
                 text=True,
-                timeout=self.config.trace.script_timeout_seconds,
                 env=env,
+                bufsize=1,
             )
-            stdout = result.stdout
-            stderr = result.stderr
-            return_code = result.returncode
+
+            stdout_thread = threading.Thread(
+                target=self._stream_pipe_to_action_log,
+                args=(process.stdout, log_path, stdout_parts, "stdout"),
+                daemon=True,
+            )
+            stderr_thread = threading.Thread(
+                target=self._stream_pipe_to_action_log,
+                args=(process.stderr, log_path, stderr_parts, "stderr"),
+                daemon=True,
+            )
+            stdout_thread.start()
+            stderr_thread.start()
+
+            return_code = process.wait(timeout=self.config.trace.script_timeout_seconds)
+            stdout_thread.join(timeout=5)
+            stderr_thread.join(timeout=5)
             status = "passed" if return_code == 0 else "failed"
-        except subprocess.TimeoutExpired as exc:
-            stdout = exc.stdout or ""
-            stderr = exc.stderr or ""
+        except subprocess.TimeoutExpired:
+            if process is not None:
+                process.kill()
+            if stdout_thread is not None:
+                stdout_thread.join(timeout=5)
+            if stderr_thread is not None:
+                stderr_thread.join(timeout=5)
             return_code = None
             status = "timeout"
         except Exception as exc:
-            stdout = ""
-            stderr = str(exc)
+            stderr_parts.append(str(exc))
+            with log_path.open("a", encoding="utf-8", errors="ignore") as handle:
+                handle.write("\n[stderr]\n")
+                handle.write(str(exc))
+                handle.write("\n")
+                handle.flush()
             return_code = None
             status = "error"
         duration = round(time.perf_counter() - started, 3)
 
+        stdout = "".join(stdout_parts)
+        stderr = "".join(stderr_parts)
         combined_log = self._compose_log(log_path, stdout, stderr)
-        with log_path.open("a", encoding="utf-8", errors="ignore") as handle:
-            if stdout:
-                handle.write("\n[stdout]\n")
-                handle.write(stdout)
-                if not stdout.endswith("\n"):
-                    handle.write("\n")
-            if stderr:
-                handle.write("\n[stderr]\n")
-                handle.write(stderr)
-                if not stderr.endswith("\n"):
-                    handle.write("\n")
         actions = self._parse_actions(combined_log)
         trace_run = TraceRun(
             label=label,
@@ -663,6 +691,33 @@ class InstrumentedScriptRunner:
         )
         return TraceRunResult(trace=trace_run, stdout=stdout, stderr=stderr)
 
+    @staticmethod
+    def _stream_pipe_to_action_log(pipe: Any, log_path: Path, chunks: list[str], section: str) -> None:
+        if pipe is None:
+            return
+        section_written = False
+        with log_path.open("a", encoding="utf-8", errors="ignore") as handle:
+            while True:
+                chunk = pipe.readline()
+                if chunk == "":
+                    break
+                chunks.append(chunk)
+                if section == "stdout" and (
+                    chunk.startswith("[ACTION]")
+                    or chunk.startswith("[PAGE_STATE]")
+                    or chunk.startswith("[stderr]")
+                ):
+                    continue
+                if not section_written:
+                    handle.write(f"\n[{section}]\n")
+                    section_written = True
+                handle.write(chunk)
+                handle.flush()
+        try:
+            pipe.close()
+        except Exception:
+            pass
+
     def _ensure_bootstrap_dir(self) -> Path:
         bootstrap_dir = self.artifacts.bootstrap_dir(self.config.trace.bootstrap_dir_name)
         (bootstrap_dir / "sitecustomize.py").write_text(self.bootstrap_action_log, encoding="utf-8")
@@ -682,8 +737,7 @@ class InstrumentedScriptRunner:
         pattern = re.compile(r"^\[ACTION\]\[(?P<stage>[^\]]+)\]\s+(?P<action>\S+)\s*(?P<detail>.*?)\s+\|\s+note:\s*(?P<note>.*)$")
         actions: list[TraceAction] = []
         last_action: TraceAction | None = None
-        action_section = text.split("\n[stdout]\n", 1)[0]
-        for line in action_section.splitlines():
+        for line in text.splitlines():
             stripped = line.strip()
             if stripped.startswith("[PAGE_STATE] "):
                 if last_action is not None:
