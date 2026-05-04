@@ -1,0 +1,68 @@
+[ACTION][TRY] get url=http://mantis-old.local:8080/login_page.php | note: opening page
+[ACTION][OK] get url=http://mantis-old.local:8080/login_page.php | note: page opened
+[PAGE_STATE] {"action_index": 1, "trigger": "after_get", "note": "url=http://mantis-old.local:8080/login_page.php", "url": "http://mantis-old.local:8080/login_page.php", "title": "MantisBT", "widgets": [{"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 1, "name": "return", "role": "", "tag": "input", "text": "index.php", "type": "hidden", "visible": false}, {"box": {"height": 34, "width": 848, "x": 528, "y": 246}, "enabled": true, "href": "", "id": "username", "index": 2, "name": "username", "role": "", "tag": "input", "text": "用户名", "type": "text", "visible": true}, {"box": {"height": 42, "width": 339, "x": 1037, "y": 301}, "enabled": true, "href": "", "id": "", "index": 3, "name": "", "role": "", "tag": "input", "text": "登录", "type": "submit", "visible": true}, {"box": {"height": 21, "width": 98, "x": 510, "y": 462}, "enabled": true, "href": "signup_page.php", "id": "", "index": 4, "name": "", "role": "", "tag": "a", "text": "注册一个新帐号", "type": "", "visible": true}]}
+[ACTION][TRY] find_element by=xpath value=//*[@id="username"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="username"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="username"] | note: clearing element
+[ACTION][OK] clear locator=xpath=//*[@id="username"] | note: clear succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="username"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="username"] | note: element located
+[ACTION][TRY] send_keys locator=xpath=//*[@id="username"] text="admin" | note: typing into element
+[ACTION][OK] send_keys locator=xpath=//*[@id="username"] | note: typing succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[2] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[2] | note: element located
+[ACTION][TRY] click locator=xpath=//*[@id="login-form"]/fieldset/input[2] | note: clicking element
+[ACTION][OK] click locator=xpath=//*[@id="login-form"]/fieldset/input[2] | note: click succeeded
+[PAGE_STATE] {"action_index": 7, "trigger": "after_click", "note": "locator=xpath=//*[@id=\"login-form\"]/fieldset/input[2]", "url": "http://mantis-old.local:8080/login_password_page.php", "title": "MantisBT", "widgets": []}
+[ACTION][TRY] find_element by=xpath value=//*[@id="password"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="password"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="password"] | note: clearing element
+[ACTION][OK] clear locator=xpath=//*[@id="password"] | note: clear succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="password"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="password"] | note: element located
+[ACTION][TRY] send_keys locator=xpath=//*[@id="password"] text="admin" | note: typing into element
+[ACTION][OK] send_keys locator=xpath=//*[@id="password"] | note: typing succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[3] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[3] | note: element located
+[ACTION][TRY] click locator=xpath=//*[@id="login-form"]/fieldset/input[3] | note: clicking element
+[ACTION][OK] click locator=xpath=//*[@id="login-form"]/fieldset/input[3] | note: click succeeded
+[PAGE_STATE] {"action_index": 13, "trigger": "after_click", "note": "locator=xpath=//*[@id=\"login-form\"]/fieldset/input[3]", "url": "http://mantis-old.local:8080/manage_proj_create_page.php", "title": "MantisBT", "widgets": []}
+
+[stdout]
+[db-old] total_tables=32
+[db-old] keep_tables=['mantis_config_table', 'mantis_plugin_table', 'mantis_user_pref_table', 'mantis_user_print_pref_table', 'mantis_user_profile_table', 'mantis_user_table']
+[db-old] reset_tables=['mantis_api_token_table', 'mantis_bug_file_table', 'mantis_bug_history_table', 'mantis_bug_monitor_table', 'mantis_bug_relationship_table', 'mantis_bug_revision_table', 'mantis_bug_table', 'mantis_bug_tag_table', 'mantis_bug_text_table', 'mantis_bugnote_table', 'mantis_bugnote_text_table', 'mantis_category_table', 'mantis_custom_field_project_table', 'mantis_custom_field_string_table', 'mantis_custom_field_table', 'mantis_email_table', 'mantis_filters_table', 'mantis_news_table', 'mantis_project_file_table', 'mantis_project_hierarchy_table', 'mantis_project_table', 'mantis_project_user_list_table', 'mantis_project_version_table', 'mantis_sponsorship_table', 'mantis_tag_table', 'mantis_tokens_table']
+[db-old] selected_admin_username=admin
+[db-old] prune_users_to_administrator_only=True
+[db-old] prune_user_linked_tables=['mantis_user_pref_table', 'mantis_user_profile_table', 'mantis_user_print_pref_table']
+[db-old] reset_done=True
+[mantisbt-old] database reset succeeded
+[ACTION][TRY] get url=http://mantis-old.local:8080/login_page.php | note: opening page
+[ACTION][OK] get url=http://mantis-old.local:8080/login_page.php | note: page opened
+[PAGE_STATE] {"action_index": 1, "trigger": "after_get", "note": "url=http://mantis-old.local:8080/login_page.php", "url": "http://mantis-old.local:8080/login_page.php", "title": "MantisBT", "widgets": [{"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 1, "name": "return", "role": "", "tag": "input", "text": "index.php", "type": "hidden", "visible": false}, {"box": {"height": 34, "width": 848, "x": 528, "y": 246}, "enabled": true, "href": "", "id": "username", "index": 2, "name": "username", "role": "", "tag": "input", "text": "用户名", "type": "text", "visible": true}, {"box": {"height": 42, "width": 339, "x": 1037, "y": 301}, "enabled": true, "href": "", "id": "", "index": 3, "name": "", "role": "", "tag": "input", "text": "登录", "type": "submit", "visible": true}, {"box": {"height": 21, "width": 98, "x": 510, "y": 462}, "enabled": true, "href": "signup_page.php", "id": "", "index": 4, "name": "", "role": "", "tag": "a", "text": "注册一个新帐号", "type": "", "visible": true}]}
+[ACTION][TRY] find_element by=xpath value=//*[@id="username"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="username"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="username"] | note: clearing element
+[ACTION][OK] clear locator=xpath=//*[@id="username"] | note: clear succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="username"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="username"] | note: element located
+[ACTION][TRY] send_keys locator=xpath=//*[@id="username"] text="admin" | note: typing into element
+[ACTION][OK] send_keys locator=xpath=//*[@id="username"] | note: typing succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[2] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[2] | note: element located
+[ACTION][TRY] click locator=xpath=//*[@id="login-form"]/fieldset/input[2] | note: clicking element
+[ACTION][OK] click locator=xpath=//*[@id="login-form"]/fieldset/input[2] | note: click succeeded
+[PAGE_STATE] {"action_index": 7, "trigger": "after_click", "note": "locator=xpath=//*[@id=\"login-form\"]/fieldset/input[2]", "url": "http://mantis-old.local:8080/login_password_page.php", "title": "MantisBT", "widgets": []}
+[ACTION][TRY] find_element by=xpath value=//*[@id="password"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="password"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="password"] | note: clearing element
+[ACTION][OK] clear locator=xpath=//*[@id="password"] | note: clear succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="password"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="password"] | note: element located
+[ACTION][TRY] send_keys locator=xpath=//*[@id="password"] text="admin" | note: typing into element
+[ACTION][OK] send_keys locator=xpath=//*[@id="password"] | note: typing succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[3] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="login-form"]/fieldset/input[3] | note: element located
+[ACTION][TRY] click locator=xpath=//*[@id="login-form"]/fieldset/input[3] | note: clicking element
+[ACTION][OK] click locator=xpath=//*[@id="login-form"]/fieldset/input[3] | note: click succeeded
+[PAGE_STATE] {"action_index": 13, "trigger": "after_click", "note": "locator=xpath=//*[@id=\"login-form\"]/fieldset/input[3]", "url": "http://mantis-old.local:8080/manage_proj_create_page.php", "title": "MantisBT", "widgets": []}

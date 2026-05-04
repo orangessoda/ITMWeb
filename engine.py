@@ -362,9 +362,12 @@ class IntentionMigrationEngine:
         last_patch: MigrationPatch | None = None
         max_rounds = max(1, int(getattr(self.config.migration, "max_repair_rounds", 12) or 12))
 
+        namespace = self._execution_namespace()
+        next_start_line = 1
+        self.browser.close()
+
         for _ in range(max_rounds):
-            self.browser.close()
-            run = self._run_until_failure(migrated_script, 1, self._execution_namespace())
+            run = self._run_until_failure(migrated_script, next_start_line, namespace)
             if run.success:
                 report = self._report(
                     case_id=case_id,
@@ -392,6 +395,7 @@ class IntentionMigrationEngine:
                 break
             last_patch = repair.patch
             self.patch_applier.apply_patch(migrated_script, repair.patch)
+            next_start_line = max(1, int(repair.patch.line_num or run.next_line))
 
         trace = last_trace or self._trace_for_success(script_path, suite_name)
         report = self._report(

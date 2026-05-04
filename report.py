@@ -15,12 +15,19 @@ from .schemas import CaseReport
 class ArtifactManager:
     config: ProjectConfig
 
+    @property
+    def artifact_root(self) -> Path:
+        root = getattr(self.config, "artifact_root", None)
+        if root is None and hasattr(self.config, "artifacts"):
+            root = getattr(self.config.artifacts, "artifact_root", None)
+        return Path(root or "output")
+
     def _segment(self, value: str, fallback: str) -> str:
         text = (value or fallback).strip() or fallback
         return re.sub(r"[^A-Za-z0-9_.-]+", "_", text).strip("._") or fallback
 
     def case_dir(self, case_id: str, suite_name: str = "") -> Path:
-        path = self.config.artifact_root / self._segment(suite_name, "unknown_app") / self._segment(case_id, "unknown_case")
+        path = self.artifact_root / self._segment(suite_name, "unknown_app") / self._segment(case_id, "unknown_case")
         path.mkdir(parents=True, exist_ok=True)
         return path
 
@@ -34,13 +41,21 @@ class ArtifactManager:
         return self.case_stage_dir(case_id or path.stem, suite_name or path.parent.name, "report") / "case_report.json"
 
     def bootstrap_dir(self, bootstrap_dir_name: str) -> Path:
-        path = self.config.artifact_root / "_bootstrap" / self._segment(bootstrap_dir_name, "runtime")
+        path = self.artifact_root / "_bootstrap" / self._segment(bootstrap_dir_name, "runtime")
         path.mkdir(parents=True, exist_ok=True)
         return path
 
     def write_json(self, path: Path, payload: Any) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+
+    def read_json(self, path: Path) -> Any:
+        if not path.exists():
+            return None
+        try:
+            return json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError):
+            return None
 
     def write_csv_rows(self, path: Path, rows: list[dict[str, Any]]) -> None:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -60,10 +75,39 @@ class ArtifactManager:
         fieldnames: list[str] | None = None,
         key: str = "case_name",
     ) -> None:
-        del key
-        if fieldnames:
-            rows = [{name: row.get(name, "") for name in fieldnames} for row in rows]
-        self.write_csv_rows(path, rows)
+        path.parent.mkdir(parents=True, exist_ok=True)
+        if not rows and not path.exists():
+            self.write_csv_rows(path, rows)
+            return
+        existing_rows: list[dict[str, Any]] = []
+        if path.exists() and path.read_text(encoding="utf-8").strip():
+            with path.open("r", newline="", encoding="utf-8") as handle:
+                existing_rows = list(csv.DictReader(handle))
+        if fieldnames is None:
+            names: list[str] = []
+            for row in existing_rows + rows:
+                for name in row.keys():
+                    if name not in names:
+                        names.append(name)
+            fieldnames = names
+        normalized_existing = [{name: row.get(name, "") for name in fieldnames} for row in existing_rows]
+        normalized_new = [{name: row.get(name, "") for name in fieldnames} for row in rows]
+        merged: list[dict[str, Any]] = []
+        index_by_key: dict[str, int] = {}
+        for row in normalized_existing:
+            row_key = str(row.get(key, "") or "")
+            if row_key:
+                index_by_key[row_key] = len(merged)
+            merged.append(row)
+        for row in normalized_new:
+            row_key = str(row.get(key, "") or "")
+            if row_key and row_key in index_by_key:
+                merged[index_by_key[row_key]] = row
+            else:
+                if row_key:
+                    index_by_key[row_key] = len(merged)
+                merged.append(row)
+        self.write_csv_rows(path, merged)
 
 
 @dataclass(slots=True)
@@ -72,7 +116,14 @@ class ReportExporter:
 
     def export_case(self, report: CaseReport) -> Path:
         path = self.artifacts.case_stage_dir(report.case_id, report.trace.context.suite_name, "report") / "case_report.json"
-        self.artifacts.write_json(path, self._case_payload(report))
+        payload = self._merge_case_payload(self.artifacts.read_json(path), self._case_payload(report))
+        self.artifacts.write_json(path, payload)
+        return path
+
+    def export_case_payload(self, case_id: str, suite_name: str, payload: dict[str, Any]) -> Path:
+        path = self.artifacts.case_stage_dir(case_id, suite_name, "report") / "case_report.json"
+        merged = self._merge_case_payload(self.artifacts.read_json(path), payload)
+        self.artifacts.write_json(path, merged)
         return path
 
     def export_suite_bundle(
@@ -96,24 +147,24 @@ class ReportExporter:
         include_replay: bool = True,
     ) -> dict[str, Path]:
         del suite_replay
-        root = self.artifacts.config.artifact_root
+        root = self.artifacts.artifact_root
         paths = {
             "trace_csv": root / "trace.csv",
             "migration_csv": root / "migration.csv",
             "replay_csv": root / "replay.csv",
         }
         if include_trace:
-            self.artifacts.write_csv_rows(paths["trace_csv"], self._trace_rows(payloads))
+            self.artifacts.upsert_csv_rows(paths["trace_csv"], self._trace_rows(payloads), key="case_name")
         if include_migration:
-            self.artifacts.write_csv_rows(paths["migration_csv"], self._migration_rows(payloads))
+            self.artifacts.upsert_csv_rows(paths["migration_csv"], self._migration_rows(payloads), key="case_name")
         if include_replay:
-            self.artifacts.write_csv_rows(paths["replay_csv"], self._replay_rows(payloads))
+            self.artifacts.upsert_csv_rows(paths["replay_csv"], self._replay_rows(payloads), key="case_name")
         return paths
 
     def export_trace_bundle(self, reports: list[CaseReport]) -> dict[str, Path]:
         payloads = [self._case_payload(report) for report in reports]
-        path = self.artifacts.config.artifact_root / "trace.csv"
-        self.artifacts.write_csv_rows(path, self._trace_rows(payloads))
+        path = self.artifacts.artifact_root / "trace.csv"
+        self.artifacts.upsert_csv_rows(path, self._trace_rows(payloads), key="case_name")
         return {"trace_csv": path}
 
     def _case_payload(self, report: CaseReport) -> dict[str, Any]:
@@ -129,6 +180,7 @@ class ReportExporter:
                     "title": report.trace.snapshot.title,
                     "interactable_count": len(report.trace.snapshot.interactables),
                 },
+                "old_trace": report.trace.old_trace.to_dict() if report.trace.old_trace else None,
             },
             "migration_status": report.migration_status,
             "migration_success": report.migration_success,
@@ -148,6 +200,52 @@ class ReportExporter:
                 "seconds": round(sum(float(v or 0) for v in report.llm_task_seconds.values()), 3),
             },
         }
+
+    def _merge_case_payload(self, existing: Any, incoming: dict[str, Any]) -> dict[str, Any]:
+        if not isinstance(existing, dict):
+            return incoming
+        merged = dict(existing)
+        merged["case_id"] = incoming.get("case_id", merged.get("case_id", ""))
+
+        stage = self._payload_stage(incoming)
+        if stage == "trace":
+            merged["trace"] = incoming.get("trace", merged.get("trace", {}))
+            for key in ["migration", "replay", "llm"]:
+                if key not in merged and incoming.get(key) not in (None, {}, []):
+                    merged[key] = incoming[key]
+            for key in ["migration_status", "migration_success", "migration_duration_seconds", "repair_count"]:
+                if key not in merged and key in incoming:
+                    merged[key] = incoming[key]
+            return merged
+
+        if stage in {"migration", "suite"}:
+            if "trace" not in merged or not merged.get("trace"):
+                merged["trace"] = incoming.get("trace", {})
+            for key in ["migration_status", "migration_success", "migration_duration_seconds", "repair_count", "migration", "llm"]:
+                if key in incoming:
+                    merged[key] = incoming[key]
+            if stage == "suite" and incoming.get("replay") is not None:
+                merged["replay"] = incoming["replay"]
+            return merged
+
+        if stage == "replay":
+            if "trace" not in merged and incoming.get("trace"):
+                merged["trace"] = incoming["trace"]
+            merged["replay"] = incoming.get("replay")
+            return merged
+
+        return {**merged, **incoming}
+
+    def _payload_stage(self, payload: dict[str, Any]) -> str:
+        if payload.get("replay") is not None and not payload.get("migration"):
+            return "replay"
+        if payload.get("replay") is not None and payload.get("migration"):
+            return "suite"
+        if payload.get("migration_status") == "trace_only":
+            return "trace"
+        if payload.get("migration"):
+            return "migration"
+        return "unknown"
 
     def _case_name(self, payload: dict[str, Any]) -> str:
         context = payload.get("trace", {}).get("context", {})

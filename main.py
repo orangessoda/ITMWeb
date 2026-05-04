@@ -119,6 +119,7 @@ def run_replay(target: str, limit: int | None = None, start_app: str | None = No
             "trace": {"context": {"suite_name": script.parent.name}},
             "replay": result.to_dict(),
         }
+        engine.reporter.export_case_payload(script.stem, script.parent.name, payload)
         reports.append(payload)
         print(_line("replay_case_end", case=script.stem, success=result.success, seconds=round(result.duration_seconds, 3)))
     engine.reporter.export_suite_bundle_from_payloads(reports, include_trace=False, include_migration=False, include_replay=True)

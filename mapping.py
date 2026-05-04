@@ -55,8 +55,125 @@ class IntentMappingLibrary:
         normalized["updated_at"] = utc_now()
         mappings = normalized.get("mappings", [])
         normalized["mappings"] = mappings if isinstance(mappings, list) else []
-        self.cache = normalized
-        self.path.write_text(json.dumps(normalized, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+        existing = self._load_path(self.path) if self.path.exists() else self.default_payload()
+        merged = self._merge_mapping_payload(existing, normalized)
+        self.cache = merged
+        self.path.write_text(json.dumps(merged, indent=2, ensure_ascii=True) + "\n", encoding="utf-8")
+
+    def _merge_mapping_payload(self, existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
+        existing_mappings = existing.get("mappings", []) if isinstance(existing, dict) else []
+        incoming_mappings = incoming.get("mappings", []) if isinstance(incoming, dict) else []
+        result: dict[str, Any] = {
+            **(existing if isinstance(existing, dict) else {}),
+            **{key: value for key, value in incoming.items() if key != "mappings"},
+            "updated_at": utc_now(),
+            "mappings": [],
+        }
+        index_by_key: dict[str, int] = {}
+        for mapping in existing_mappings if isinstance(existing_mappings, list) else []:
+            if not isinstance(mapping, dict):
+                continue
+            result["mappings"].append(mapping)
+            for key in self._mapping_upsert_keys(mapping):
+                index_by_key.setdefault(key, len(result["mappings"]) - 1)
+        for mapping in incoming_mappings if isinstance(incoming_mappings, list) else []:
+            if not isinstance(mapping, dict):
+                continue
+            keys = self._mapping_upsert_keys(mapping)
+            existing_index = next((index_by_key[key] for key in keys if key in index_by_key), -1)
+            if existing_index >= 0:
+                result["mappings"][existing_index] = self._merge_mapping_entry(result["mappings"][existing_index], mapping)
+                for key in self._mapping_upsert_keys(result["mappings"][existing_index]):
+                    index_by_key[key] = existing_index
+            else:
+                result["mappings"].append(mapping)
+                for key in keys:
+                    index_by_key[key] = len(result["mappings"]) - 1
+        return result
+
+    def _mapping_upsert_keys(self, mapping: dict[str, Any]) -> list[str]:
+        keys: list[str] = []
+        mapping_id = str(mapping.get("mapping_id", "") or "").strip().lower()
+        if mapping_id:
+            keys.append(f"id:{mapping_id}")
+        recipe_id = str(mapping.get("recipe_id", "") or "").strip().lower()
+        if recipe_id:
+            keys.append(f"recipe:{recipe_id}")
+        match = mapping.get("match", {}) if isinstance(mapping.get("match", {}), dict) else {}
+        intent_key = str(match.get("intent_key", "") or "").strip().lower()
+        if intent_key:
+            keys.append(f"intent:{intent_key}")
+        for item in match.get("intent_keys", []) if isinstance(match.get("intent_keys", []), list) else []:
+            value = str(item or "").strip().lower()
+            if value:
+                keys.append(f"intent:{value}")
+        for source in mapping.get("source_signatures", []) if isinstance(mapping.get("source_signatures", []), list) else []:
+            if not isinstance(source, dict):
+                continue
+            source_key = str(source.get("source_key", "") or "").strip().lower()
+            if source_key:
+                keys.append(f"source:{source_key}")
+        return self.unique(keys)
+
+    def _merge_mapping_entry(self, existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
+        merged = {**existing, **incoming}
+        if existing.get("created_at"):
+            merged["created_at"] = existing["created_at"]
+        if existing.get("mapping_id") and not incoming.get("mapping_id"):
+            merged["mapping_id"] = existing["mapping_id"]
+        if existing.get("recipe_id") and not incoming.get("recipe_id"):
+            merged["recipe_id"] = existing["recipe_id"]
+        merged["updated_at"] = utc_now()
+        merged["match"] = self._merge_match_payload(
+            existing.get("match", {}) if isinstance(existing.get("match", {}), dict) else {},
+            incoming.get("match", {}) if isinstance(incoming.get("match", {}), dict) else {},
+        )
+        merged["source_signatures"] = self._merge_unique_dict_list(
+            existing.get("source_signatures", []),
+            incoming.get("source_signatures", []),
+            "source_key",
+            30,
+        )
+        merged["target_recipes"] = self._merge_unique_dict_list(
+            existing.get("target_recipes", []),
+            incoming.get("target_recipes", []),
+            "recipe_id",
+            12,
+        )
+        merged["merge_reasons"] = self.unique(
+            [str(item) for item in existing.get("merge_reasons", []) if str(item).strip()]
+            + [str(item) for item in incoming.get("merge_reasons", []) if str(item).strip()]
+        )[:8]
+        merged["stats"] = self._merge_stats(
+            existing.get("stats", {}) if isinstance(existing.get("stats", {}), dict) else {},
+            incoming.get("stats", {}) if isinstance(incoming.get("stats", {}), dict) else {},
+        )
+        return merged
+
+    def _merge_unique_dict_list(self, existing: Any, incoming: Any, key: str, limit: int) -> list[dict[str, Any]]:
+        result: list[dict[str, Any]] = []
+        index_by_key: dict[str, int] = {}
+        for item in (existing if isinstance(existing, list) else []) + (incoming if isinstance(incoming, list) else []):
+            if not isinstance(item, dict):
+                continue
+            item_key = str(item.get(key, "") or "").strip()
+            if item_key and item_key in index_by_key:
+                current = result[index_by_key[item_key]]
+                created_at = current.get("created_at", item.get("created_at", ""))
+                result[index_by_key[item_key]] = {**current, **item, "created_at": created_at}
+            else:
+                if item_key:
+                    index_by_key[item_key] = len(result)
+                result.append(item)
+        return result[:limit]
+
+    def _merge_stats(self, existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
+        merged = {**existing, **incoming}
+        for key in ["learned_count", "hit_count", "success_count", "failure_count"]:
+            merged[key] = int(existing.get(key, 0) or 0) + int(incoming.get(key, 0) or 0)
+        for key in ["last_learned_at", "last_matched_at", "last_success_at", "last_failure_at"]:
+            merged[key] = max(str(existing.get(key, "") or ""), str(incoming.get(key, "") or ""))
+        return merged
 
     @staticmethod
     def unique(items: list[str]) -> list[str]:
