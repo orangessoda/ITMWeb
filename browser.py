@@ -14,11 +14,13 @@ try:  # pragma: no cover - runtime dependency
     from selenium import webdriver
     from selenium.webdriver.common.by import By
     from selenium.webdriver.common.keys import Keys
+    from selenium.webdriver.chrome.service import Service as ChromeService
     from selenium.webdriver.support.ui import Select
 except Exception:  # pragma: no cover
     webdriver = None  # type: ignore[assignment]
     By = None  # type: ignore[assignment]
     Keys = None  # type: ignore[assignment]
+    ChromeService = None  # type: ignore[assignment]
     Select = None  # type: ignore[assignment]
 
 
@@ -60,7 +62,7 @@ class BrowserSession:
             shutil.rmtree(self.runtime_user_data_dir, ignore_errors=True)
             self.runtime_user_data_dir = ""
 
-    def snapshot(self, case_dir: Path) -> DOMSnapshot:
+    def snapshot(self, case_dir: Path | None = None) -> DOMSnapshot:
         self.open() if self.driver is None else None
         return DOMCollector(self).collect(case_dir)
 
@@ -76,12 +78,32 @@ class BrowserSession:
         options = webdriver.ChromeOptions()
         for arg in getattr(self.config, "chrome_args", []) or []:
             options.add_argument(arg)
-        if getattr(self.config, "use_isolated_profile", True):
-            root = Path(getattr(self.config, "tmp_profile_root", "") or tempfile.gettempdir())
+        args = list(getattr(options, "arguments", []) or [])
+        if getattr(self.config, "force_no_proxy_server", True) and "--no-proxy-server" not in args:
+            options.add_argument("--no-proxy-server")
+        if getattr(self.config, "force_no_proxy_server", True) and not any(arg.startswith("--proxy-bypass-list=") for arg in args):
+            options.add_argument("--proxy-bypass-list=*.local;localhost;127.0.0.1")
+        use_isolated_profile = getattr(
+            self.config,
+            "use_isolated_user_data_dir",
+            getattr(self.config, "use_isolated_profile", True),
+        )
+        if use_isolated_profile and not any(arg.startswith("--user-data-dir=") for arg in args):
+            root = Path(
+                getattr(
+                    self.config,
+                    "isolated_user_data_root",
+                    getattr(self.config, "tmp_profile_root", "") or tempfile.gettempdir(),
+                )
+            )
             root.mkdir(parents=True, exist_ok=True)
-            self.runtime_user_data_dir = tempfile.mkdtemp(prefix="itmweb_chrome_", dir=str(root))
+            self.runtime_user_data_dir = tempfile.mkdtemp(prefix="chrome_profile_", dir=str(root))
             options.add_argument(f"--user-data-dir={self.runtime_user_data_dir}")
-        driver = webdriver.Chrome(options=options)
+        driver_path = str(getattr(self.config, "driver_path", "") or "").strip()
+        if driver_path and ChromeService is not None:
+            driver = webdriver.Chrome(service=ChromeService(driver_path), options=options)
+        else:
+            driver = webdriver.Chrome(options=options)
         width = int(getattr(self.config, "window_width", 1920) or 1920)
         height = int(getattr(self.config, "window_height", 1080) or 1080)
         driver.set_window_size(width, height)
@@ -113,17 +135,20 @@ class DOMCollector:
     def __init__(self, session: BrowserSession) -> None:
         self.session = session
 
-    def collect(self, case_dir: Path) -> DOMSnapshot:
+    def collect(self, case_dir: Path | None = None) -> DOMSnapshot:
         driver = self.session.driver
-        case_dir.mkdir(parents=True, exist_ok=True)
         html = driver.page_source if driver is not None else ""
-        page_source_path = case_dir / "page.html"
-        page_source_path.write_text(html, encoding="utf-8", errors="ignore")
-        screenshot_path = case_dir / "failure.png"
-        try:
-            driver.save_screenshot(str(screenshot_path))
-        except Exception:
-            screenshot_path = Path("")
+        page_source_path = Path("")
+        screenshot_path = Path("")
+        if case_dir is not None:
+            case_dir.mkdir(parents=True, exist_ok=True)
+            page_source_path = case_dir / "page.html"
+            page_source_path.write_text(html, encoding="utf-8", errors="ignore")
+            screenshot_path = case_dir / "failure.png"
+            try:
+                driver.save_screenshot(str(screenshot_path))
+            except Exception:
+                screenshot_path = Path("")
         return DOMSnapshot(
             url=getattr(driver, "current_url", "") if driver else "",
             title=getattr(driver, "title", "") if driver else "",

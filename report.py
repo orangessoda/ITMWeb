@@ -118,6 +118,12 @@ class ReportExporter:
         path = self.artifacts.case_stage_dir(report.case_id, report.trace.context.suite_name, "report") / "case_report.json"
         payload = self._merge_case_payload(self.artifacts.read_json(path), self._case_payload(report))
         self.artifacts.write_json(path, payload)
+        if payload.get("migration_status") != "trace_only" and payload.get("migration"):
+            self.artifacts.upsert_csv_rows(
+                self.artifacts.artifact_root / "migration.csv",
+                self._migration_rows([payload]),
+                key="case_name",
+            )
         return path
 
     def export_case_payload(self, case_id: str, suite_name: str, payload: dict[str, Any]) -> Path:

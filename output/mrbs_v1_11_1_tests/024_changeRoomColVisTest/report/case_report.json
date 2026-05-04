@@ -1,0 +1,76 @@
+{
+  "report_schema": "research_v1",
+  "case_id": "024_changeRoomColVisTest",
+  "migration_status": "trace_only",
+  "migration_success": true,
+  "migration_duration_seconds": 0.0,
+  "repair_count": 0,
+  "trace": {
+    "context": {
+      "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetnew\\mrbs_v1_11_1_tests\\024_changeRoomColVisTest.py",
+      "case_id": "024_changeRoomColVisTest",
+      "suite_name": "mrbs_v1_11_1_tests",
+      "base_url": "http://mrbs-new.local:8095/admin.php",
+      "previous_steps": [],
+      "next_steps": [
+        "from selenium import webdriver",
+        "from selenium.webdriver.common.by import By",
+        "from selenium.webdriver.chrome.service import Service",
+        "CHROMEDRIVER_PATH = r\"D:\\chromedriver\\chromedriver-win64\\chromedriver-win64\\chromedriver.exe\"",
+        "driver_options = webdriver.ChromeOptions()",
+        "driver_options.add_argument(\"--window-size=1920,1080\")",
+        "driver = webdriver.Chrome(service=Service(CHROMEDRIVER_PATH), options=driver_options)",
+        "driver.set_window_size(1920, 1080)",
+        "driver.get(\"http://mrbs-new.local:8095/admin.php\")",
+        "time.sleep(1)",
+        "driver.find_element(By.XPATH, '//*[@id=\"username\"]').clear()",
+        "driver.find_element(By.XPATH, '//*[@id=\"username\"]').send_keys(\"admin\")"
+      ],
+      "metadata": {}
+    },
+    "failure": {
+      "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetnew\\mrbs_v1_11_1_tests\\024_changeRoomColVisTest.py",
+      "line_num": 1,
+      "broken_statement": "",
+      "error_type": "unknown",
+      "traceback": "",
+      "message": "Trace recorded old-side action chain only.",
+      "detected_at": "2026-05-03T14:02:59.475166+00:00"
+    },
+    "snapshot": {
+      "url": "",
+      "title": "",
+      "interactable_count": 0,
+      "captured_at": "2026-05-03T14:02:59.475166+00:00"
+    },
+    "old_trace": {
+      "label": "old_trace",
+      "environment": "old",
+      "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetold\\mrbs_v1_11_1_tests\\024_changeRoomColVisTest.py",
+      "status": "passed",
+      "success": true,
+      "duration_seconds": 19.962,
+      "log_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\itmweb\\output\\mrbs_v1_11_1_tests\\024_changeRoomColVisTest\\trace\\action_log.txt",
+      "failure_message": "",
+      "action_count": 54
+    }
+  },
+  "migration": {
+    "status": "trace_only",
+    "success": true,
+    "repair_count": 0,
+    "oracle_migration_path": "",
+    "oracle_migration": {},
+    "script_path": "",
+    "patch": null,
+    "attempts": []
+  },
+  "llm": {
+    "provider": "deepseek",
+    "model_name": "deepseek-v4-flash",
+    "api_base": "https://api.deepseek.com",
+    "remote_used": false,
+    "remote_calls": 0,
+    "seconds": 0
+  }
+}

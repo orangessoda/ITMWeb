@@ -4,9 +4,13 @@ import ast
 import codeop
 import json
 import re
+import shutil
 import subprocess
+import sys
+import tempfile
 import time
 import traceback
+import builtins
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
@@ -92,9 +96,11 @@ class LLMClient:
         self.config = config
         self.runtime_stats = LLMRuntimeStats()
         self.raw_failure_log_dir: Path | None = None
+        self.dialog_index = 0
 
     def reset_runtime_stats(self) -> None:
         self.runtime_stats = LLMRuntimeStats()
+        self.dialog_index = 0
 
     def set_raw_failure_log_dir(self, log_dir: str | Path | None) -> None:
         self.raw_failure_log_dir = Path(log_dir) if log_dir else None
@@ -179,8 +185,13 @@ class LLMClient:
             "instruction": (
                 "Return up to 3 target-side Selenium action chains for the failing statement, ordered from most "
                 "likely to least likely. Each choice must be one complete action chain. Return compact JSON: "
-                "{\"choices\":[{\"steps\":[{\"candidate_index\":1,\"action_type\":\"click|input|select|submit|wait\","
+                "{\"choices\":[{\"steps\":[{\"candidate_index\":1,\"action_type\":\"click|input|clear|select|submit|wait|"
+                "get|open_url|execute_script|switch_frame|default_content|hover\","
                 "\"selector\":\"...\",\"selector_type\":\"id|css|xpath|name|link_text\",\"value\":\"optional\"}]}]}. "
+                "For get/open_url put the URL in value. For execute_script put the JavaScript in value. "
+                "For default_content selector may be empty. "
+                "Prefer stable selectors in this order: id, name, link_text, partial_link_text, xpath, css. "
+                "Avoid broad CSS selectors when an id, name, or link_text candidate exists. "
                 "Use candidate_index when a step uses one of the provided candidates; otherwise provide selector "
                 "and selector_type directly."
             ),
@@ -258,7 +269,7 @@ class LLMClient:
                     primary_base = base
                 selector = str(step.get("selector", "") or (base.selector if base else ""))
                 action_type = self._normalize_action(str(step.get("action_type", "") or (base.action_type if base else "")))
-                if not selector and action_type != "wait":
+                if not selector and action_type not in {"wait", "get", "open_url", "execute_script", "default_content"}:
                     continue
                 selector_type = str(step.get("selector_type", "") or (base.metadata.get("selector_type", "") if base else ""))
                 normalized_steps.append(
@@ -303,17 +314,58 @@ class LLMClient:
         client = self._build_client()
         if client is None:
             raise RuntimeError("LLM client is not configured.")
+        self.dialog_index += 1
+        dialog_path = self._dialog_path(payload)
+        messages = [
+            {"role": "system", "content": "You repair Selenium migration breakpoints. Return JSON only."},
+            {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
+        ]
+        self._write_dialog_json(
+            dialog_path,
+            {
+                "index": self.dialog_index,
+                "task": str(payload.get("task", "") or ""),
+                "request": payload,
+                "messages": messages,
+                "provider": self.provider_metadata(),
+            },
+        )
         response = client.chat.completions.create(
             model=str(getattr(self.config, "model_name", "") or "gpt-4o-mini"),
-            messages=[
-                {"role": "system", "content": "You repair Selenium migration breakpoints. Return JSON only."},
-                {"role": "user", "content": json.dumps(payload, ensure_ascii=False)},
-            ],
+            messages=messages,
             temperature=0,
         )
         text = response.choices[0].message.content or "{}"
         match = re.search(r"\{.*\}", text, re.S)
-        return json.loads(match.group(0) if match else text)
+        parsed = json.loads(match.group(0) if match else text)
+        self._write_dialog_json(
+            dialog_path,
+            {
+                "index": self.dialog_index,
+                "task": str(payload.get("task", "") or ""),
+                "request": payload,
+                "messages": messages,
+                "response_text": text,
+                "response_json": parsed,
+                "provider": self.provider_metadata(),
+            },
+        )
+        return parsed
+
+    def _dialog_path(self, payload: dict[str, Any]) -> Path | None:
+        if self.raw_failure_log_dir is None:
+            return None
+        task = re.sub(r"[^A-Za-z0-9_.-]+", "_", str(payload.get("task", "llm") or "llm")).strip("_") or "llm"
+        return self.raw_failure_log_dir / "llm_dialogs" / f"{self.dialog_index:03d}_{task}.json"
+
+    def _write_dialog_json(self, path: Path | None, payload: dict[str, Any]) -> None:
+        if path is None:
+            return
+        try:
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(json.dumps(payload, ensure_ascii=False, indent=2), encoding="utf-8")
+        except OSError:
+            pass
 
     def _build_client(self) -> Any | None:
         if OpenAI is None:
@@ -345,6 +397,14 @@ class LLMClient:
         action = str(action_type or "").strip().lower()
         if action == "send_keys":
             return "input"
+        if action in {"open", "navigate", "driver_get"}:
+            return "get"
+        if action in {"switch_to_frame", "frame"}:
+            return "switch_frame"
+        if action in {"switch_to_default_content", "default"}:
+            return "default_content"
+        if action in {"mouse_over", "move_to_element", "actionchains"}:
+            return "hover"
         if action in {"js_click", "confirm_click"}:
             return "click"
         return action or "click"
@@ -379,6 +439,9 @@ class IntentionMigrationEngine:
         self.intent_mapping_library = self.intent_mapping_library or IntentMappingLibrary(
             self.config.artifacts.artifact_root / "intent_mapping_library.json"
         )
+        self._migration_profile_dirs: list[str] = []
+        self._migration_original_chrome: Any | None = None
+        self._migration_printed_reset_messages: set[str] = set()
 
     def trace_case(self, test_script_path: str) -> dict[str, Any]:
         script_path = Path(test_script_path).resolve()
@@ -459,7 +522,7 @@ class IntentionMigrationEngine:
                     migrated_script_path=str(migrated_script),
                 )
                 self.reporter.export_case(report)
-                self.browser.close()
+                self._close_migration_browser_state()
                 return report
             if run.failure is None:
                 break
@@ -474,12 +537,16 @@ class IntentionMigrationEngine:
                 self._write_script_lines(migrated_script, base_lines)
                 self.patch_applier.apply_patch(migrated_script, patch)
                 candidate_run = self._run_until_failure(migrated_script, max(1, int(patch.line_num or run.next_line)), namespace)
+                breakpoint_passed = candidate_run.success or (
+                    candidate_run.failure is not None
+                    and int(candidate_run.failure.line_num or 0) != int(run.failure.line_num or 0)
+                )
                 attempt = FulfillmentAttemptRecord(
                     round_index=len(attempts) + 1,
                     candidate_id=str(candidate.metadata.get("candidate_id", "") or ""),
                     selector=candidate.selector,
                     action_type=candidate.action_type,
-                    verdict="passed" if candidate_run.success else "failed",
+                    verdict="passed" if breakpoint_passed else "failed",
                     plan_source=candidate.source,
                 )
                 attempts.append(attempt)
@@ -487,8 +554,8 @@ class IntentionMigrationEngine:
                     ValidationResult(
                         verdict=attempt.verdict,
                         candidate_selector=candidate.selector,
-                        passed_checks=["candidate_executed"] if candidate_run.success else [],
-                        failed_checks=[] if candidate_run.success else [candidate_run.failure.error_type if candidate_run.failure else "unknown"],
+                        passed_checks=["breakpoint_passed"] if breakpoint_passed else [],
+                        failed_checks=[] if breakpoint_passed else [candidate_run.failure.error_type if candidate_run.failure else "unknown"],
                         notes=candidate.explanation,
                     )
                 )
@@ -509,9 +576,9 @@ class IntentionMigrationEngine:
                         migrated_script_path=str(migrated_script),
                     )
                     self.reporter.export_case(report)
-                    self.browser.close()
+                    self._close_migration_browser_state()
                     return report
-                if candidate_run.failure is not None and int(candidate_run.failure.line_num or 0) != int(run.failure.line_num or 0):
+                if breakpoint_passed and candidate_run.failure is not None:
                     pending_mappings.append((trace, self._active_repair_statement(trace)[1], candidate, patch))
                     last_patch = patch
                     next_start_line = max(1, int(candidate_run.failure.line_num or candidate_run.next_line))
@@ -535,8 +602,12 @@ class IntentionMigrationEngine:
             migrated_script_path=str(migrated_script),
         )
         self.reporter.export_case(report)
-        self.browser.close()
+        self._close_migration_browser_state()
         return report
+
+    def _close_migration_browser_state(self) -> None:
+        self.browser.close()
+        self._cleanup_migration_profiles()
 
     def _learn_pending_mappings(self, pending_mappings: list[tuple[TraceBundle, str, FulfillmentOption, MigrationPatch]]) -> None:
         for trace, statement, candidate, patch in pending_mappings:
@@ -601,6 +672,7 @@ class IntentionMigrationEngine:
         start_line: int,
         namespace: dict[str, Any],
     ) -> _RunState:
+        self._install_migration_browser_isolation()
         lines = self.script_analyzer.read_lines(script_path)
         namespace["__file__"] = str(script_path)
         for line_num, source in self._iter_statements(lines, start_line):
@@ -615,7 +687,18 @@ class IntentionMigrationEngine:
                 namespace["driver"] = self.browser.driver
             try:
                 namespace["driver"] = self.browser.driver
-                exec(compile(source, str(script_path), "exec"), namespace, namespace)
+                original_subprocess = sys.modules.get("subprocess")
+                sys.modules["subprocess"] = namespace.get("subprocess", _QuietSubprocess())
+                try:
+                    source_with_line_offset = ("\n" * max(0, line_num - 1)) + source
+                    exec(compile(source_with_line_offset, str(script_path), "exec"), namespace, namespace)
+                    if namespace.get("driver") is not None:
+                        self.browser.driver = namespace["driver"]
+                finally:
+                    if original_subprocess is None:
+                        sys.modules.pop("subprocess", None)
+                    else:
+                        sys.modules["subprocess"] = original_subprocess
             except Exception:
                 tb = traceback.format_exc()
                 line = self._line_from_traceback(tb, line_num, script_path)
@@ -635,10 +718,53 @@ class IntentionMigrationEngine:
                 )
         return _RunState(True, len(lines) + 1)
 
+    def _install_migration_browser_isolation(self) -> None:
+        try:
+            from selenium import webdriver as selenium_webdriver
+            from selenium.webdriver.chrome.options import Options as ChromeOptions
+            from selenium.webdriver.chrome.service import Service as ChromeService
+        except Exception:
+            return
+        current = getattr(selenium_webdriver, "Chrome", None)
+        if getattr(current, "_itmweb_migration_isolated", False):
+            return
+        self._migration_original_chrome = current
+        engine = self
+
+        def _chrome_with_migration_options(*args: Any, **kwargs: Any) -> Any:
+            options = kwargs.get("options")
+            if options is None:
+                options = ChromeOptions()
+            option_args = list(getattr(options, "arguments", []) or [])
+            browser_config = engine.config.browser
+            if getattr(browser_config, "force_no_proxy_server", True) and "--no-proxy-server" not in option_args:
+                options.add_argument("--no-proxy-server")
+            if getattr(browser_config, "force_no_proxy_server", True) and not any(arg.startswith("--proxy-bypass-list=") for arg in option_args):
+                options.add_argument("--proxy-bypass-list=*.local;localhost;127.0.0.1")
+            if getattr(browser_config, "use_isolated_user_data_dir", True) and not any(arg.startswith("--user-data-dir=") for arg in option_args):
+                root = Path(getattr(browser_config, "isolated_user_data_root", "") or tempfile.gettempdir())
+                root.mkdir(parents=True, exist_ok=True)
+                profile_dir = tempfile.mkdtemp(prefix="chrome_profile_", dir=str(root))
+                engine._migration_profile_dirs.append(profile_dir)
+                options.add_argument(f"--user-data-dir={profile_dir}")
+            kwargs["options"] = options
+            driver_path = str(getattr(browser_config, "driver_path", "") or "").strip()
+            if driver_path and "service" not in kwargs and not args:
+                kwargs["service"] = ChromeService(driver_path)
+            return engine._migration_original_chrome(*args, **kwargs)
+
+        _chrome_with_migration_options._itmweb_migration_isolated = True  # type: ignore[attr-defined]
+        selenium_webdriver.Chrome = _chrome_with_migration_options
+
+    def _cleanup_migration_profiles(self) -> None:
+        for profile_dir in list(getattr(self, "_migration_profile_dirs", []) or []):
+            shutil.rmtree(profile_dir, ignore_errors=True)
+        self._migration_profile_dirs.clear()
+
     def _candidates_from_snapshot(self, snapshot: DOMSnapshot, statement: str) -> list[FulfillmentOption]:
         action = self._action_type(statement)
         candidates: list[FulfillmentOption] = []
-        for index, element in enumerate(snapshot.interactables[:80], start=1):
+        for index, element in enumerate(self._rank_interactables(snapshot.interactables)[:80], start=1):
             selector_type, selector = self._selector_for_element(element)
             if not selector:
                 continue
@@ -659,6 +785,29 @@ class IntentionMigrationEngine:
                 )
             )
         return candidates
+
+    def _rank_interactables(self, elements: list[ElementRecord]) -> list[ElementRecord]:
+        def rank(element: ElementRecord) -> tuple[int, int, int]:
+            selector_type, selector = self._selector_for_element(element)
+            priority = {
+                "id": 0,
+                "name": 1,
+                "link_text": 2,
+                "partial_link_text": 3,
+                "xpath": 4,
+                "css": 5,
+            }.get(selector_type, 9)
+            broad_css = 1 if selector_type == "css" and self._is_broad_css_selector(selector) else 0
+            hidden = 1 if not bool(element.is_visible) else 0
+            return hidden, broad_css, priority
+
+        return sorted(elements, key=rank)
+
+    def _is_broad_css_selector(self, selector: str) -> bool:
+        value = str(selector or "").strip()
+        if not value:
+            return True
+        return not any(token in value for token in ["#", "[id=", "[name=", "[href=", "[aria-label=", "[title="])
 
     def _prepare_candidate_values(
         self,
@@ -686,11 +835,14 @@ class IntentionMigrationEngine:
         if self._action_type(statement) != "clear":
             return line_num, statement
         try:
-            lines = self.script_analyzer.read_lines(Path(trace.failure.script_path))
+            script_path = Path(trace.failure.script_path)
+            lines = self.script_analyzer.read_lines(script_path)
             start = line_num + self._statement_line_count(statement)
             for next_line, next_statement in self._iter_statements(lines, start):
                 if self._action_type(next_statement) == "input":
-                    return next_line, next_statement
+                    end_line = next_line + self._statement_line_count(next_statement) - 1
+                    combined = "\n".join(lines[line_num - 1 : end_line])
+                    return line_num, combined
                 if self._is_meaningful_statement(next_statement):
                     break
         except Exception:
@@ -717,7 +869,7 @@ class IntentionMigrationEngine:
     ) -> TraceBundle:
         snapshot = DOMSnapshot()
         try:
-            snapshot = self.browser.snapshot(self.artifacts.case_stage_dir(script_path.stem, suite_name, "report"))
+            snapshot = self.browser.snapshot()
         except Exception:
             pass
         return self._build_trace_bundle(script_path, suite_name, failure, stderr, snapshot, old_intentions)
@@ -742,6 +894,7 @@ class IntentionMigrationEngine:
             "script_path": trace.context.script_path,
             "source_statement": statement,
             "locator_hint": self._locator_hint(statement),
+            "intent_name": "repair_breakpoint",
             "action_type": action_type,
             "action_family": f"{action_type}_family",
             "business_goal": action_type,
@@ -800,8 +953,21 @@ class IntentionMigrationEngine:
         try:
             artifacts = self.trace_loader.load_existing_trace_artifacts(script_path.stem, suite_name)
             old_trace = artifacts.old_capture.trace if artifacts.old_capture else None
-        except Exception:
-            pass
+        except Exception as exc:
+            try:
+                report_dir = self.artifacts.case_stage_dir(trace.context.case_id, trace.context.suite_name, "report")
+                self.artifacts.write_json(
+                    report_dir / "mapping_learning_error.json",
+                    {
+                        "error_type": exc.__class__.__name__,
+                        "message": str(exc),
+                        "source_statement": statement,
+                        "candidate_selector": candidate.selector,
+                        "patch_statement": patch.migrated_statement,
+                    },
+                )
+            except Exception:
+                pass
         if old_intentions is None:
             loaded = self.artifacts.read_json(self.artifacts.case_stage_dir(script_path.stem, suite_name, "report") / "old_intentions.json")
             old_intentions = loaded if isinstance(loaded, dict) else {}
@@ -867,6 +1033,16 @@ class IntentionMigrationEngine:
     def _copy_original_script_to_replay(self, script_path: Path, output_path: Path) -> None:
         output_path.parent.mkdir(parents=True, exist_ok=True)
         lines = [line.replace("\ufeff", "") for line in self.script_analyzer.read_lines(script_path)]
+        project_root = Path(__file__).resolve().parents[1]
+        dockers_root = (project_root / "dockers").as_posix()
+        lines = [
+            re.sub(
+                r'Path\(__file__\)\.resolve\(\)\.parents\[2\]\s*/\s*"dockers"',
+                f"Path({dockers_root!r})",
+                line,
+            )
+            for line in lines
+        ]
         output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     def _execution_namespace(self) -> dict[str, Any]:
@@ -891,14 +1067,23 @@ class IntentionMigrationEngine:
                     "By": By,
                     "Keys": Keys,
                     "Service": Service,
-                    "EC": EC,
-                    "Select": Select,
-                    "WebDriverWait": WebDriverWait,
-                }
+            "EC": EC,
+            "Select": Select,
+            "WebDriverWait": WebDriverWait,
+            "print": self._migration_print,
+        }
             )
         except Exception:
             pass
         return namespace
+
+    def _migration_print(self, *args: Any, **kwargs: Any) -> None:
+        message = " ".join(str(arg) for arg in args)
+        if re.match(r"^\[[^\]]+\]\s+database reset succeeded$", message.strip()):
+            if message in self._migration_printed_reset_messages:
+                return
+            self._migration_printed_reset_messages.add(message)
+        builtins.print(*args, **kwargs)
 
     def _iter_statements(self, lines: list[str], start_line: int) -> list[tuple[int, str]]:
         statements: list[tuple[int, str]] = []
@@ -990,6 +1175,16 @@ class IntentionMigrationEngine:
 
     def _action_type(self, statement: str) -> str:
         lowered = statement.lower()
+        if "switch_to.frame" in lowered:
+            return "switch_frame"
+        if "switch_to.default_content" in lowered:
+            return "default_content"
+        if "execute_script" in lowered:
+            return "execute_script"
+        if "actionchains" in lowered or "move_to_element" in lowered:
+            return "hover"
+        if "driver.get(" in lowered:
+            return "get"
         if "send_keys" in lowered:
             return "input"
         if ".clear(" in lowered:
@@ -1077,11 +1272,11 @@ class IntentionMigrationEngine:
             return "id", element.locator_hint.split("=", 1)[1]
         if element.locator_hint.startswith("name="):
             return "name", element.locator_hint.split("=", 1)[1]
+        text = str(element.text or "").strip()
+        if element.tag.lower() == "a" and text:
+            return "link_text", text
         if element.css_selector:
             return "css", element.css_selector
         if element.xpath:
             return "xpath", element.xpath
-        text = str(element.text or "").strip()
-        if element.tag.lower() == "a" and text:
-            return "link_text", text
         return "", ""

@@ -168,24 +168,74 @@ def run_suite(test_root: str, limit: int | None = None, start_app: str | None = 
     engine = build_engine()(load_runtime_config())
     scripts = _scripts(test_root, start_index, limit)
     reports = []
+    case_seconds: dict[str, dict[str, float]] = {}
     print(_line("suite_start", total_cases=len(scripts)))
+    migration_started = time.perf_counter()
     for index, script in enumerate(scripts, start=1):
-        print(_line("suite_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
+        print(_line("suite_migration_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
         report = engine.migrate_case(str(script))
-        replay_script = Path(report.migrated_script_path)
-        if replay_script.exists():
-            report.replay = engine.replay_runner.replay(replay_script)
         reports.append(report)
+        case_seconds[report.case_id] = {
+            "migration": float(report.migration_duration_seconds or 0),
+            "replay": 0.0,
+        }
         engine.reporter.export_case(report)
-        _refresh(engine, reports, include_replay=True)
+        _refresh(engine, reports, include_replay=False)
         print(
             _line(
-                "suite_case_end",
+                "suite_migration_case_end",
                 case=report.case_id,
-                migration=report.migration_success,
-                replay=bool(report.replay and report.replay.success),
+                status=report.migration_status,
+                repairs=report.repair_count,
+                seconds=report.migration_duration_seconds,
             )
         )
+    print(_line("suite_migration_end", reports=len(reports), seconds=_elapsed(migration_started)))
+
+    replay_started = time.perf_counter()
+    replay_payloads: list[dict[str, Any]] = []
+    print(_line("suite_replay_start", total_cases=len(scripts)))
+    for index, script in enumerate(scripts, start=1):
+        print(_line("suite_replay_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
+        replay_script = engine.artifacts.case_stage_dir(script.stem, script.parent.name, "replay") / f"migrated_{script.name}"
+        if not replay_script.exists():
+            print(_line("suite_replay_case_end", case=script.stem, status="skipped", seconds=0, reason="missing_migrated_script"))
+            continue
+        result = engine.replay_runner.replay(replay_script)
+        case_seconds.setdefault(script.stem, {"migration": 0.0, "replay": 0.0})
+        case_seconds[script.stem]["replay"] = round(float(result.duration_seconds or 0), 3)
+        payload = {
+            "case_id": script.stem,
+            "trace": {"context": {"suite_name": script.parent.name}},
+            "replay": result.to_dict(),
+        }
+        engine.reporter.export_case_payload(script.stem, script.parent.name, payload)
+        replay_payloads.append(payload)
+        engine.reporter.export_suite_bundle_from_payloads(
+            replay_payloads,
+            include_trace=False,
+            include_migration=False,
+            include_replay=True,
+        )
+        print(
+            _line(
+                "suite_replay_case_end",
+                case=script.stem,
+                status="passed" if result.success else "failed",
+                seconds=round(result.duration_seconds, 3),
+            )
+        )
+        seconds = case_seconds.get(script.stem, {})
+        print(
+            _line(
+                "suite_case_summary",
+                case=script.stem,
+                migration_seconds=round(float(seconds.get("migration", 0.0)), 3),
+                replay_seconds=round(float(seconds.get("replay", 0.0)), 3),
+                total_seconds=round(float(seconds.get("migration", 0.0)) + float(seconds.get("replay", 0.0)), 3),
+            )
+        )
+    print(_line("suite_replay_end", reports=len(replay_payloads), seconds=_elapsed(replay_started)))
     print(_line("suite_end", reports=len(reports), seconds=_elapsed(started)))
 
 

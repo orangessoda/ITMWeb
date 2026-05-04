@@ -10,6 +10,7 @@ from pathlib import Path
 from typing import Any
 
 from .schemas import FailureInfo, FulfillmentOption, MigrationPatch, PatchType, ReplayResult
+from .trace_runner import BOOTSTRAP_ACTION_LOG
 
 
 class ScriptAnalyzer:
@@ -131,6 +132,12 @@ class PatchGenerator:
             value = repr(str(step.get("value", "") or ""))
         if action == "wait":
             return [f"time.sleep(float({value} or 1))"]
+        if action in {"get", "open_url"}:
+            return [f"driver.get({value})"]
+        if action == "execute_script":
+            return [f"driver.execute_script({value})"]
+        if action in {"default_content", "switch_default_content"}:
+            return ["driver.switch_to.default_content()"]
         locator = self._locator_expr(str(step.get("selector_type", "") or ""), str(step.get("selector", "") or ""))
         if action in {"input", "send_keys"}:
             return [
@@ -144,6 +151,12 @@ class PatchGenerator:
             return [f"Select(driver.find_element({locator})).select_by_visible_text({value})"]
         if action == "submit":
             return [f"driver.find_element({locator}).submit()"]
+        if action in {"switch_frame", "frame"}:
+            return [f"driver.switch_to.frame(driver.find_element({locator}))"]
+        if action in {"hover", "move_to_element"}:
+            return [f"ActionChains(driver).move_to_element(driver.find_element({locator})).perform()"]
+        if action in {"js_click", "confirm_click"}:
+            return [f"driver.execute_script('arguments[0].click();', driver.find_element({locator}))"]
         return [f"driver.find_element({locator}).click()"]
 
     def _locator_expr(self, selector_type: str, selector: str) -> str:
@@ -189,6 +202,8 @@ class PatchGenerator:
         imports = ["from selenium.webdriver.common.by import By"]
         if any("Select(" in line for line in lines):
             imports.append("from selenium.webdriver.support.ui import Select")
+        if any("ActionChains(" in line for line in lines):
+            imports.append("from selenium.webdriver.common.action_chains import ActionChains")
         if any("time.sleep" in line for line in lines):
             imports.append("import time")
         return imports
@@ -237,12 +252,13 @@ class ReplayRunner:
     def replay(self, script_path: str | Path) -> ReplayResult:
         script_path = Path(script_path)
         started = time.perf_counter()
+        env = self._replay_env()
         result = subprocess.run(
             [sys.executable, str(script_path)],
             cwd=str(script_path.parent),
             capture_output=True,
             text=True,
-            env=os.environ.copy(),
+            env=env,
             timeout=self._timeout_seconds(),
         )
         failure = None
@@ -263,3 +279,29 @@ class ReplayRunner:
         except Exception:
             value = 0
         return value if value > 0 else None
+
+    def _replay_env(self) -> dict[str, str]:
+        env = os.environ.copy()
+        bootstrap_dir = self._ensure_bootstrap_dir()
+        existing_pythonpath = env.get("PYTHONPATH", "")
+        env["PYTHONPATH"] = str(bootstrap_dir) + (os.pathsep + existing_pythonpath if existing_pythonpath else "")
+        browser = getattr(self.config, "browser", None)
+        env["ITMWEB_TRACE_LOG_FILE"] = ""
+        env["ITMWEB_TRACE_HOLD_ON_ERROR"] = "0"
+        env["ITMWEB_BROWSER_NO_PROXY_SERVER"] = "1" if getattr(browser, "force_no_proxy_server", True) else "0"
+        env["ITMWEB_BROWSER_ISOLATED_PROFILE"] = "1" if getattr(browser, "use_isolated_user_data_dir", True) else "0"
+        env["ITMWEB_BROWSER_ISOLATED_PROFILE_ROOT"] = str(
+            getattr(browser, "isolated_user_data_root", "") or ""
+        )
+        return env
+
+    def _ensure_bootstrap_dir(self) -> Path:
+        if self.artifacts is not None:
+            trace_config = getattr(self.config, "trace", None)
+            name = str(getattr(trace_config, "bootstrap_dir_name", "") or ".itmweb_bootstrap")
+            bootstrap_dir = self.artifacts.bootstrap_dir(name)
+        else:
+            bootstrap_dir = Path(os.environ.get("TEMP", ".")) / "itmweb_replay_bootstrap"
+            bootstrap_dir.mkdir(parents=True, exist_ok=True)
+        (bootstrap_dir / "sitecustomize.py").write_text(BOOTSTRAP_ACTION_LOG, encoding="utf-8")
+        return bootstrap_dir
