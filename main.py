@@ -28,6 +28,14 @@ def _line(event: str, **fields: Any) -> str:
     return "  ".join(parts)
 
 
+def _trace_run(payload: dict[str, Any]) -> dict[str, Any]:
+    trace = payload.get("trace") if isinstance(payload, dict) else {}
+    if not isinstance(trace, dict):
+        return {}
+    old_trace = trace.get("old_trace")
+    return old_trace if isinstance(old_trace, dict) else {}
+
+
 def _order_key(path: Path) -> tuple[int, str]:
     prefix = path.stem.split("_", 1)[0]
     return (int(prefix) if prefix.isdigit() else 999999, path.name.lower())
@@ -64,7 +72,7 @@ def run_migration(target: str, limit: int | None = None, start_app: str | None =
     started = time.perf_counter()
     engine = build_engine()(load_runtime_config())
     scripts = _scripts(target, start_index, limit)
-    print(_line("migration_start", total_cases=len(scripts), root=str(Path(target).resolve())))
+    print(_line("migration_start", total_cases=len(scripts)))
     reports = []
     for index, script in enumerate(scripts, start=1):
         print(_line("migration_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
@@ -76,7 +84,6 @@ def run_migration(target: str, limit: int | None = None, start_app: str | None =
                 "migration_case_end",
                 case=report.case_id,
                 status=report.migration_status,
-                success=report.migration_success,
                 repairs=report.repair_count,
                 seconds=report.migration_duration_seconds,
             )
@@ -90,11 +97,10 @@ def run_trace(target: str, limit: int | None = None, start_app: str | None = Non
     engine = build_engine()(load_runtime_config())
     scripts = _scripts(target, start_index, limit)
     reports = []
-    print(_line("trace_start", total_cases=len(scripts), root=str(Path(target).resolve())))
+    print(_line("trace_start", total_cases=len(scripts)))
     for index, script in enumerate(scripts, start=1):
         print(_line("trace_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
         payload = engine.trace_case(str(script))
-        report_path = engine.artifacts.case_report_path(script, case_id=script.stem, suite_name=script.parent.name)
         reports.append(engine.reporter._case_payload if False else payload)
         engine.reporter.export_suite_bundle_from_payloads(
             reports,
@@ -102,9 +108,18 @@ def run_trace(target: str, limit: int | None = None, start_app: str | None = Non
             include_migration=False,
             include_replay=False,
         )
-        print(_line("trace_case_end", case=script.stem, report=report_path))
+        trace_run = _trace_run(payload)
+        trace_status = trace_run.get("status") or ("passed" if payload.get("migration_success") else "failed")
+        print(
+            _line(
+                "trace_case_end",
+                case=script.stem,
+                status=trace_status,
+                seconds=trace_run.get("duration_seconds", payload.get("migration_duration_seconds", 0)),
+            )
+        )
         if not bool(payload.get("migration_success")):
-            print(_line("trace_failed_stop", case=script.stem, report=report_path))
+            print(_line("trace_failed_stop", case=script.stem, status=trace_status))
             raise SystemExit(1)
     print(_line("trace_end", cases=len(reports), seconds=_elapsed(started)))
 
@@ -116,10 +131,11 @@ def run_replay(target: str, limit: int | None = None, start_app: str | None = No
     scripts = _scripts(target, start_index, limit)
     reports = []
     print(_line("replay_start", total_cases=len(scripts)))
-    for script in scripts:
+    for index, script in enumerate(scripts, start=1):
+        print(_line("replay_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
         replay_script = engine.artifacts.case_stage_dir(script.stem, script.parent.name, "replay") / f"migrated_{script.name}"
         if not replay_script.exists():
-            print(_line("replay_skip", case=script.stem, reason="missing_migrated_script"))
+            print(_line("replay_case_end", case=script.stem, status="skipped", success=False, seconds=0, reason="missing_migrated_script"))
             continue
         result = engine.replay_runner.replay(replay_script)
         payload = {
@@ -135,7 +151,14 @@ def run_replay(target: str, limit: int | None = None, start_app: str | None = No
             include_migration=False,
             include_replay=True,
         )
-        print(_line("replay_case_end", case=script.stem, success=result.success, seconds=round(result.duration_seconds, 3)))
+        print(
+            _line(
+                "replay_case_end",
+                case=script.stem,
+                status="passed" if result.success else "failed",
+                seconds=round(result.duration_seconds, 3),
+            )
+        )
     print(_line("replay_end", cases=len(reports), seconds=_elapsed(started)))
 
 
@@ -145,7 +168,7 @@ def run_suite(test_root: str, limit: int | None = None, start_app: str | None = 
     engine = build_engine()(load_runtime_config())
     scripts = _scripts(test_root, start_index, limit)
     reports = []
-    print(_line("suite_start", total_cases=len(scripts), root=str(Path(test_root).resolve())))
+    print(_line("suite_start", total_cases=len(scripts)))
     for index, script in enumerate(scripts, start=1):
         print(_line("suite_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
         report = engine.migrate_case(str(script))

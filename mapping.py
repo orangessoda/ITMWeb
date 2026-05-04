@@ -96,10 +96,9 @@ class IntentMappingLibrary:
         mapping_id = str(mapping.get("mapping_id", "") or "").strip().lower()
         if mapping_id:
             keys.append(f"id:{mapping_id}")
-        recipe_id = str(mapping.get("recipe_id", "") or "").strip().lower()
-        if recipe_id:
-            keys.append(f"recipe:{recipe_id}")
         match = mapping.get("match", {}) if isinstance(mapping.get("match", {}), dict) else {}
+        for locator in self._mapping_locators(mapping):
+            keys.append(f"locator:{locator}")
         intent_key = str(match.get("intent_key", "") or "").strip().lower()
         if intent_key:
             keys.append(f"intent:{intent_key}")
@@ -115,14 +114,41 @@ class IntentMappingLibrary:
                 keys.append(f"source:{source_key}")
         return self.unique(keys)
 
+    def _normalize_locator(self, locator: str) -> str:
+        return re.sub(r"\s+", " ", str(locator or "").strip().lower())
+
+    def _mapping_locators(self, mapping: dict[str, Any]) -> list[str]:
+        locators: list[str] = []
+        match = mapping.get("match", {}) if isinstance(mapping.get("match", {}), dict) else {}
+        for value in [
+            match.get("locator_hint", ""),
+            match.get("source_locator_hint", ""),
+        ]:
+            normalized = self._normalize_locator(str(value or ""))
+            if normalized:
+                locators.append(normalized)
+        source_locators = match.get("source_locators", [])
+        if isinstance(source_locators, list):
+            for value in source_locators:
+                normalized = self._normalize_locator(str(value or ""))
+                if normalized:
+                    locators.append(normalized)
+        source_signatures = mapping.get("source_signatures", [])
+        if isinstance(source_signatures, list):
+            for source in source_signatures:
+                if not isinstance(source, dict):
+                    continue
+                normalized = self._normalize_locator(str(source.get("locator_hint", "") or ""))
+                if normalized:
+                    locators.append(normalized)
+        return self.unique(locators)
+
     def _merge_mapping_entry(self, existing: dict[str, Any], incoming: dict[str, Any]) -> dict[str, Any]:
         merged = {**existing, **incoming}
         if existing.get("created_at"):
             merged["created_at"] = existing["created_at"]
         if existing.get("mapping_id") and not incoming.get("mapping_id"):
             merged["mapping_id"] = existing["mapping_id"]
-        if existing.get("recipe_id") and not incoming.get("recipe_id"):
-            merged["recipe_id"] = existing["recipe_id"]
         merged["updated_at"] = utc_now()
         merged["match"] = self._merge_match_payload(
             existing.get("match", {}) if isinstance(existing.get("match", {}), dict) else {},
@@ -133,12 +159,6 @@ class IntentMappingLibrary:
             incoming.get("source_signatures", []),
             "source_key",
             30,
-        )
-        merged["target_recipes"] = self._merge_unique_dict_list(
-            existing.get("target_recipes", []),
-            incoming.get("target_recipes", []),
-            "recipe_id",
-            12,
         )
         merged["merge_reasons"] = self.unique(
             [str(item) for item in existing.get("merge_reasons", []) if str(item).strip()]
@@ -334,10 +354,6 @@ class IntentMappingLibrary:
             "value": str(step.get("value", "") or ""),
         }
 
-    def recipe_id(self, recipe_steps: list[dict[str, Any]]) -> str:
-        compact_steps = [self._compact_step(step) for step in recipe_steps if isinstance(step, dict)]
-        return f"recipe_{self._stable_hash(compact_steps)}"
-
     def source_signature_key(self, runtime_signature: dict[str, Any]) -> str:
         payload = {
             "app": str(runtime_signature.get("app_name", "") or "").strip().lower(),
@@ -479,34 +495,9 @@ class IntentMappingLibrary:
             "created_at": utc_now(),
         }
 
-    def mapping_cardinality(self, mapping: dict[str, Any], recipe_steps: list[dict[str, Any]]) -> str:
-        source_signatures = mapping.get("source_signatures", [])
-        source_count = len(source_signatures) if isinstance(source_signatures, list) and source_signatures else 1
-        step_count = len(recipe_steps) if recipe_steps else 1
-        if source_count > 1 and step_count > 1:
-            return "many_to_many"
-        if source_count > 1:
-            return "many_to_one"
-        if step_count > 1:
-            return "one_to_many"
-        return "one_to_one"
-
     def _select_target_recipe(self, mapping: dict[str, Any]) -> dict[str, Any]:
-        target_recipes = mapping.get("target_recipes", [])
-        valid_recipes = [item for item in target_recipes if isinstance(item, dict) and isinstance(item.get("steps"), list)]
-        if valid_recipes:
-            return sorted(
-                valid_recipes,
-                key=lambda item: (
-                    int((item.get("stats", {}) or {}).get("success_count", 0) or 0),
-                    int((item.get("stats", {}) or {}).get("hit_count", 0) or 0),
-                    str(item.get("updated_at", "") or item.get("created_at", "")),
-                ),
-                reverse=True,
-            )[0]
         recipe = mapping.get("recipe", {}) if isinstance(mapping.get("recipe", {}), dict) else {}
         return {
-            "recipe_id": str(mapping.get("recipe_id", "") or ""),
             "summary": str(recipe.get("summary", "") or ""),
             "steps": recipe.get("steps", []),
             "stats": {},
@@ -573,99 +564,10 @@ class IntentMappingLibrary:
         source_signatures.append(source_payload)
         del source_signatures[30:]
 
-    def _upsert_target_recipe(self, entry: dict[str, Any], target_recipe: dict[str, Any]) -> dict[str, Any]:
-        target_recipes = entry.setdefault("target_recipes", [])
-        if not isinstance(target_recipes, list):
-            target_recipes = []
-            entry["target_recipes"] = target_recipes
-        recipe_id = str(target_recipe.get("recipe_id", "") or "")
-        for existing in target_recipes:
-            if isinstance(existing, dict) and str(existing.get("recipe_id", "") or "") == recipe_id:
-                existing_stats = existing.get("stats", {}) if isinstance(existing.get("stats", {}), dict) else {}
-                existing.update({**target_recipe, "created_at": str(existing.get("created_at", "") or target_recipe.get("created_at", ""))})
-                existing["stats"] = existing_stats
-                stats = existing.setdefault("stats", {})
-                stats["learned_count"] = int(stats.get("learned_count", 0) or 0) + 1
-                stats["success_count"] = int(stats.get("success_count", 0) or 0) + 1
-                stats["last_learned_at"] = utc_now()
-                stats["last_success_at"] = utc_now()
-                return existing
-        target_recipe.setdefault(
-            "stats",
-            {
-                "learned_count": 1,
-                "hit_count": 0,
-                "success_count": 1,
-                "last_learned_at": utc_now(),
-                "last_success_at": utc_now(),
-            },
-        )
-        target_recipes.append(target_recipe)
-        del target_recipes[12:]
-        return target_recipe
-
-    def _best_source_signature_match(
-        self,
-        mapping: dict[str, Any],
-        runtime_signature: dict[str, Any],
-    ) -> tuple[float, list[str]]:
-        source_signatures = mapping.get("source_signatures", [])
-        if not isinstance(source_signatures, list):
-            return 0.0, []
-        runtime_source_key = self.source_signature_key(runtime_signature)
-        runtime_terms = [str(item).strip().lower() for item in runtime_signature.get("source_terms", []) if str(item).strip()]
-        runtime_context_terms = [
-            str(item).strip().lower() for item in runtime_signature.get("context_terms", []) if str(item).strip()
-        ]
-        runtime_role_terms = [
-            str(item).strip().lower() for item in runtime_signature.get("target_role_terms", []) if str(item).strip()
-        ]
-        runtime_segment_terms = [
-            str(item).strip().lower() for item in runtime_signature.get("segment_intent_terms", []) if str(item).strip()
-        ]
-        runtime_chain_terms = [
-            str(item).strip().lower() for item in runtime_signature.get("action_chain_terms", []) if str(item).strip()
-        ]
-        runtime_locator = str(runtime_signature.get("locator_hint", "") or "").strip().lower()
-        best_score = 0.0
-        best_terms: list[str] = []
-        for source in source_signatures:
-            if not isinstance(source, dict):
-                continue
-            score = 0.0
-            matched_terms: list[str] = []
-            if str(source.get("source_key", "") or "") == runtime_source_key:
-                score += 0.28
-            source_terms = [str(item).strip().lower() for item in source.get("source_terms", []) if str(item).strip()]
-            context_terms = [str(item).strip().lower() for item in source.get("context_terms", []) if str(item).strip()]
-            role_terms = [str(item).strip().lower() for item in source.get("target_role_terms", []) if str(item).strip()]
-            segment_terms = [str(item).strip().lower() for item in source.get("segment_intent_terms", []) if str(item).strip()]
-            chain_terms = [str(item).strip().lower() for item in source.get("action_chain_terms", []) if str(item).strip()]
-            source_overlap = [token for token in runtime_terms if token in source_terms]
-            context_overlap = [token for token in runtime_context_terms if token in context_terms]
-            role_overlap = [token for token in runtime_role_terms if token in role_terms]
-            segment_overlap = [token for token in runtime_segment_terms if token in segment_terms]
-            chain_overlap = [token for token in runtime_chain_terms if token in chain_terms]
-            matched_terms.extend(source_overlap + context_overlap + role_overlap + segment_overlap + chain_overlap)
-            score += min(0.30, 0.10 * len(segment_overlap))
-            score += min(0.22, 0.055 * len(chain_overlap))
-            score += min(0.18, 0.045 * len(source_overlap))
-            score += min(0.08, 0.025 * len(context_overlap))
-            score += min(0.10, 0.05 * len(role_overlap))
-            source_locator = str(source.get("locator_hint", "") or "").strip().lower()
-            if runtime_locator and source_locator and runtime_locator == source_locator:
-                score += 0.02
-            if score > best_score:
-                best_score = score
-                best_terms = matched_terms
-        return best_score, self.unique(best_terms)
-
     def candidate_from_entry(
         self,
         mapping: dict[str, Any],
         runtime_signature: dict[str, Any],
-        match_score: float,
-        matched_terms: list[str],
     ) -> FulfillmentOption | None:
         intent_recipe = mapping.get("intent_recipe", {})
         if not isinstance(intent_recipe, dict):
@@ -691,41 +593,28 @@ class IntentMappingLibrary:
         business_cues = [str(item) for item in intent_recipe.get("business_cues", []) if str(item).strip()]
         oracle_cues = [str(item) for item in intent_recipe.get("oracle_cues", []) if str(item).strip()]
         page_gate = intent_recipe.get("page_gate", {}) if isinstance(intent_recipe.get("page_gate", {}), dict) else {}
-        confidence = min(0.99, max(0.58, 0.46 + match_score))
         explanation = (
             f"Intent recipe memory '{mapping.get('mapping_id', '')}' matched target role "
-            f"'{target_role or runtime_signature.get('target_role', '')}' with score {match_score:.2f}."
+            f"'{target_role or runtime_signature.get('target_role', '')}'."
         ).strip()
         match = mapping.get("match", {}) if isinstance(mapping.get("match", {}), dict) else {}
         source_signatures = mapping.get("source_signatures", [])
         source_signature_count = len(source_signatures) if isinstance(source_signatures, list) and source_signatures else 1
-        target_recipes = mapping.get("target_recipes", [])
-        target_recipe_count = len(target_recipes) if isinstance(target_recipes, list) and target_recipes else 1
-        target_recipe_id = str(selected_recipe.get("recipe_id", "") or mapping.get("recipe_id", "") or "")
         return FulfillmentOption(
             source="intent_mapping",
             action_type=action_type,
             selector=selector or "trace:wait",
-            confidence=round(confidence, 4),
-            score_breakdown={
-                "intent_mapping_bonus": round(match_score, 4),
-                "total": round(confidence, 4),
-            },
+            confidence=1.0,
             explanation=explanation,
-            patch_statement=str(primary.get("patch_statement", "") or ""),
+            patch_statement="",
             metadata={
                 "selector_type": selector_type,
                 "value": str(primary.get("value", "") or ""),
                 "intent_mapping_id": str(mapping.get("mapping_id", "") or ""),
-                "intent_mapping_score": round(match_score, 4),
-                "intent_mapping_match_terms": list(matched_terms),
                 "intent_mapping_recipe_summary": str(selected_recipe.get("summary", "") or recipe.get("summary", "") or ""),
                 "intent_mapping_business_action": str(match.get("business_action", "") or ""),
                 "intent_mapping_execution_action": action_type,
-                "target_recipe_id": target_recipe_id,
-                "target_recipe_count": target_recipe_count,
                 "source_signature_count": source_signature_count,
-                "mapping_cardinality": self.mapping_cardinality(mapping, [step for step in recipe_steps if isinstance(step, dict)]),
                 "target_role": target_role,
                 "target_text": target_role,
                 "business_cues": business_cues,
@@ -852,55 +741,9 @@ class IntentMappingLibrary:
             required_min_hits = 2 if len(required_page_terms) >= 3 else len(required_page_terms)
             if len(required_hits) < max(1, required_min_hits):
                 return 0.0, []
-        alias_score, alias_terms = self._best_source_signature_match(mapping, runtime_signature)
-        semantic_overlap = segment_overlap or chain_overlap or expected_overlap
-        if (
-            not semantic_overlap
-            and not source_overlap
-            and not context_overlap
-            and not page_overlap
-            and not role_overlap
-            and alias_score <= 0
-            and not intent_key_matched
-        ):
-            return 0.0, []
-        score = 0.0
-        if intent_key_matched:
-            score += 0.58
-        if app_name:
-            score += 0.22
-        if suite_matches:
-            score += 0.06
-        if mapping_goal and mapping_goal == runtime_goal:
-            score += 0.18
-        if mapping_business_action and mapping_business_action == runtime_business_action:
-            score += 0.12
-        if mapping_action and mapping_action == runtime_signature["action_type"]:
-            score += 0.04
-        if mapping_family and (mapping_family == runtime_family or login_submit_family_compatible):
-            score += 0.08
-        score += min(0.38, 0.12 * len(segment_overlap))
-        score += min(0.28, 0.07 * len(chain_overlap))
-        score += min(0.14, 0.05 * len(expected_overlap))
-        score += min(0.28, 0.07 * len(source_overlap))
-        score += min(0.14, 0.035 * len(context_overlap))
-        score += min(0.12, 0.03 * len(page_overlap))
-        score += min(0.16, 0.08 * len(role_overlap))
-        score += locator_bonus
-        score += min(0.36, alias_score)
-        intent_terms = [f"intent_key:{runtime_intent_key}"] if intent_key_matched else []
-        return score, self.unique(
-            intent_terms
-            + segment_overlap
-            + chain_overlap
-            + expected_overlap
-            + source_overlap
-            + context_overlap
-            + page_overlap
-            + role_overlap
-            + alias_terms
-            + exact_source_terms
-        )
+        if mapping_locator and mapping_locator == runtime_locator:
+            return 1.0, ["locator"]
+        return 0.0, []
 
     def _mapping_context_compatible(
         self,
@@ -968,44 +811,25 @@ class IntentMappingLibrary:
                 return terms
         return []
 
-    def best_candidate(self, runtime_signature: dict[str, Any], min_score: float = 0.52) -> FulfillmentOption | None:
+    def best_candidate(self, runtime_signature: dict[str, Any]) -> FulfillmentOption | None:
         mappings = self.cache.get("mappings", [])
         if not isinstance(mappings, list) or not mappings:
             return None
-        runtime_intent_key = str(runtime_signature.get("intent_key", "") or self.intent_key(runtime_signature)).strip().lower()
-        if runtime_intent_key:
-            for mapping in mappings:
-                if not isinstance(mapping, dict):
-                    continue
-                if self._mapping_failure_disabled(mapping):
-                    continue
-                if not self._mapping_context_compatible(mapping, runtime_signature):
-                    continue
-                if runtime_intent_key not in self.mapping_intent_keys(mapping):
-                    continue
-                score, matched_terms = self.match_mapping(mapping, runtime_signature)
-                if score <= 0:
-                    continue
-                candidate = self.candidate_from_entry(mapping, runtime_signature, max(1.0, score), matched_terms)
-                if candidate is not None:
-                    candidate.metadata["intent_mapping_match_mode"] = "intent_key"
-                    return candidate
-        best_match: dict[str, Any] | None = None
-        best_score = 0.0
-        best_terms: list[str] = []
+        runtime_locator = self._normalize_locator(str(runtime_signature.get("locator_hint", "") or ""))
+        if not runtime_locator:
+            return None
         for mapping in mappings:
             if not isinstance(mapping, dict):
                 continue
             if self._mapping_failure_disabled(mapping):
                 continue
-            score, matched_terms = self.match_mapping(mapping, runtime_signature)
-            if score > best_score:
-                best_score = score
-                best_match = mapping
-                best_terms = matched_terms
-        if best_match is None or best_score < min_score:
-            return None
-        return self.candidate_from_entry(best_match, runtime_signature, best_score, best_terms)
+            if runtime_locator not in self._mapping_locators(mapping):
+                continue
+            candidate = self.candidate_from_entry(mapping, runtime_signature)
+            if candidate is not None:
+                candidate.metadata["intent_mapping_match_mode"] = "locator"
+                return candidate
+        return None
 
     def _mapping_failure_disabled(self, mapping: dict[str, Any]) -> bool:
         stats = mapping.get("stats", {}) if isinstance(mapping.get("stats"), dict) else {}
@@ -1032,19 +856,6 @@ class IntentMappingLibrary:
                 stats["last_success_at"] = utc_now()
             if field_name == "failure_count":
                 stats["last_failure_at"] = utc_now()
-            target_recipes = mapping.get("target_recipes", [])
-            if isinstance(target_recipes, list):
-                for recipe in target_recipes:
-                    if not isinstance(recipe, dict):
-                        continue
-                    recipe_stats = recipe.setdefault("stats", {})
-                    recipe_stats[field_name] = int(recipe_stats.get(field_name, 0) or 0) + 1
-                    if field_name == "hit_count":
-                        recipe_stats["last_matched_at"] = utc_now()
-                    if field_name == "success_count":
-                        recipe_stats["last_success_at"] = utc_now()
-                    if field_name == "failure_count":
-                        recipe_stats["last_failure_at"] = utc_now()
             changed = True
         if changed:
             self.save(self.cache)
@@ -1125,67 +936,21 @@ class IntentMappingLibrary:
         ]
         if not learned_recipe_steps:
             learned_recipe_steps = [default_recipe_step]
-        active_recipe_id = self.recipe_id(learned_recipe_steps)
         source_payload = self.source_signature_payload(runtime_signature)
-        runtime_source_key = str(source_payload.get("source_key", "") or "")
+        runtime_locator = self._normalize_locator(str(runtime_signature.get("locator_hint", "") or ""))
 
         existing_index = -1
         existing_reason = ""
         for index, existing in enumerate(mappings):
             if not isinstance(existing, dict):
                 continue
+            if runtime_locator and runtime_locator in self._mapping_locators(existing):
+                existing_index = index
+                existing_reason = "same_locator"
+                break
             match = existing.get("match", {})
             if not isinstance(match, dict):
                 continue
-            same_app_family = (
-                str(match.get("app_name", "") or "").strip().lower() == runtime_signature["app_name"]
-                and str(match.get("business_goal", "") or "").strip().lower() == runtime_signature["business_goal"]
-                and str(match.get("business_action", "") or runtime_signature["business_action"]).strip().lower()
-                == runtime_signature["business_action"]
-                and str(match.get("action_family", "") or "").strip().lower() == runtime_signature["action_family"]
-            )
-            if not same_app_family:
-                continue
-            target_recipes = existing.get("target_recipes", [])
-            if isinstance(target_recipes, list) and any(
-                isinstance(item, dict) and str(item.get("recipe_id", "") or "") == active_recipe_id
-                for item in target_recipes
-            ):
-                existing_index = index
-                existing_reason = "same_target_recipe"
-                break
-            if str(existing.get("recipe_id", "") or "") == active_recipe_id:
-                existing_index = index
-                existing_reason = "same_target_recipe"
-                break
-            source_signatures = existing.get("source_signatures", [])
-            if isinstance(source_signatures, list) and any(
-                isinstance(item, dict) and str(item.get("source_key", "") or "") == runtime_source_key
-                for item in source_signatures
-            ):
-                existing_index = index
-                existing_reason = "same_source_signature"
-                break
-            recipe = existing.get("recipe", {})
-            existing_steps = recipe.get("steps", [])
-            primary = (
-                existing_steps[0]
-                if isinstance(existing_steps, list) and existing_steps and isinstance(existing_steps[0], dict)
-                else {}
-            )
-            existing_terms = [str(item).strip().lower() for item in match.get("source_terms", []) if str(item).strip()]
-            term_overlap = [token for token in runtime_signature["source_terms"] if token in existing_terms]
-            existing_role = str(match.get("target_role", "") or "").strip().lower()
-            runtime_role = str(runtime_signature.get("target_role", "") or "").strip().lower()
-            role_matches = bool(existing_role and runtime_role and existing_role == runtime_role)
-            if (
-                str(primary.get("action_type", "") or "").strip().lower() == action_type
-                and (role_matches or str(primary.get("selector", "") or "").strip() == selector)
-                and len(term_overlap) >= 2
-            ):
-                existing_index = index
-                existing_reason = "legacy_similarity"
-                break
 
         required_page_terms = self.page_gate_terms(page_gate_text, runtime_signature["business_goal"], selector)
         forbidden_page_terms = [
@@ -1246,22 +1011,6 @@ class IntentMappingLibrary:
             ),
             "steps": learned_recipe_steps,
         }
-        target_recipe_payload = {
-            "recipe_id": active_recipe_id,
-            "summary": recipe_payload["summary"],
-            "steps": learned_recipe_steps,
-            "created_at": utc_now(),
-            "updated_at": utc_now(),
-            "learned_from_case": runtime_signature["case_id"],
-            "cardinality_hint": "one_to_many" if len(learned_recipe_steps) > 1 else "one_to_one",
-            "stats": {
-                "learned_count": 1,
-                "hit_count": 0,
-                "success_count": 1,
-                "last_learned_at": utc_now(),
-                "last_success_at": utc_now(),
-            },
-        }
         intent_recipe_payload = {
             "summary": recipe_payload["summary"],
             "phase": str(runtime_signature.get("phase", "") or ""),
@@ -1290,22 +1039,10 @@ class IntentMappingLibrary:
                 entry.get("match", {}) if isinstance(entry.get("match", {}), dict) else {},
                 match_payload,
             )
-            entry["recipe_id"] = str(entry.get("recipe_id", "") or active_recipe_id)
-            selected_recipe = self._upsert_target_recipe(entry, target_recipe_payload)
-            entry["recipe"] = {
-                "summary": str(selected_recipe.get("summary", "") or recipe_payload["summary"]),
-                "steps": selected_recipe.get("steps", learned_recipe_steps),
-            }
-            entry["intent_recipe"] = {
-                **intent_recipe_payload,
-                "steps": selected_recipe.get("steps", learned_recipe_steps),
-            }
+            entry["recipe"] = recipe_payload
+            entry["intent_recipe"] = intent_recipe_payload
             self._append_source_signature(entry, source_payload)
             entry["updated_at"] = utc_now()
-            entry["cardinality"] = self.mapping_cardinality(
-                entry,
-                [step for step in entry.get("recipe", {}).get("steps", []) if isinstance(step, dict)],
-            )
             entry.setdefault("merge_reasons", [])
             if isinstance(entry["merge_reasons"], list) and existing_reason:
                 entry["merge_reasons"] = self.unique([str(item) for item in entry["merge_reasons"]] + [existing_reason])[:8]
@@ -1327,13 +1064,10 @@ class IntentMappingLibrary:
                         f"{runtime_signature['business_action'] or 'action'}_"
                         f"{runtime_signature['action_family'] or 'generic'}_{slug}"
                     ),
-                    "recipe_id": active_recipe_id,
                     "created_at": utc_now(),
                     "updated_at": utc_now(),
                     "learned_from_case": runtime_signature["case_id"],
-                    "cardinality": "one_to_many" if len(learned_recipe_steps) > 1 else "one_to_one",
                     "source_signatures": [source_payload],
-                    "target_recipes": [target_recipe_payload],
                     "match": match_payload,
                     "intent_recipe": intent_recipe_payload,
                     "recipe": recipe_payload,

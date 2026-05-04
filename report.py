@@ -180,7 +180,8 @@ class ReportExporter:
                     "title": report.trace.snapshot.title,
                     "interactable_count": len(report.trace.snapshot.interactables),
                 },
-                "old_trace": report.trace.old_trace.to_dict() if report.trace.old_trace else None,
+                "old_trace_intentions": dict(report.trace.old_trace_intentions),
+                "old_trace": self._old_trace_summary(report.trace.old_trace),
             },
             "migration_status": report.migration_status,
             "migration_success": report.migration_success,
@@ -199,6 +200,27 @@ class ReportExporter:
                 "remote_calls": report.llm_remote_calls,
                 "seconds": round(sum(float(v or 0) for v in report.llm_task_seconds.values()), 3),
             },
+        }
+
+    def _old_trace_summary(self, old_trace: Any) -> dict[str, Any] | None:
+        if old_trace is None:
+            return None
+        return {
+            "label": old_trace.label,
+            "environment": old_trace.environment,
+            "script_path": old_trace.script_path,
+            "status": old_trace.status,
+            "success": old_trace.success,
+            "return_code": old_trace.return_code,
+            "duration_seconds": old_trace.duration_seconds,
+            "log_path": old_trace.log_path,
+            "stdout_tail": old_trace.stdout_tail,
+            "stderr_tail": old_trace.stderr_tail,
+            "error_type": old_trace.error_type,
+            "failure_message": old_trace.failure_message,
+            "actions_count": len(old_trace.actions or []),
+            "recorded_at": old_trace.recorded_at,
+            "metadata": dict(old_trace.metadata or {}),
         }
 
     def _merge_case_payload(self, existing: Any, incoming: dict[str, Any]) -> dict[str, Any]:

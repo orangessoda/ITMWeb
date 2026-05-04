@@ -126,10 +126,12 @@ class PatchGenerator:
 
     def _step_lines(self, step: dict[str, Any]) -> list[str]:
         action = str(step.get("action_type", "") or "click").lower()
-        locator = self._locator_expr(str(step.get("selector_type", "") or ""), str(step.get("selector", "") or ""))
         value = str(step.get("value_expression", "") or "")
         if not value:
             value = repr(str(step.get("value", "") or ""))
+        if action == "wait":
+            return [f"time.sleep(float({value} or 1))"]
+        locator = self._locator_expr(str(step.get("selector_type", "") or ""), str(step.get("selector", "") or ""))
         if action in {"input", "send_keys"}:
             return [
                 f"element = driver.find_element({locator})",
@@ -142,8 +144,6 @@ class PatchGenerator:
             return [f"Select(driver.find_element({locator})).select_by_visible_text({value})"]
         if action == "submit":
             return [f"driver.find_element({locator}).submit()"]
-        if action == "wait":
-            return [f"time.sleep(float({value} or 1))"]
         return [f"driver.find_element({locator}).click()"]
 
     def _locator_expr(self, selector_type: str, selector: str) -> str:

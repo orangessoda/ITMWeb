@@ -52,6 +52,7 @@ class _RepairResult:
     success: bool
     patch: MigrationPatch | None = None
     candidate: FulfillmentOption | None = None
+    options: list[tuple[MigrationPatch, FulfillmentOption]] = field(default_factory=list)
     attempts: list[FulfillmentAttemptRecord] = field(default_factory=list)
     validations: list[ValidationResult] = field(default_factory=list)
 
@@ -109,8 +110,41 @@ class LLMClient:
         }
 
     def generate_old_trace_intentions(self, case_id: str, suite_name: str, action_log_text: str) -> dict[str, Any]:
-        del action_log_text
-        return {"case_goal": case_id, "summary": f"Migrate {suite_name}/{case_id}.", "steps": []}
+        payload = {
+            "task": "generate_old_trace_intentions",
+            "instruction": (
+                "Read the Selenium trace action_log and return compact JSON describing the old test intent. "
+                "Return fields: case_goal, summary, steps. Each step should include action_type, target, value, "
+                "page_url, expected_result when visible from the log."
+            ),
+            "case_id": case_id,
+            "suite_name": suite_name,
+            "action_log": action_log_text,
+        }
+        if not self._should_use_remote():
+            self.runtime_stats.fallback_calls += 1
+            self.runtime_stats.fallback_tasks.append("generate_old_trace_intentions")
+            self.runtime_stats.fallback_reasons.append("remote_disabled")
+            return {"case_goal": case_id, "summary": f"Migrate {suite_name}/{case_id}.", "steps": []}
+        started = time.perf_counter()
+        try:
+            result = self._call_json(payload)
+            self.runtime_stats.remote_calls += 1
+            return result
+        except Exception as exc:
+            self.runtime_stats.fallback_calls += 1
+            self.runtime_stats.fallback_tasks.append("generate_old_trace_intentions")
+            self.runtime_stats.fallback_reasons.append(exc.__class__.__name__)
+            return {
+                "case_goal": case_id,
+                "summary": f"Migrate {suite_name}/{case_id}.",
+                "steps": [],
+                "error": exc.__class__.__name__,
+            }
+        finally:
+            self.runtime_stats.task_seconds["generate_old_trace_intentions"] = (
+                self.runtime_stats.task_seconds.get("generate_old_trace_intentions", 0.0) + time.perf_counter() - started
+            )
 
     def migrate_oracle_from_intentions(
         self,
@@ -130,13 +164,10 @@ class LLMClient:
         trace: TraceBundle,
         intent: IntentRecord,
         candidates: list[FulfillmentOption],
-        failed_attempts: list[dict[str, Any]],
         repair_dialog: list[dict[str, str]] | None = None,
         exploration_context: dict[str, Any] | None = None,
     ) -> list[FulfillmentOption]:
         del repair_dialog, exploration_context
-        if not candidates:
-            return []
         if not self._should_use_remote():
             self.runtime_stats.fallback_calls += 1
             self.runtime_stats.fallback_tasks.append("choose_repair_actions")
@@ -146,14 +177,18 @@ class LLMClient:
         payload = {
             "task": "choose_repair_actions",
             "instruction": (
-                "Choose the target-side Selenium repair action for the failing statement. "
-                "Return compact JSON: {\"choices\":[{\"index\":1,\"action_type\":\"click|input|select|submit\","
-                "\"selector\":\"...\",\"selector_type\":\"id|css|xpath|name|link_text\",\"value\":\"optional\"}]}"
+                "Return up to 3 target-side Selenium action chains for the failing statement, ordered from most "
+                "likely to least likely. Each choice must be one complete action chain. Return compact JSON: "
+                "{\"choices\":[{\"steps\":[{\"candidate_index\":1,\"action_type\":\"click|input|select|submit|wait\","
+                "\"selector\":\"...\",\"selector_type\":\"id|css|xpath|name|link_text\",\"value\":\"optional\"}]}]}. "
+                "Use candidate_index when a step uses one of the provided candidates; otherwise provide selector "
+                "and selector_type directly."
             ),
+            "action_log": self._trace_action_log_text(trace),
+            "old_intentions": dict(trace.old_trace_intentions),
             "failure": trace.failure.to_dict(),
             "intent": intent.to_dict(),
             "candidates": self.controls_payload(candidates),
-            "failed_attempts": failed_attempts[-5:],
         }
         try:
             response = self._call_json(payload)
@@ -169,6 +204,15 @@ class LLMClient:
             self.runtime_stats.task_seconds["choose_repair_actions"] = (
                 self.runtime_stats.task_seconds.get("choose_repair_actions", 0.0) + time.perf_counter() - started
             )
+
+    def _trace_action_log_text(self, trace: TraceBundle) -> str:
+        log_path = str(getattr(trace.old_trace, "log_path", "") or "")
+        if not log_path:
+            return ""
+        try:
+            return Path(log_path).read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            return ""
 
     def _control_payload(self, index: int, candidate: FulfillmentOption) -> dict[str, Any]:
         element = candidate.element
@@ -200,28 +244,60 @@ class LLMClient:
         for choice in choices:
             if not isinstance(choice, dict):
                 continue
-            index = int(choice.get("index", 0) or 0)
-            base = candidates[index - 1] if 1 <= index <= len(candidates) else None
-            selector = str(choice.get("selector", "") or (base.selector if base else ""))
-            if not selector:
+            steps = self._choice_steps(choice)
+            if not steps:
+                steps = [choice]
+            normalized_steps: list[dict[str, Any]] = []
+            primary_base: FulfillmentOption | None = None
+            for step in steps:
+                if not isinstance(step, dict):
+                    continue
+                index = int(step.get("candidate_index", step.get("index", 0)) or 0)
+                base = candidates[index - 1] if 1 <= index <= len(candidates) else None
+                if primary_base is None and base is not None:
+                    primary_base = base
+                selector = str(step.get("selector", "") or (base.selector if base else ""))
+                action_type = self._normalize_action(str(step.get("action_type", "") or (base.action_type if base else "")))
+                if not selector and action_type != "wait":
+                    continue
+                selector_type = str(step.get("selector_type", "") or (base.metadata.get("selector_type", "") if base else ""))
+                normalized_steps.append(
+                    {
+                        "action_type": action_type,
+                        "selector": selector,
+                        "selector_type": selector_type,
+                        "value": str(step.get("value", "") or ""),
+                        "value_expression": str(step.get("value_expression", "") or ""),
+                    }
+                )
+            if not normalized_steps:
                 continue
-            action_type = self._normalize_action(str(choice.get("action_type", "") or (base.action_type if base else "")))
-            metadata = dict(base.metadata if base else {})
-            for key in ["selector_type", "value"]:
-                if choice.get(key):
-                    metadata[key] = str(choice[key])
+            first = normalized_steps[0]
+            metadata = dict(primary_base.metadata if primary_base else {})
+            metadata["mapped_recipe_steps"] = normalized_steps
+            metadata["selector_type"] = str(first.get("selector_type", "") or metadata.get("selector_type", ""))
+            metadata["value"] = str(first.get("value", "") or metadata.get("value", ""))
             selected.append(
                 FulfillmentOption(
                     source="llm",
-                    action_type=action_type,
-                    selector=selector,
-                    element=base.element if base else None,
+                    action_type=str(first.get("action_type", "") or "click"),
+                    selector=str(first.get("selector", "") or "trace:wait"),
+                    element=primary_base.element if primary_base else None,
                     confidence=1.0,
-                    explanation="Selected by LLM.",
+                    explanation="Selected action chain by LLM.",
                     metadata=metadata,
                 )
             )
         return selected
+
+    def _choice_steps(self, choice: dict[str, Any]) -> list[Any]:
+        steps = choice.get("steps", [])
+        if isinstance(steps, list):
+            return steps
+        actions = choice.get("actions", [])
+        if isinstance(actions, list):
+            return actions
+        return []
 
     def _call_json(self, payload: dict[str, Any]) -> dict[str, Any]:
         client = self._build_client()
@@ -349,6 +425,7 @@ class IntentionMigrationEngine:
         suite_name = script_path.parent.name
         self.llm.reset_runtime_stats()
         self.llm.set_raw_failure_log_dir(self.artifacts.case_stage_dir(case_id, suite_name, "report"))
+        old_intentions = self._generate_old_trace_intentions(case_id, suite_name)
 
         replay_dir = self.artifacts.case_stage_dir(case_id, suite_name, "replay")
         migrated_script = replay_dir / f"migrated_{script_path.name}"
@@ -356,6 +433,7 @@ class IntentionMigrationEngine:
 
         attempts: list[FulfillmentAttemptRecord] = []
         validations: list[ValidationResult] = []
+        pending_mappings: list[tuple[TraceBundle, str, FulfillmentOption, MigrationPatch]] = []
         last_trace: TraceBundle | None = None
         last_patch: MigrationPatch | None = None
         max_rounds = max(1, int(getattr(self.config.migration, "max_repair_rounds", 12) or 12))
@@ -367,10 +445,11 @@ class IntentionMigrationEngine:
         for _ in range(max_rounds):
             run = self._run_until_failure(migrated_script, next_start_line, namespace)
             if run.success:
+                self._learn_pending_mappings(pending_mappings)
                 report = self._report(
                     case_id=case_id,
                     suite_name=suite_name,
-                    trace=last_trace or self._trace_for_success(script_path, suite_name),
+                    trace=last_trace or self._trace_for_success(script_path, suite_name, old_intentions),
                     status="passed",
                     success=True,
                     started=started,
@@ -384,18 +463,65 @@ class IntentionMigrationEngine:
                 return report
             if run.failure is None:
                 break
-            trace = self._trace_for_failure(script_path, suite_name, run.failure, run.stderr)
+            trace = self._trace_for_failure(script_path, suite_name, run.failure, run.stderr, old_intentions)
             last_trace = trace
             repair = self._repair_breakpoint(trace)
-            attempts.extend(repair.attempts)
-            validations.extend(repair.validations)
-            if not repair.success or repair.patch is None:
+            if not repair.success or not repair.options:
                 break
-            last_patch = repair.patch
-            self.patch_applier.apply_patch(migrated_script, repair.patch)
-            next_start_line = max(1, int(repair.patch.line_num or run.next_line))
+            base_lines = self.script_analyzer.read_lines(migrated_script)
+            candidate_passed = False
+            for patch, candidate in repair.options:
+                self._write_script_lines(migrated_script, base_lines)
+                self.patch_applier.apply_patch(migrated_script, patch)
+                candidate_run = self._run_until_failure(migrated_script, max(1, int(patch.line_num or run.next_line)), namespace)
+                attempt = FulfillmentAttemptRecord(
+                    round_index=len(attempts) + 1,
+                    candidate_id=str(candidate.metadata.get("candidate_id", "") or ""),
+                    selector=candidate.selector,
+                    action_type=candidate.action_type,
+                    verdict="passed" if candidate_run.success else "failed",
+                    plan_source=candidate.source,
+                )
+                attempts.append(attempt)
+                validations.append(
+                    ValidationResult(
+                        verdict=attempt.verdict,
+                        candidate_selector=candidate.selector,
+                        passed_checks=["candidate_executed"] if candidate_run.success else [],
+                        failed_checks=[] if candidate_run.success else [candidate_run.failure.error_type if candidate_run.failure else "unknown"],
+                        notes=candidate.explanation,
+                    )
+                )
+                if candidate_run.success:
+                    pending_mappings.append((trace, self._active_repair_statement(trace)[1], candidate, patch))
+                    self._learn_pending_mappings(pending_mappings)
+                    last_patch = patch
+                    report = self._report(
+                        case_id=case_id,
+                        suite_name=suite_name,
+                        trace=trace,
+                        status="passed",
+                        success=True,
+                        started=started,
+                        patch=last_patch,
+                        attempts=attempts,
+                        validations=validations,
+                        migrated_script_path=str(migrated_script),
+                    )
+                    self.reporter.export_case(report)
+                    self.browser.close()
+                    return report
+                if candidate_run.failure is not None and int(candidate_run.failure.line_num or 0) != int(run.failure.line_num or 0):
+                    pending_mappings.append((trace, self._active_repair_statement(trace)[1], candidate, patch))
+                    last_patch = patch
+                    next_start_line = max(1, int(candidate_run.failure.line_num or candidate_run.next_line))
+                    candidate_passed = True
+                    break
+            if not candidate_passed:
+                self._write_script_lines(migrated_script, base_lines)
+                break
 
-        trace = last_trace or self._trace_for_success(script_path, suite_name)
+        trace = last_trace or self._trace_for_success(script_path, suite_name, old_intentions)
         report = self._report(
             case_id=case_id,
             suite_name=suite_name,
@@ -411,6 +537,11 @@ class IntentionMigrationEngine:
         self.reporter.export_case(report)
         self.browser.close()
         return report
+
+    def _learn_pending_mappings(self, pending_mappings: list[tuple[TraceBundle, str, FulfillmentOption, MigrationPatch]]) -> None:
+        for trace, statement, candidate, patch in pending_mappings:
+            self._learn_mapping(trace, statement, candidate, patch)
+        pending_mappings.clear()
 
     def build_migration_error_report(
         self,
@@ -438,7 +569,9 @@ class IntentionMigrationEngine:
         mapped = self.intent_mapping_library.best_candidate(self._runtime_signature(trace, active_statement))
         if mapped is not None:
             self._prepare_candidate_values([mapped], active_statement, trace.context.script_path)
-            candidates = [mapped] + candidates
+            candidates = [mapped]
+        else:
+            candidates = candidates
         intent = IntentRecord(
             name="repair_breakpoint",
             description=f"Repair this Selenium statement: {active_statement}",
@@ -447,44 +580,20 @@ class IntentionMigrationEngine:
             expected_outcome="The migrated script continues.",
             confidence=1.0,
         )
-        choices = self._local_choices(active_statement, candidates) or self.llm.choose_repair_actions(trace, intent, candidates, [])
-        attempts: list[FulfillmentAttemptRecord] = []
+        choices = candidates if mapped is not None else self.llm.choose_repair_actions(trace, intent, candidates)
+        options: list[tuple[MigrationPatch, FulfillmentOption]] = []
         for index, candidate in enumerate(choices[:3], start=1):
+            del index
             patch = self.patch_generator.from_candidate(trace.failure.broken_statement, trace.failure.line_num, candidate)
             patch.replacement_line_count = max(
                 int(patch.replacement_line_count or 1),
                 active_line - int(trace.failure.line_num) + self._statement_line_count(active_statement),
             )
-            attempts.append(
-                FulfillmentAttemptRecord(
-                    round_index=index,
-                    candidate_id=str(candidate.metadata.get("candidate_id", "") or ""),
-                    selector=candidate.selector,
-                    action_type=candidate.action_type,
-                    verdict="passed",
-                    plan_source=candidate.source,
-                )
-            )
-            validation = ValidationResult(
-                verdict="passed",
-                candidate_selector=candidate.selector,
-                passed_checks=["patch_generated"],
-                notes=candidate.explanation,
-            )
-            self._learn_mapping(trace, active_statement, candidate, patch)
-            return _RepairResult(True, patch, candidate, attempts, [validation])
-        return _RepairResult(False, None, None, attempts, [])
+            options.append((patch, candidate))
+        return _RepairResult(bool(options), options[0][0] if options else None, options[0][1] if options else None, options)
 
-    def _local_choices(self, statement: str, candidates: list[FulfillmentOption]) -> list[FulfillmentOption]:
-        action = self._action_type(statement)
-        if action == "input" and (self._statement_action_value(statement) or self._statement_action_expression(statement)):
-            file_inputs = [candidate for candidate in candidates if self._candidate_is_file_input(candidate)]
-            if file_inputs:
-                selected = file_inputs[0]
-                selected.source = "local_file_input"
-                selected.explanation = "Selected the current page file input for upload."
-                return [selected]
-        return []
+    def _write_script_lines(self, script_path: Path, lines: list[str]) -> None:
+        script_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
     def _run_until_failure(
         self,
@@ -588,17 +697,39 @@ class IntentionMigrationEngine:
             pass
         return line_num, statement
 
-    def _trace_for_failure(self, script_path: Path, suite_name: str, failure: FailureInfo, stderr: str) -> TraceBundle:
+    def _generate_old_trace_intentions(self, case_id: str, suite_name: str) -> dict[str, Any]:
+        trace_log = self.artifacts.case_stage_dir(case_id, suite_name, "trace") / "action_log.txt"
+        action_log_text = ""
+        if trace_log.exists():
+            action_log_text = trace_log.read_text(encoding="utf-8", errors="ignore")
+        old_intentions = self.llm.generate_old_trace_intentions(case_id, suite_name, action_log_text)
+        report_dir = self.artifacts.case_stage_dir(case_id, suite_name, "report")
+        self.artifacts.write_json(report_dir / "old_intentions.json", old_intentions)
+        return old_intentions
+
+    def _trace_for_failure(
+        self,
+        script_path: Path,
+        suite_name: str,
+        failure: FailureInfo,
+        stderr: str,
+        old_intentions: dict[str, Any] | None = None,
+    ) -> TraceBundle:
         snapshot = DOMSnapshot()
         try:
             snapshot = self.browser.snapshot(self.artifacts.case_stage_dir(script_path.stem, suite_name, "report"))
         except Exception:
             pass
-        return self._build_trace_bundle(script_path, suite_name, failure, stderr, snapshot)
+        return self._build_trace_bundle(script_path, suite_name, failure, stderr, snapshot, old_intentions)
 
-    def _trace_for_success(self, script_path: Path, suite_name: str) -> TraceBundle:
+    def _trace_for_success(
+        self,
+        script_path: Path,
+        suite_name: str,
+        old_intentions: dict[str, Any] | None = None,
+    ) -> TraceBundle:
         failure = FailureInfo(script_path=str(script_path), line_num=0, broken_statement="", message="Migration passed.")
-        return self._build_trace_bundle(script_path, suite_name, failure, "", DOMSnapshot())
+        return self._build_trace_bundle(script_path, suite_name, failure, "", DOMSnapshot(), old_intentions)
 
     def _runtime_signature(self, trace: TraceBundle, statement: str | None = None) -> dict[str, Any]:
         statement = statement or trace.failure.broken_statement
@@ -655,6 +786,7 @@ class IntentionMigrationEngine:
         failure: FailureInfo,
         stderr: str,
         snapshot: DOMSnapshot | None = None,
+        old_intentions: dict[str, Any] | None = None,
     ) -> TraceBundle:
         context = ScriptContext(
             script_path=str(script_path),
@@ -670,10 +802,14 @@ class IntentionMigrationEngine:
             old_trace = artifacts.old_capture.trace if artifacts.old_capture else None
         except Exception:
             pass
+        if old_intentions is None:
+            loaded = self.artifacts.read_json(self.artifacts.case_stage_dir(script_path.stem, suite_name, "report") / "old_intentions.json")
+            old_intentions = loaded if isinstance(loaded, dict) else {}
         return TraceBundle(
             failure=failure,
             context=context,
             snapshot=snapshot or DOMSnapshot(),
+            old_trace_intentions=old_intentions or {},
             raw_stderr=stderr,
             old_trace=old_trace,
         )
