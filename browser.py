@@ -178,8 +178,19 @@ class DOMCollector:
             const cssEscape = (window.CSS && typeof window.CSS.escape === 'function')
               ? window.CSS.escape
               : (value) => String(value).replace(/["\\\\]/g, '\\\\$&').replace(/\\s+/g, '\\\\ ');
+            function compactText(value) {
+              return String(value || '').replace(/\\s+/g, ' ').trim();
+            }
+            function textOf(el) {
+              return compactText(el ? (el.innerText || el.textContent || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '') : '');
+            }
+            function isDynamicValue(value) {
+              value = String(value || '').toLowerCase();
+              return /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/.test(value)
+                || /[_-](?:[0-9a-f]{8,}|[0-9]{6,})(?:\\b|$)/.test(value);
+            }
             function cssPath(el) {
-              if (el.id) return '#' + cssEscape(el.id);
+              if (el.id && !isDynamicValue(el.id)) return '#' + cssEscape(el.id);
               const parts = [];
               while (el && el.nodeType === Node.ELEMENT_NODE && parts.length < 5) {
                 let part = el.tagName.toLowerCase();
@@ -195,21 +206,122 @@ class DOMCollector:
               if (!value.includes("'")) return "'" + value + "'";
               return 'concat("' + value.replace(/"/g, '", \'"\', "') + '")';
             }
-            function xpathPath(el) {
-              if (el.id) return '//*[@id=' + xpathLiteral(el.id) + ']';
-              const parts = [];
-              while (el && el.nodeType === Node.ELEMENT_NODE) {
-                const tag = el.tagName.toLowerCase();
-                let index = 1;
-                let sibling = el.previousElementSibling;
-                while (sibling) {
-                  if ((sibling.tagName || '').toLowerCase() === tag) index += 1;
-                  sibling = sibling.previousElementSibling;
-                }
-                parts.unshift(tag + '[' + index + ']');
-                el = el.parentElement;
+            function hrefPredicate(el) {
+              const href = el.getAttribute('href') || '';
+              if (!href || href === '#' || href.toLowerCase().startsWith('javascript:')) return '';
+              const stableTokens = [
+                'mode=permissions',
+                'mode=folder_rename',
+                'mode=new_folder',
+                'mode=folder_delete',
+                'mode=delete',
+                'mode=edit',
+                'mode=move',
+                'mode=copy',
+                'mode=download',
+                'links_redirect.php',
+                'links_new.php',
+                'announcements_new.php',
+                'documents-files.php',
+                'profile_photo_edit.php',
+                'profile_new.php',
+                'roles_rights.php',
+                'members.php'
+              ];
+              for (const token of stableTokens) {
+                if (href.includes(token)) return 'contains(@href, ' + xpathLiteral(token) + ')';
               }
-              return '/' + parts.join('/');
+              try {
+                const parsed = new URL(href, document.location.href);
+                const parts = parsed.pathname.split('/').filter(Boolean);
+                const leaf = parts.length ? parts[parts.length - 1] : '';
+                if (leaf && leaf.length <= 80 && !isDynamicValue(leaf)) {
+                  return 'contains(@href, ' + xpathLiteral(leaf) + ')';
+                }
+              } catch (error) {
+              }
+              return '';
+            }
+            function directPredicate(el) {
+              const tag = (el.tagName || '').toLowerCase();
+              const text = textOf(el);
+              if ((tag === 'a' || tag === 'button') && text && text.length <= 80) {
+                return 'normalize-space(.)=' + xpathLiteral(text);
+              }
+              for (const name of ['aria-label', 'title', 'value', 'data-bs-dismiss', 'data-dismiss']) {
+                const value = compactText(el.getAttribute(name) || '');
+                if (value && value.length <= 80 && !isDynamicValue(value)) {
+                  return '@' + name + '=' + xpathLiteral(value);
+                }
+              }
+              const href = hrefPredicate(el);
+              if (href) return href;
+              const name = compactText(el.getAttribute('name') || '');
+              if (name && !isDynamicValue(name)) return '@name=' + xpathLiteral(name);
+              const id = compactText(el.getAttribute('id') || '');
+              if (id && !isDynamicValue(id)) return '@id=' + xpathLiteral(id);
+              return '';
+            }
+            function isGenericContextText(value) {
+              const text = compactText(value).toLowerCase();
+              return !text || [
+                'edit', 'delete', 'save', 'cancel', 'yes', 'no', 'ok', 'close',
+                'show', 'hide', 'open', 'submit', 'add', 'create', 'update',
+                'back', 'next', 'previous', 'permissions', 'move', 'copy'
+              ].includes(text);
+            }
+            function contextLabel(ctx, target) {
+              const targetText = textOf(target).toLowerCase();
+              const candidates = [];
+              const nodes = Array.from(ctx.querySelectorAll('td,th,label,span,strong,a,p,div'));
+              for (const node of nodes) {
+                if (node === target || target.contains(node) || node.contains(target)) continue;
+                const text = textOf(node);
+                if (!text || text.length > 80) continue;
+                if (text.toLowerCase() === targetText || isGenericContextText(text)) continue;
+                candidates.push(text);
+              }
+              if (!candidates.length) {
+                let whole = textOf(ctx);
+                if (targetText && whole.toLowerCase() === targetText) whole = '';
+                if (whole && whole.length <= 80 && !isGenericContextText(whole)) candidates.push(whole);
+              }
+              candidates.sort((left, right) => left.length - right.length);
+              return candidates[0] || '';
+            }
+            function contextXPath(ctx, target) {
+              if (!ctx) return '';
+              const label = contextLabel(ctx, target);
+              if (!label) return '';
+              const tag = (ctx.tagName || '').toLowerCase();
+              const predicate = 'contains(normalize-space(.), ' + xpathLiteral(label) + ')';
+              if (tag === 'tr' || tag === 'li') return '//' + tag + '[' + predicate + ']';
+              if ((ctx.getAttribute('role') || '').toLowerCase() === 'row') return '//*[@role="row" and ' + predicate + ']';
+              const className = ctx.getAttribute('class') || '';
+              if (className.includes('card')) return '//*[contains(@class, "card") and ' + predicate + ']';
+              if (className.includes('list')) return '//*[contains(@class, "list") and ' + predicate + ']';
+              if (className.includes('row')) return '//*[contains(@class, "row") and ' + predicate + ']';
+              return '';
+            }
+            function localIndexXPath(ctx, target) {
+              const tag = (target.tagName || '').toLowerCase();
+              if (!ctx || !tag) return '';
+              const base = contextXPath(ctx, target);
+              if (!base) return '';
+              const matches = Array.from(ctx.querySelectorAll(tag)).filter(item => !!(item.offsetWidth || item.offsetHeight || item.getClientRects().length));
+              const index = matches.indexOf(target) + 1;
+              return index > 0 ? '(' + base + '//' + tag + ')[' + index + ']' : '';
+            }
+            function xpathPath(el) {
+              const tag = (el.tagName || '').toLowerCase();
+              if (!tag) return '';
+              const predicate = directPredicate(el);
+              const ctx = el.closest('tr,[role="row"],li,.card,[class*="card"],[class*="list"],[class*="row"]');
+              const base = contextXPath(ctx, el);
+              if (base && predicate) return base + '//' + tag + '[' + predicate + ']';
+              if (base) return localIndexXPath(ctx, el);
+              if (predicate) return '//' + tag + '[' + predicate + ']';
+              return '';
             }
             return nodes.map((el, index) => {
               const attrs = {};
@@ -219,7 +331,7 @@ class DOMCollector:
               return {
                 index: index + 1,
                 tag: (el.tagName || '').toLowerCase(),
-                text: (el.innerText || el.textContent || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '').trim(),
+                text: textOf(el),
                 attrs,
                 css: cssPath(el),
                 xpath: xpathPath(el),

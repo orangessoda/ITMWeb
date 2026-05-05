@@ -194,7 +194,9 @@ class LLMClient:
                 "the form before the input/select/clear step. "
                 "Do not skip popup confirmation actions: if the old script confirms a dialog, the migrated chain "
                 "must include the equivalent alert accept or confirmation-button click. "
+                "When a confirmation modal is opened by a previous step, put the confirmation click after that step. "
                 "Prefer stable selectors in this order: id, name, link_text, partial_link_text, xpath, css. "
+                "Do not use UUID-like dynamic ids such as adm_dropdown_menu_button_<uuid>; prefer a row/text-based xpath. "
                 "Avoid broad CSS selectors when an id, name, or link_text candidate exists. "
                 "Use candidate_index when a step uses one of the provided candidates; otherwise provide selector "
                 "and selector_type directly."
@@ -739,7 +741,7 @@ class IntentionMigrationEngine:
         candidates = self._candidates_from_snapshot(trace.snapshot, active_statement)
         self._prepare_candidate_values(candidates, active_statement, trace.context.script_path)
         mapped = self.intent_mapping_library.best_candidate(self._runtime_signature(trace, active_statement))
-        if mapped is not None and not self._mapped_candidate_compatible(active_statement, mapped):
+        if mapped is not None and not self._mapped_candidate_compatible(trace, active_statement, mapped):
             mapped = None
         if mapped is not None:
             self._prepare_candidate_values([mapped], active_statement, trace.context.script_path)
@@ -816,17 +818,36 @@ class IntentionMigrationEngine:
         action = str(action_type or "").strip().lower()
         return "input" if action == "send_keys" else (action or "click")
 
-    def _mapped_candidate_compatible(self, statement: str, candidate: FulfillmentOption) -> bool:
+    def _mapped_candidate_compatible(self, trace: TraceBundle, statement: str, candidate: FulfillmentOption) -> bool:
+        if candidate.source == "intent_mapping" and self._candidate_has_dynamic_selector(candidate):
+            return False
         source_terms = self._domain_terms(statement)
-        if not source_terms:
-            return True
         candidate_terms = self._candidate_domain_terms(candidate)
         if not candidate_terms:
-            return False
+            return True
         source_objects = self._object_domain_terms(source_terms)
+        candidate_objects = self._object_domain_terms(candidate_terms)
+        if source_objects and candidate_objects:
+            return bool(source_objects & candidate_objects)
         if source_objects:
-            return bool(source_objects & self._object_domain_terms(candidate_terms))
-        return bool(source_terms & candidate_terms)
+            return True
+        context_objects = self._object_domain_terms(
+            self._domain_terms(
+                " ".join(
+                    [
+                        trace.context.case_id,
+                        trace.context.script_path,
+                        trace.snapshot.title,
+                        trace.snapshot.url,
+                    ]
+                )
+            )
+        )
+        if context_objects and candidate_objects:
+            return bool(context_objects & candidate_objects)
+        if source_terms:
+            return bool(source_terms & candidate_terms)
+        return True
 
     def _candidate_domain_terms(self, candidate: FulfillmentOption) -> set[str]:
         parts = [
@@ -852,6 +873,15 @@ class IntentionMigrationEngine:
                 )
         return self._domain_terms(" ".join(parts))
 
+    def _candidate_has_dynamic_selector(self, candidate: FulfillmentOption) -> bool:
+        selectors = [candidate.selector]
+        steps = candidate.metadata.get("mapped_recipe_steps", [])
+        if isinstance(steps, list):
+            for step in steps:
+                if isinstance(step, dict):
+                    selectors.append(str(step.get("selector", "") or ""))
+        return any(self._is_dynamic_selector_value(selector) for selector in selectors)
+
     def _domain_terms(self, text: str) -> set[str]:
         normalized = re.sub(r"[^a-z0-9]+", " ", str(text or "").lower())
         aliases = {
@@ -860,6 +890,19 @@ class IntentionMigrationEngine:
             "entry": ("entry", "entries", "booking", "bookings"),
             "user": ("user", "users"),
             "period": ("period", "periods"),
+            "profile": ("profile", "profiles"),
+            "photo": ("photo", "photos", "picture", "pictures"),
+            "album": ("album", "albums"),
+            "file": ("file", "files", "uploadedfile", "uploadedfiles"),
+            "folder": ("folder", "folders"),
+            "document": ("document", "documents"),
+            "announcement": ("announcement", "announcements"),
+            "role": ("role", "roles"),
+            "membership": ("membership", "memberships", "member", "members"),
+            "permission": ("permission", "permissions", "right", "rights"),
+            "link": ("link", "links", "weblink", "weblinks"),
+            "category": ("category", "categories"),
+            "menu": ("menu", "menus"),
             "report": ("report", "reports"),
             "search": ("search", "filter", "filters"),
             "import": ("import", "imports", "upload", "uploads"),
@@ -876,7 +919,27 @@ class IntentionMigrationEngine:
         return terms
 
     def _object_domain_terms(self, terms: set[str]) -> set[str]:
-        return terms & {"area", "room", "entry", "user", "period", "report"}
+        return terms & {
+            "area",
+            "room",
+            "entry",
+            "user",
+            "period",
+            "profile",
+            "photo",
+            "album",
+            "file",
+            "folder",
+            "document",
+            "announcement",
+            "role",
+            "membership",
+            "permission",
+            "link",
+            "category",
+            "menu",
+            "report",
+        }
 
     def _adopt_namespace_driver(self, namespace: dict[str, Any]) -> None:
         driver = namespace.get("driver")
@@ -1566,19 +1629,31 @@ class IntentionMigrationEngine:
         counts = selector_counts or {"id": {}, "name": {}}
         element_id = str(attrs.get("id", "") or "").strip()
         element_name = str(attrs.get("name", "") or "").strip()
-        if element_id and counts.get("id", {}).get(element_id, 1) == 1:
+        if element_id and counts.get("id", {}).get(element_id, 1) == 1 and not self._is_dynamic_selector_value(element_id):
             return "id", str(attrs["id"])
         if element_name and counts.get("name", {}).get(element_name, 1) == 1:
             return "name", element_name
-        if element.locator_hint.startswith("id=") and counts.get("id", {}).get(element.locator_hint.split("=", 1)[1], 1) == 1:
-            return "id", element.locator_hint.split("=", 1)[1]
+        if element.locator_hint.startswith("id="):
+            hint_id = element.locator_hint.split("=", 1)[1]
+            if counts.get("id", {}).get(hint_id, 1) == 1 and not self._is_dynamic_selector_value(hint_id):
+                return "id", hint_id
         if element.locator_hint.startswith("name=") and counts.get("name", {}).get(element.locator_hint.split("=", 1)[1], 1) == 1:
             return "name", element.locator_hint.split("=", 1)[1]
         text = str(element.text or "").strip()
         if element.tag.lower() == "a" and text:
             return "link_text", text
-        if element.xpath:
+        if element.xpath and not self._is_dynamic_selector_value(element.xpath):
             return "xpath", element.xpath
-        if element.css_selector:
+        if element.css_selector and not self._is_dynamic_selector_value(element.css_selector):
             return "css", element.css_selector
         return "", ""
+
+    def _is_dynamic_selector_value(self, value: str) -> bool:
+        text = str(value or "").strip().lower()
+        if not text:
+            return False
+        if re.search(r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}", text):
+            return True
+        return bool(
+            re.search(r"[_-](?:[0-9a-f]{8,}|[0-9]{6,})(?=[^a-z0-9]|$)", text)
+        )

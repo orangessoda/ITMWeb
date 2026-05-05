@@ -140,10 +140,19 @@ class PatchGenerator:
         if action in {"default_content", "switch_default_content"}:
             return ["driver.switch_to.default_content()"]
         if action in {"accept_alert", "alert_accept"}:
-            return ["driver.switch_to.alert.accept()"]
+            return ["WebDriverWait(driver, 10).until(EC.alert_is_present()).accept()"]
         if action in {"dismiss_alert", "alert_dismiss"}:
-            return ["driver.switch_to.alert.dismiss()"]
+            return ["WebDriverWait(driver, 10).until(EC.alert_is_present()).dismiss()"]
         locator = self._locator_expr(str(step.get("selector_type", "") or ""), str(step.get("selector", "") or ""))
+        if action in {"js_click", "confirm_click"} or (
+            action in {"click", "submit"} and self._is_confirmation_selector(str(step.get("selector", "") or ""))
+        ):
+            lines = [f"element = WebDriverWait(driver, 10).until(EC.element_to_be_clickable(({locator})))"]
+            if action in {"js_click", "confirm_click"}:
+                lines.append("driver.execute_script('arguments[0].click();', element)")
+            else:
+                lines.append("element.click()")
+            return lines
         if action in {"input", "send_keys"}:
             return [
                 f"element = driver.find_element({locator})",
@@ -160,9 +169,20 @@ class PatchGenerator:
             return [f"driver.switch_to.frame(driver.find_element({locator}))"]
         if action in {"hover", "move_to_element"}:
             return [f"ActionChains(driver).move_to_element(driver.find_element({locator})).perform()"]
-        if action in {"js_click", "confirm_click"}:
-            return [f"driver.execute_script('arguments[0].click();', driver.find_element({locator}))"]
         return [f"driver.find_element({locator}).click()"]
+
+    def _is_confirmation_selector(self, selector: str) -> bool:
+        value = str(selector or "").lower()
+        return any(
+            token in value
+            for token in [
+                "adm_messagebox_button_yes",
+                "btn_yes",
+                "button_yes",
+                "confirm",
+                "modal",
+            ]
+        )
 
     def _locator_expr(self, selector_type: str, selector: str) -> str:
         selector_type = self._selector_type(selector_type, selector)
@@ -209,6 +229,9 @@ class PatchGenerator:
             imports.append("from selenium.webdriver.support.ui import Select")
         if any("ActionChains(" in line for line in lines):
             imports.append("from selenium.webdriver.common.action_chains import ActionChains")
+        if any("WebDriverWait(" in line or "EC." in line for line in lines):
+            imports.append("from selenium.webdriver.support.ui import WebDriverWait")
+            imports.append("from selenium.webdriver.support import expected_conditions as EC")
         if any("time.sleep" in line for line in lines):
             imports.append("import time")
         return imports
