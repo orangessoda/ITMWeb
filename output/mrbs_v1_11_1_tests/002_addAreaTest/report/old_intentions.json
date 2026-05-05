@@ -1,6 +1,48 @@
 {
-  "case_goal": "002_addAreaTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/002_addAreaTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Add a new area named 'test area' in MRBS admin panel after logging in as admin.",
+  "summary": "Log in with admin credentials, navigate to admin panel, and create an area using the Add Area form.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login page is displayed with username and password fields."
+    },
+    {
+      "action_type": "type",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field is filled with 'admin'."
+    },
+    {
+      "action_type": "type",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field is filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login succeeds; admin panel page is shown with area management options, including an 'Add Area' form."
+    },
+    {
+      "action_type": "type",
+      "target": "xpath=//*[@id=\"area_name\"]",
+      "value": "test area",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Area name field is filled with 'test area'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"add_area\"]/fieldset/div[2]/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Area is added; page redirects to 'admin.php?area=1' indicating success."
+    }
+  ]
 }

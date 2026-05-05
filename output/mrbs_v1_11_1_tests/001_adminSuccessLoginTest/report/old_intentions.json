@@ -1,6 +1,34 @@
 {
-  "case_goal": "001_adminSuccessLoginTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/001_adminSuccessLoginTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Admin successfully logs in with valid credentials (admin/admin) and accesses the admin control panel.",
+  "summary": "Open admin login page, enter username and password, click Log in, and verify that the admin panel is displayed.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login page displayed with username and password fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field contains 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field contains 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin panel displayed with links like Report, Import, Rooms, Users and 'Log off' button"
+    }
+  ]
 }

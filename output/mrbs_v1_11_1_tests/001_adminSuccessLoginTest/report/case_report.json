@@ -3,7 +3,7 @@
   "case_id": "001_adminSuccessLoginTest",
   "migration_status": "passed",
   "migration_success": true,
-  "migration_duration_seconds": 11.941,
+  "migration_duration_seconds": 34.821,
   "repair_count": 0,
   "trace": {
     "context": {
@@ -64,8 +64,8 @@
   },
   "llm": {
     "provider": "deepseek",
-    "remote_calls": 0,
-    "seconds": 1.35
+    "remote_calls": 1,
+    "seconds": 23.576
   },
   "replay": {
     "success": true,

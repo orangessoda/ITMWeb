@@ -1,6 +1,48 @@
 {
-  "case_goal": "006_editRoomTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/006_editRoomTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Edit an existing room in the MRBS system by changing its invalid types.",
+  "summary": "Log in as admin, navigate to room management, edit the room 'test room' by selecting an invalid type option and saving the changes.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin login page loaded"
+    },
+    {
+      "action_type": "login",
+      "target": "username and password fields",
+      "value": "admin / admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Logged in, admin panel displayed with navigation links"
+    },
+    {
+      "action_type": "click",
+      "target": "link 'Rooms'",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=2&room=1",
+      "expected_result": "Room management page displayed with list of rooms"
+    },
+    {
+      "action_type": "click",
+      "target": "button 'Edit' for room (first room in list)",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_room.php?room=1",
+      "expected_result": "Edit room page for room 'test room' displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "first option in 'invalid_types[]' select",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_room.php?room=1",
+      "expected_result": "First invalid type option selected"
+    },
+    {
+      "action_type": "click",
+      "target": "save button (xpath //*[@id=\"edit_room\"]/fieldset/fieldset[2]/div[9]/input)",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_room.php?room=1",
+      "expected_result": "Room saved, redirected to admin.php with updated parameters"
+    }
+  ]
 }

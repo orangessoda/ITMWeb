@@ -1,6 +1,48 @@
 {
-  "case_goal": "004_deleteAreaTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/004_deleteAreaTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Delete an existing area from the meeting room booking system",
+  "summary": "Log in as admin, navigate to Rooms area management, and delete an area.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin login page should be displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Logged in, admin panel with navigation links should appear"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/header/nav/nav[1]/nav[1]/a[4]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Rooms management page displayed with area 'test area' and Edit/Delete buttons"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"area_form\"]/form[1]/fieldset/button[2]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Area deleted, page shows 'Add Area' form and no area list"
+    }
+  ]
 }

@@ -1,6 +1,83 @@
 {
-  "case_goal": "012_addUserTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/012_addUserTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Add a new user to the Meeting Room Booking System",
+  "summary": "Login as admin, navigate to Users page, fill new user form (username 'test', display name 'test', email 'test@qq.com', password 'admin'), and submit to add user.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://mrbs-old.local:8094/admin.php",
+      "value": "",
+      "page_url": "",
+      "expected_result": "Login page displayed with username and password fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login successful, admin menu (Rooms, Users) visible"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/header/nav/nav[1]/nav[1]/a[5]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Navigated to edit_users.php with user management form"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"f_name\"]",
+      "value": "test",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Username field filled with 'test'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"f_display_name\"]",
+      "value": "test",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Display name field filled with 'test'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"f_email\"]",
+      "value": "test@qq.com",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Email field filled with 'test@qq.com'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password0\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password1\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Confirm password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"update_button\"]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "User added successfully, page shows 'Add a new user' button and user list"
+    }
+  ]
 }

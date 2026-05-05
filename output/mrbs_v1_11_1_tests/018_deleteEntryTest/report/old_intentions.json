@@ -1,6 +1,55 @@
 {
-  "case_goal": "018_deleteEntryTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/018_deleteEntryTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Verify that an admin can delete an existing booking entry.",
+  "summary": "Log in as admin, navigate to a specific entry on the day view, and delete it using JavaScript to bypass the confirmation dialog.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login page with username and password fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin panel appears with links to Rooms, Users, etc."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/header/nav/nav[2]/form/input[6]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/index.php?view=day&area=2&page_date=2026-05-03",
+      "expected_result": "Day view page showing entries for selected date"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"day_main\"]/tbody/tr[1]/td/div/a",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/view_entry.php?view=day&year=2026&month=5&day=3&area=2&id=2",
+      "expected_result": "Entry details page with delete button"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "//*[@id=\"view_entry_nav\"]/div[2]/div[2]/form/input[5]",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://mrbs-old.local:8094/index.php?view=day&area=2&page_date=2026-05-03",
+      "expected_result": "Day view without the previously selected entry, confirming deletion"
+    }
+  ]
 }

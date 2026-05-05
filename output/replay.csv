@@ -169,7 +169,7 @@ mantisbt_v2_24_3_tests/036_deleteCustomFieldTest,not_run,False,0.0
 mantisbt_v2_24_3_tests/037_deleteTagTest,not_run,False,0.0
 mantisbt_v2_24_3_tests/038_deleteProjectTest,not_run,False,0.0
 mantisbt_v2_24_3_tests/039_deleteAccountTest,not_run,False,0.0
-mrbs_v1_11_1_tests/001_adminSuccessLoginTest,passed,True,13.198871500000678
+mrbs_v1_11_1_tests/001_adminSuccessLoginTest,not_run,False,0.0
 mrbs_v1_11_1_tests/002_addAreaTest,not_run,False,0.0
 mrbs_v1_11_1_tests/003_editAreaTest,not_run,False,0.0
 mrbs_v1_11_1_tests/004_deleteAreaTest,not_run,False,0.0

@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-05-05T03:44:41.737777+00:00",
+  "updated_at": "2026-05-05T10:19:44.935953+00:00",
   "mappings": [
     {
       "mapping_id": "admidio_click_click_click_click_family_next_page_click",
       "created_at": "2026-05-04T19:46:46.770528+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "001_userSuccessLoginTest",
       "source_signatures": [
         {
@@ -137,9 +137,9 @@
         ]
       },
       "stats": {
-        "learned_count": 914633164170901287454617781941002108112879950811994772480417287535404873233408547209670033408,
+        "learned_count": 8045198393243688928177927081198926757502721362148569481884371047214269179200543713018685129602227045924864,
         "hit_count": 0,
-        "success_count": 914633164170901287454617781941002108112879950811994772480417287535404873233408547209670033408,
+        "success_count": 8045198393243688928177927081198926757502721362148569481884371047214269179200543713018685129602227045924864,
         "last_learned_at": "2026-05-04T21:24:34.177531+00:00",
         "last_success_at": "2026-05-04T19:46:46.771111+00:00",
         "failure_count": 0,
@@ -153,7 +153,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_navbarnav_click",
       "created_at": "2026-05-04T19:50:55.114309+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "003_userUploadProfileImageTest",
       "source_signatures": [
         {
@@ -286,9 +286,9 @@
         ]
       },
       "stats": {
-        "learned_count": 66203669230870797803724484873304790234172722794142928145674564604017392242308442950960414720,
+        "learned_count": 582333632966229094744934992947795512311627829281008879073997166250585886506841845799028148250617850101760,
         "hit_count": 0,
-        "success_count": 66203669230870797803724484873304790234172722794142928145674564604017392242308442950960414720,
+        "success_count": 582333632966229094744934992947795512311627829281008879073997166250585886506841845799028148250617850101760,
         "last_learned_at": "2026-05-04T19:58:03.096549+00:00",
         "last_success_at": "2026-05-04T19:50:55.114309+00:00",
         "failure_count": 0,
@@ -302,7 +302,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_profile_picture_links_click",
       "created_at": "2026-05-04T19:50:55.128469+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "003_userUploadProfileImageTest",
       "source_signatures": [
         {
@@ -443,9 +443,9 @@
         ]
       },
       "stats": {
-        "learned_count": 32592575621351777380295131014550050576823494298654980010178247189670100796213387298934358016,
+        "learned_count": 286687326998758938951352611912760867599570623646035140467198604923365359511060601008752319138765710819328,
         "hit_count": 0,
-        "success_count": 32592575621351777380295131014550050576823494298654980010178247189670100796213387298934358016,
+        "success_count": 286687326998758938951352611912760867599570623646035140467198604923365359511060601008752319138765710819328,
         "last_learned_at": "2026-05-04T19:50:55.128469+00:00",
         "last_success_at": "2026-05-04T19:50:55.128469+00:00",
         "failure_count": 0,
@@ -457,7 +457,7 @@
     {
       "mapping_id": "admidio_clear_clear_clear_clear_family_foto_upload_file_group_div_input",
       "created_at": "2026-05-04T19:50:55.142838+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "003_userUploadProfileImageTest",
       "source_signatures": [
         {
@@ -632,9 +632,9 @@
         ]
       },
       "stats": {
-        "learned_count": 16296287810675888690147565507275025288411747149327490005089123594835050398106693649467179008,
+        "learned_count": 143343663499379469475676305956380433799785311823017570233599302461682679755530300504376159569382855409664,
         "hit_count": 0,
-        "success_count": 16296287810675888690147565507275025288411747149327490005089123594835050398106693649467179008,
+        "success_count": 143343663499379469475676305956380433799785311823017570233599302461682679755530300504376159569382855409664,
         "last_learned_at": "2026-05-04T19:50:55.142838+00:00",
         "last_success_at": "2026-05-04T19:50:55.142838+00:00",
         "failure_count": 0,
@@ -646,7 +646,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_btn_upload_click",
       "created_at": "2026-05-04T19:50:55.154031+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "003_userUploadProfileImageTest",
       "source_signatures": [
         {
@@ -835,9 +835,9 @@
         ]
       },
       "stats": {
-        "learned_count": 8148143905337944345073782753637512644205873574663745002544561797417525199053346824733589504,
+        "learned_count": 71671831749689734737838152978190216899892655911508785116799651230841339877765150252188079784691427704832,
         "hit_count": 0,
-        "success_count": 8148143905337944345073782753637512644205873574663745002544561797417525199053346824733589504,
+        "success_count": 71671831749689734737838152978190216899892655911508785116799651230841339877765150252188079784691427704832,
         "last_learned_at": "2026-05-04T19:50:55.154031+00:00",
         "last_success_at": "2026-05-04T19:50:55.154031+00:00",
         "failure_count": 0,
@@ -849,7 +849,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_btn_update_click",
       "created_at": "2026-05-04T19:50:55.173937+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "003_userUploadProfileImageTest",
       "source_signatures": [
         {
@@ -1022,9 +1022,9 @@
         ]
       },
       "stats": {
-        "learned_count": 4074071952668972172536891376818756322102936787331872501272280898708762599526673412366794752,
+        "learned_count": 35835915874844867368919076489095108449946327955754392558399825615420669938882575126094039892345713852416,
         "hit_count": 0,
-        "success_count": 4074071952668972172536891376818756322102936787331872501272280898708762599526673412366794752,
+        "success_count": 35835915874844867368919076489095108449946327955754392558399825615420669938882575126094039892345713852416,
         "last_learned_at": "2026-05-04T19:50:55.173937+00:00",
         "last_success_at": "2026-05-04T19:50:55.173937+00:00",
         "failure_count": 0,
@@ -1036,7 +1036,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_btn_send_click",
       "created_at": "2026-05-04T19:58:03.115009+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "006_userCheckChangeHistoryTest",
       "source_signatures": [
         {
@@ -1056,7 +1056,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "的更改历史",
+            "\u7684\u66f4\u6539\u5386\u53f2",
             "admidio-new",
             "changelog",
             "table",
@@ -1102,7 +1102,7 @@
         "context_terms": [],
         "page_terms": [
           "demo-organisation",
-          "的更改历史",
+          "\u7684\u66f4\u6539\u5386\u53f2",
           "admidio-new",
           "changelog",
           "table",
@@ -1118,7 +1118,7 @@
         "expected_terms": [],
         "required_page_terms": [
           "demo-organisation",
-          "的更改历史",
+          "\u7684\u66f4\u6539\u5386\u53f2",
           "adm_button_send",
           "click"
         ],
@@ -1144,7 +1144,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "的更改历史",
+            "\u7684\u66f4\u6539\u5386\u53f2",
             "adm_button_send",
             "click"
           ],
@@ -1186,9 +1186,9 @@
         ]
       },
       "stats": {
-        "learned_count": 509258994083621521567111422102344540262867098416484062659035112338595324940834176545849344,
+        "learned_count": 4479489484355608421114884561136888556243290994469299069799978201927583742360321890761754986543214231552,
         "hit_count": 0,
-        "success_count": 509258994083621521567111422102344540262867098416484062659035112338595324940834176545849344,
+        "success_count": 4479489484355608421114884561136888556243290994469299069799978201927583742360321890761754986543214231552,
         "last_learned_at": "2026-05-04T19:58:03.115009+00:00",
         "last_success_at": "2026-05-04T19:58:03.115009+00:00",
         "failure_count": 0,
@@ -1200,7 +1200,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_profile_field_history_table_thead_click",
       "created_at": "2026-05-04T19:58:03.137301+00:00",
-      "updated_at": "2026-05-05T03:15:19.234418+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "006_userCheckChangeHistoryTest",
       "source_signatures": [
         {
@@ -1221,7 +1221,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "的更改历史",
+            "\u7684\u66f4\u6539\u5386\u53f2",
             "admidio-new",
             "changelog",
             "table",
@@ -1268,7 +1268,7 @@
         "context_terms": [],
         "page_terms": [
           "demo-organisation",
-          "的更改历史",
+          "\u7684\u66f4\u6539\u5386\u53f2",
           "admidio-new",
           "changelog",
           "table",
@@ -1285,7 +1285,7 @@
         "expected_terms": [],
         "required_page_terms": [
           "demo-organisation",
-          "的更改历史",
+          "\u7684\u66f4\u6539\u5386\u53f2",
           "thead",
           "first-child",
           "click"
@@ -1317,7 +1317,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "的更改历史",
+            "\u7684\u66f4\u6539\u5386\u53f2",
             "thead",
             "click"
           ],
@@ -1359,9 +1359,9 @@
         ]
       },
       "stats": {
-        "learned_count": 493344650518508349018139190161646273379652501590968935700940265078014221036433108528791552,
+        "learned_count": 4339505437969495657955044418601360788860688150892133473868728883117346750411561831675450143213738786816,
         "hit_count": 0,
-        "success_count": 493344650518508349018139190161646273379652501590968935700940265078014221036433108528791552,
+        "success_count": 4339505437969495657955044418601360788860688150892133473868728883117346750411561831675450143213738786816,
         "last_learned_at": "2026-05-04T19:58:03.199185+00:00",
         "last_success_at": "2026-05-04T19:58:03.199185+00:00",
         "failure_count": 0,
@@ -1373,7 +1373,7 @@
     {
       "mapping_id": "admidio_clear_clear_clear_clear_family_profile_field_history_table_filter_label_input",
       "created_at": "2026-05-04T19:58:03.211950+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "006_userCheckChangeHistoryTest",
       "source_signatures": [
         {
@@ -1395,7 +1395,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "的更改历史",
+            "\u7684\u66f4\u6539\u5386\u53f2",
             "admidio-new",
             "changelog",
             "table",
@@ -1443,7 +1443,7 @@
         "context_terms": [],
         "page_terms": [
           "demo-organisation",
-          "的更改历史",
+          "\u7684\u66f4\u6539\u5386\u53f2",
           "admidio-new",
           "changelog",
           "table",
@@ -1460,7 +1460,7 @@
         "expected_terms": [],
         "required_page_terms": [
           "demo-organisation",
-          "的更改历史",
+          "\u7684\u66f4\u6539\u5386\u53f2",
           "dt-search-0",
           "clear"
         ],
@@ -1488,7 +1488,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "的更改历史",
+            "\u7684\u66f4\u6539\u5386\u53f2",
             "dt-search-0",
             "clear"
           ],
@@ -1550,9 +1550,9 @@
         ]
       },
       "stats": {
-        "learned_count": 7957171782556586274486115970349133441607298412757563479047423630290551952200534008528896,
+        "learned_count": 69992023193056381579920071267763883691301421788582797965624659405118495974380029543152421664737722368,
         "hit_count": 0,
-        "success_count": 7957171782556586274486115970349133441607298412757563479047423630290551952200534008528896,
+        "success_count": 69992023193056381579920071267763883691301421788582797965624659405118495974380029543152421664737722368,
         "last_learned_at": "2026-05-04T19:58:03.211950+00:00",
         "last_success_at": "2026-05-04T19:58:03.211950+00:00",
         "failure_count": 0,
@@ -1564,7 +1564,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_cke_15_click",
       "created_at": "2026-05-04T20:12:56.222337+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "009_addNewAnnouncementTest",
       "source_signatures": [
         {
@@ -1676,19 +1676,19 @@
           "forbidden_terms": []
         },
         "binding": {
-          "selector": "//button[normalize-space()='粗體']",
+          "selector": "//button[normalize-space()='\u7c97\u9ad4']",
           "selector_type": "xpath",
           "action_type": "click",
           "value": "",
-          "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='粗體']\").click()"
+          "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='\u7c97\u9ad4']\").click()"
         },
         "steps": [
           {
             "action_type": "click",
-            "selector": "//button[normalize-space()='粗體']",
+            "selector": "//button[normalize-space()='\u7c97\u9ad4']",
             "selector_type": "xpath",
             "value": "",
-            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='粗體']\").click()",
+            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='\u7c97\u9ad4']\").click()",
             "expected_outcome": "script continues",
             "explanation": "Auto-learned from successful migration step 31.",
             "value_expression": ""
@@ -1700,10 +1700,10 @@
         "steps": [
           {
             "action_type": "click",
-            "selector": "//button[normalize-space()='粗體']",
+            "selector": "//button[normalize-space()='\u7c97\u9ad4']",
             "selector_type": "xpath",
             "value": "",
-            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='粗體']\").click()",
+            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='\u7c97\u9ad4']\").click()",
             "expected_outcome": "script continues",
             "explanation": "Auto-learned from successful migration step 31.",
             "value_expression": ""
@@ -1711,9 +1711,9 @@
         ]
       },
       "stats": {
-        "learned_count": 1989292945639146568621528992587283360401824603189390869761855907572637988050133502132224,
+        "learned_count": 17498005798264095394980017816940970922825355447145699491406164851279623993595007385788105416184430592,
         "hit_count": 0,
-        "success_count": 1989292945639146568621528992587283360401824603189390869761855907572637988050133502132224,
+        "success_count": 17498005798264095394980017816940970922825355447145699491406164851279623993595007385788105416184430592,
         "last_learned_at": "2026-05-04T20:12:56.222337+00:00",
         "last_success_at": "2026-05-04T20:12:56.222337+00:00",
         "failure_count": 0,
@@ -1725,7 +1725,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_cke_16_click",
       "created_at": "2026-05-04T20:12:56.237437+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "009_addNewAnnouncementTest",
       "source_signatures": [
         {
@@ -1837,19 +1837,19 @@
           "forbidden_terms": []
         },
         "binding": {
-          "selector": "//button[normalize-space()='斜體']",
+          "selector": "//button[normalize-space()='\u659c\u9ad4']",
           "selector_type": "xpath",
           "action_type": "click",
           "value": "",
-          "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='斜體']\").click()"
+          "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='\u659c\u9ad4']\").click()"
         },
         "steps": [
           {
             "action_type": "click",
-            "selector": "//button[normalize-space()='斜體']",
+            "selector": "//button[normalize-space()='\u659c\u9ad4']",
             "selector_type": "xpath",
             "value": "",
-            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='斜體']\").click()",
+            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='\u659c\u9ad4']\").click()",
             "expected_outcome": "script continues",
             "explanation": "Auto-learned from successful migration step 33.",
             "value_expression": ""
@@ -1861,10 +1861,10 @@
         "steps": [
           {
             "action_type": "click",
-            "selector": "//button[normalize-space()='斜體']",
+            "selector": "//button[normalize-space()='\u659c\u9ad4']",
             "selector_type": "xpath",
             "value": "",
-            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='斜體']\").click()",
+            "patch_statement": "driver.find_element(By.XPATH, \"//button[normalize-space()='\u659c\u9ad4']\").click()",
             "expected_outcome": "script continues",
             "explanation": "Auto-learned from successful migration step 33.",
             "value_expression": ""
@@ -1872,9 +1872,9 @@
         ]
       },
       "stats": {
-        "learned_count": 994646472819573284310764496293641680200912301594695434880927953786318994025066751066112,
+        "learned_count": 8749002899132047697490008908470485461412677723572849745703082425639811996797503692894052708092215296,
         "hit_count": 0,
-        "success_count": 994646472819573284310764496293641680200912301594695434880927953786318994025066751066112,
+        "success_count": 8749002899132047697490008908470485461412677723572849745703082425639811996797503692894052708092215296,
         "last_learned_at": "2026-05-04T20:12:56.237437+00:00",
         "last_success_at": "2026-05-04T20:12:56.237437+00:00",
         "failure_count": 0,
@@ -1886,7 +1886,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_cke_22_span_click",
       "created_at": "2026-05-04T20:12:56.253558+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "009_addNewAnnouncementTest",
       "source_signatures": [
         {
@@ -2036,9 +2036,9 @@
         ]
       },
       "stats": {
-        "learned_count": 497323236409786642155382248146820840100456150797347717440463976893159497012533375533056,
+        "learned_count": 4374501449566023848745004454235242730706338861786424872851541212819905998398751846447026354046107648,
         "hit_count": 0,
-        "success_count": 497323236409786642155382248146820840100456150797347717440463976893159497012533375533056,
+        "success_count": 4374501449566023848745004454235242730706338861786424872851541212819905998398751846447026354046107648,
         "last_learned_at": "2026-05-04T20:12:56.253558+00:00",
         "last_success_at": "2026-05-04T20:12:56.253558+00:00",
         "failure_count": 0,
@@ -2050,7 +2050,7 @@
     {
       "mapping_id": "admidio_switch_frame_switch_frame_switch_frame_switch_frame_family_switch_to_frame_cke_1_contents",
       "created_at": "2026-05-04T20:12:56.271898+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "009_addNewAnnouncementTest",
       "source_signatures": [
         {
@@ -2223,9 +2223,9 @@
         ]
       },
       "stats": {
-        "learned_count": 248661618204893321077691124073410420050228075398673858720231988446579748506266687766528,
+        "learned_count": 2187250724783011924372502227117621365353169430893212436425770606409952999199375923223513177023053824,
         "hit_count": 0,
-        "success_count": 248661618204893321077691124073410420050228075398673858720231988446579748506266687766528,
+        "success_count": 2187250724783011924372502227117621365353169430893212436425770606409952999199375923223513177023053824,
         "last_learned_at": "2026-05-04T20:12:56.271898+00:00",
         "last_success_at": "2026-05-04T20:12:56.271898+00:00",
         "failure_count": 0,
@@ -2237,7 +2237,7 @@
     {
       "mapping_id": "admidio_clear_clear_clear_clear_family_clear",
       "created_at": "2026-05-04T20:12:56.287234+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.937954+00:00",
       "learned_from_case": "009_addNewAnnouncementTest",
       "source_signatures": [
         {
@@ -2401,9 +2401,9 @@
         ]
       },
       "stats": {
-        "learned_count": 124330809102446660538845562036705210025114037699336929360115994223289874253133343883264,
+        "learned_count": 1093625362391505962186251113558810682676584715446606218212885303204976499599687961611756588511526912,
         "hit_count": 0,
-        "success_count": 124330809102446660538845562036705210025114037699336929360115994223289874253133343883264,
+        "success_count": 1093625362391505962186251113558810682676584715446606218212885303204976499599687961611756588511526912,
         "last_learned_at": "2026-05-04T20:12:56.287234+00:00",
         "last_success_at": "2026-05-04T20:12:56.287234+00:00",
         "failure_count": 0,
@@ -2415,7 +2415,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_btn_save_click",
       "created_at": "2026-05-04T20:12:56.306395+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "009_addNewAnnouncementTest",
       "source_signatures": [
         {
@@ -2435,7 +2435,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "admidio-new",
@@ -2532,7 +2532,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "adm_button_save",
@@ -2576,9 +2576,9 @@
         ]
       },
       "stats": {
-        "learned_count": 64176372365163954550626190995862966593458477983809080232830909698025139324877000409088,
+        "learned_count": 564501341151840981960642286895679719048078726091563043036874388789139884413317603286244518269026304,
         "hit_count": 0,
-        "success_count": 64176372365163954550626190995862966593458477983809080232830909698025139324877000409088,
+        "success_count": 564501341151840981960642286895679719048078726091563043036874388789139884413317603286244518269026304,
         "last_learned_at": "2026-05-04T21:04:50.252914+00:00",
         "last_success_at": "2026-05-04T20:12:56.306395+00:00",
         "failure_count": 0,
@@ -2592,7 +2592,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_div_click",
       "created_at": "2026-05-04T20:15:12.837661+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "045_deleteAlbumTest",
       "source_signatures": [
         {
@@ -2881,9 +2881,9 @@
         ]
       },
       "stats": {
-        "learned_count": 23815376308128440317760071164335719111493923904389527614794167058751392903317965242368,
+        "learned_count": 209482265365186294030883540224930928944145573625990455194480298575662577897875764439521840326508544,
         "hit_count": 0,
-        "success_count": 23815376308128440317760071164335719111493923904389527614794167058751392903317965242368,
+        "success_count": 209482265365186294030883540224930928944145573625990455194480298575662577897875764439521840326508544,
         "last_learned_at": "2026-05-04T21:24:34.212047+00:00",
         "last_success_at": "2026-05-04T21:24:34.212047+00:00",
         "failure_count": 0,
@@ -2897,7 +2897,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_span_click",
       "created_at": "2026-05-04T20:15:12.881572+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "034_createLinkCategoriesTest",
       "source_signatures": [
         {
@@ -2917,7 +2917,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "admidio-new",
@@ -2972,7 +2972,7 @@
           "ad690c99-b31c-4cc3-adad-9e85c4c1b351",
           "type",
           "ann",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "create",
           "lnk"
         ],
@@ -2985,7 +2985,7 @@
           "category",
           "button",
           "click",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "create",
           "textarea",
           "adm_categories_edit_right"
@@ -3014,7 +3014,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "button",
@@ -3058,9 +3058,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3885337785497431604187727336760349933724621439474149509453991242685799441575647903744,
+        "learned_count": 34175792583935041191901400178587405424359457899564883108903598497804099185013699495099260838346752,
         "hit_count": 0,
-        "success_count": 3885337785497431604187727336760349933724621439474149509453991242685799441575647903744,
+        "success_count": 34175792583935041191901400178587405424359457899564883108903598497804099185013699495099260838346752,
         "last_learned_at": "2026-05-04T21:04:50.201838+00:00",
         "last_success_at": "2026-05-04T21:04:50.102309+00:00",
         "failure_count": 0,
@@ -3074,7 +3074,7 @@
     {
       "mapping_id": "admidio_input_input_input_input_family_fileupload_send_keys_str",
       "created_at": "2026-05-04T20:33:31.663368+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "017_uploadFileToFolderTest",
       "source_signatures": [
         {
@@ -3152,7 +3152,7 @@
         "context_terms": [],
         "page_terms": [
           "demo-organisation",
-          "上传文件",
+          "\u4e0a\u4f20\u6587\u4ef6",
           "admidio-new",
           "file_upload",
           "module",
@@ -3168,7 +3168,7 @@
         "expected_terms": [],
         "required_page_terms": [
           "demo-organisation",
-          "上传文件",
+          "\u4e0a\u4f20\u6587\u4ef6",
           "fileupload",
           "input",
           "upload",
@@ -3261,9 +3261,9 @@
         ]
       },
       "stats": {
-        "learned_count": 242892897077905639756989606697264311539121729113666248125264753500375087173026709504,
+        "learned_count": 2136508517130851710833106428265784915411933698265431249627204459777254447393379964219745036664832,
         "hit_count": 0,
-        "success_count": 242892897077905639756989606697264311539121729113666248125264753500375087173026709504,
+        "success_count": 2136508517130851710833106428265784915411933698265431249627204459777254447393379964219745036664832,
         "last_learned_at": "2026-05-04T20:45:02.512665+00:00",
         "last_success_at": "2026-05-04T20:33:31.663368+00:00",
         "failure_count": 0,
@@ -3277,7 +3277,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_cat_default_group_div_label",
       "created_at": "2026-05-04T20:47:39.319589+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "026_createRoleCategoriesTest",
       "source_signatures": [
         {
@@ -3299,7 +3299,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "admidio-new",
@@ -3358,7 +3358,7 @@
           "rol",
           "uuid",
           "b173b705-312a-40a0-9925-9c7c50339cd1",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "lnk"
         ],
         "segment_intent_terms": [],
@@ -3372,7 +3372,7 @@
           "cat_default",
           "click",
           "edit",
-          "网页链接"
+          "\u7f51\u9875\u94fe\u63a5"
         ],
         "forbidden_page_terms": [],
         "source_locators": [
@@ -3398,7 +3398,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "cat_default",
@@ -3442,9 +3442,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3936945168845268871476050156675394810359306098502954182293222829118656748716032,
+        "learned_count": 34629735928495365913224115548521465443084987806358615597743747755018705385850977138461638656,
         "hit_count": 0,
-        "success_count": 3936945168845268871476050156675394810359306098502954182293222829118656748716032,
+        "success_count": 34629735928495365913224115548521465443084987806358615597743747755018705385850977138461638656,
         "last_learned_at": "2026-05-04T21:04:50.227023+00:00",
         "last_success_at": "2026-05-04T20:47:39.319589+00:00",
         "failure_count": 0,
@@ -3458,7 +3458,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_role_type_option_click",
       "created_at": "2026-05-04T20:59:42.601177+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "033_changeRoleTypeFilterTest",
       "source_signatures": [
         {
@@ -3647,9 +3647,9 @@
         ]
       },
       "stats": {
-        "learned_count": 43422033463993573283839119378257965444976244249615211514796594002967423614976,
+        "learned_count": 381944245562716141175333566576758405197150323812363046994276334253946493705625632409387008,
         "hit_count": 0,
-        "success_count": 43422033463993573283839119378257965444976244249615211514796594002967423614976,
+        "success_count": 381944245562716141175333566576758405197150323812363046994276334253946493705625632409387008,
         "last_learned_at": "2026-05-04T20:59:42.625144+00:00",
         "last_success_at": "2026-05-04T20:59:42.625144+00:00",
         "failure_count": 0,
@@ -3661,7 +3661,7 @@
     {
       "mapping_id": "admidio_select_select_select_select_family_select_adm_categories_edit_right_select_by_visible_text",
       "created_at": "2026-05-04T20:59:42.647068+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.939463+00:00",
       "learned_from_case": "034_createLinkCategoriesTest",
       "source_signatures": [
         {
@@ -3721,7 +3721,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "admidio-new",
@@ -3781,7 +3781,7 @@
           "card",
           "cat_uuid",
           "role_type",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "create",
           "category",
           "categories",
@@ -3796,7 +3796,7 @@
           "trace",
           "wait",
           "select",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "create",
           "category",
           "adm_categories_edit_right"
@@ -3826,7 +3826,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "adm_categories_edit_right",
@@ -3870,9 +3870,9 @@
         ]
       },
       "stats": {
-        "learned_count": 7463162001623895408159848643138087810855291980402614479105664594260025933824,
+        "learned_count": 65646667206091836764510456755380350893260211905249898702141244949897053605654405570363392,
         "hit_count": 0,
-        "success_count": 7463162001623895408159848643138087810855291980402614479105664594260025933824,
+        "success_count": 65646667206091836764510456755380350893260211905249898702141244949897053605654405570363392,
         "last_learned_at": "2026-05-04T21:04:50.073363+00:00",
         "last_success_at": "2026-05-04T21:04:50.073363+00:00",
         "failure_count": 0,
@@ -3884,7 +3884,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_adm_categories_edit_right_group_div_span",
       "created_at": "2026-05-04T21:04:50.001246+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940474+00:00",
       "learned_from_case": "034_createLinkCategoriesTest",
       "source_signatures": [
         {
@@ -3907,7 +3907,7 @@
           "context_terms": [],
           "page_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "admidio-new",
@@ -3956,7 +3956,7 @@
         "context_terms": [],
         "page_terms": [
           "demo-organisation",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "create",
           "category",
           "admidio-new",
@@ -3971,7 +3971,7 @@
         "expected_terms": [],
         "required_page_terms": [
           "demo-organisation",
-          "网页链接",
+          "\u7f51\u9875\u94fe\u63a5",
           "create",
           "category",
           "adm_categories_edit_right",
@@ -4001,7 +4001,7 @@
         "page_gate": {
           "required_terms": [
             "demo-organisation",
-            "网页链接",
+            "\u7f51\u9875\u94fe\u63a5",
             "create",
             "category",
             "adm_categories_edit_right",
@@ -4045,9 +4045,9 @@
         ]
       },
       "stats": {
-        "learned_count": 2318103348989240240413286320974709092765658872700812073055547336095917146112,
+        "learned_count": 20390252692801252328370672174019654444118702182691256415059023052619539377513868396855296,
         "hit_count": 0,
-        "success_count": 2318103348989240240413286320974709092765658872700812073055547336095917146112,
+        "success_count": 20390252692801252328370672174019654444118702182691256415059023052619539377513868396855296,
         "last_learned_at": "2026-05-04T21:04:50.171716+00:00",
         "last_success_at": "2026-05-04T21:04:50.001246+00:00",
         "failure_count": 0,
@@ -4061,7 +4061,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_adm_message_table_thead_click",
       "created_at": "2026-05-04T21:13:18.144261+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940474+00:00",
       "learned_from_case": "039_sortMessagesTest",
       "source_signatures": [
         {
@@ -4202,9 +4202,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3312838246459470617968682813892972217176532306641785546478011627423662080,
+        "learned_count": 29140033383385936063791928602352783599636102585782092818777186146083564278078127472640,
         "hit_count": 0,
-        "success_count": 3312838246459470617968682813892972217176532306641785546478011627423662080,
+        "success_count": 29140033383385936063791928602352783599636102585782092818777186146083564278078127472640,
         "last_learned_at": "2026-05-04T21:13:18.215390+00:00",
         "last_success_at": "2026-05-04T21:13:18.215390+00:00",
         "failure_count": 0,
@@ -4216,7 +4216,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_adm_message_table_length_label_select",
       "created_at": "2026-05-04T21:13:18.240480+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "039_sortMessagesTest",
       "source_signatures": [
         {
@@ -4390,9 +4390,9 @@
         ]
       },
       "stats": {
-        "learned_count": 165641912322973530898434140694648610858826615332089277323900581371183104,
+        "learned_count": 1457001669169296803189596430117639179981805129289104640938859307304178213903906373632,
         "hit_count": 0,
-        "success_count": 165641912322973530898434140694648610858826615332089277323900581371183104,
+        "success_count": 1457001669169296803189596430117639179981805129289104640938859307304178213903906373632,
         "last_learned_at": "2026-05-04T21:13:18.261665+00:00",
         "last_success_at": "2026-05-04T21:13:18.261665+00:00",
         "failure_count": 0,
@@ -4404,7 +4404,7 @@
     {
       "mapping_id": "admidio_clear_clear_clear_clear_family_adm_message_table_filter_label_input",
       "created_at": "2026-05-04T21:13:18.284643+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "039_sortMessagesTest",
       "source_signatures": [
         {
@@ -4565,9 +4565,9 @@
         ]
       },
       "stats": {
-        "learned_count": 27606985387162255149739023449108101809804435888681546220650096895197184,
+        "learned_count": 242833611528216133864932738352939863330300854881517440156476551217363035650651062272,
         "hit_count": 0,
-        "success_count": 27606985387162255149739023449108101809804435888681546220650096895197184,
+        "success_count": 242833611528216133864932738352939863330300854881517440156476551217363035650651062272,
         "last_learned_at": "2026-05-04T21:13:18.284643+00:00",
         "last_success_at": "2026-05-04T21:13:18.284643+00:00",
         "failure_count": 0,
@@ -4579,7 +4579,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_btn_yes_click",
       "created_at": "2026-05-04T21:22:22.437297+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "044_deletePhotoTest",
       "source_signatures": [
         {
@@ -4746,9 +4746,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3504793066729583173306711961312551987572828774930274422543469332398080,
+        "learned_count": 30828485838543063869571539048713068586854600717380143769865187166266791635336560640,
         "hit_count": 0,
-        "success_count": 3504793066729583173306711961312551987572828774930274422543469332398080,
+        "success_count": 30828485838543063869571539048713068586854600717380143769865187166266791635336560640,
         "last_learned_at": "2026-05-04T21:24:34.260978+00:00",
         "last_success_at": "2026-05-04T21:22:22.437297+00:00",
         "failure_count": 0,
@@ -4762,7 +4762,7 @@
     {
       "mapping_id": "admidio_click_click_click_click_family_adm_messagebox_button_yes_click",
       "created_at": "2026-05-04T21:22:22.458245+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "044_deletePhotoTest",
       "source_signatures": [
         {
@@ -4910,9 +4910,9 @@
         ]
       },
       "stats": {
-        "learned_count": 2722954613382214619261368523788982698037351586676597820591464635170816,
+        "learned_count": 23951362074560380390974811107077076363633189788118419390433722336868815039761481728,
         "hit_count": 0,
-        "success_count": 2722954613382214619261368523788982698037351586676597820591464635170816,
+        "success_count": 23951362074560380390974811107077076363633189788118419390433722336868815039761481728,
         "last_learned_at": "2026-05-04T21:24:34.288302+00:00",
         "last_success_at": "2026-05-04T21:22:22.458245+00:00",
         "failure_count": 0,
@@ -4926,7 +4926,7 @@
     {
       "mapping_id": "claroline_clear_login_input_clear_family_login_clear",
       "created_at": "2026-05-04T21:29:17.951731+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "001_LoginUser",
       "source_signatures": [
         {
@@ -5083,9 +5083,9 @@
         ]
       },
       "stats": {
-        "learned_count": 16863130703427719520004124182847727975063077151012926439596545277952,
+        "learned_count": 148329666313002046337594431796129209960038850356685562534545165114136719068758016,
         "hit_count": 0,
-        "success_count": 16863130703427719520004124182847727975063077151012926439596545277952,
+        "success_count": 148329666313002046337594431796129209960038850356685562534545165114136719068758016,
         "last_learned_at": "2026-05-04T22:39:12.477934+00:00",
         "last_success_at": "2026-05-04T21:29:17.951731+00:00",
         "failure_count": 0,
@@ -5099,7 +5099,7 @@
     {
       "mapping_id": "claroline_click_click_click_click_family_name_submitauth_click",
       "created_at": "2026-05-04T21:29:17.977948+00:00",
-      "updated_at": "2026-05-05T03:15:19.235417+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "001_LoginUser",
       "source_signatures": [
         {
@@ -5241,9 +5241,9 @@
         ]
       },
       "stats": {
-        "learned_count": 8431565351713859760002062091423863987531538575506463219798272638976,
+        "learned_count": 74164833156501023168797215898064604980019425178342781267272582557068359534379008,
         "hit_count": 0,
-        "success_count": 8431565351713859760002062091423863987531538575506463219798272638976,
+        "success_count": 74164833156501023168797215898064604980019425178342781267272582557068359534379008,
         "last_learned_at": "2026-05-04T22:39:12.506917+00:00",
         "last_success_at": "2026-05-04T21:29:17.977948+00:00",
         "failure_count": 0,
@@ -5257,7 +5257,7 @@
     {
       "mapping_id": "claroline_click_click_click_click_family_link_text_ajouter_utilisateur",
       "created_at": "2026-05-04T21:57:52.082195+00:00",
-      "updated_at": "2026-05-05T03:15:19.236924+00:00",
+      "updated_at": "2026-05-05T10:19:44.940982+00:00",
       "learned_from_case": "007_AddTwiceUser",
       "source_signatures": [
         {
@@ -5495,9 +5495,9 @@
         ]
       },
       "stats": {
-        "learned_count": 1348696672794393502301266616253568407646474883869922895497103671296,
+        "learned_count": 11863261392641910834255546073468228309279551397696955912605052786560724860141568,
         "hit_count": 0,
-        "success_count": 1348696672794393502301266616253568407646474883869922895497103671296,
+        "success_count": 11863261392641910834255546073468228309279551397696955912605052786560724860141568,
         "last_learned_at": "2026-05-04T22:39:12.632265+00:00",
         "last_success_at": "2026-05-04T22:39:12.579977+00:00",
         "failure_count": 0,
@@ -5511,7 +5511,7 @@
     {
       "mapping_id": "claroline_click_click_click_click_family_css_selector_form_fieldset",
       "created_at": "2026-05-04T21:57:52.157403+00:00",
-      "updated_at": "2026-05-05T03:15:19.236924+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "006_AddEmptyUser",
       "source_signatures": [
         {
@@ -5668,9 +5668,9 @@
         ]
       },
       "stats": {
-        "learned_count": 105312291668557186697918027683670432318895095400549111254310977536,
+        "learned_count": 926336713898529563388567880069503262826159877325124512315660672063305037119488,
         "hit_count": 0,
-        "success_count": 105312291668557186697918027683670432318895095400549111254310977536,
+        "success_count": 926336713898529563388567880069503262826159877325124512315660672063305037119488,
         "last_learned_at": "2026-05-04T21:57:52.157403+00:00",
         "last_success_at": "2026-05-04T21:57:52.157403+00:00",
         "failure_count": 0,
@@ -5682,7 +5682,7 @@
     {
       "mapping_id": "claroline_clear_clear_clear_clear_family_lastname_clear",
       "created_at": "2026-05-04T22:39:12.606381+00:00",
-      "updated_at": "2026-05-05T03:15:19.236924+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "007_AddTwiceUser",
       "source_signatures": [
         {
@@ -5995,9 +5995,9 @@
         ]
       },
       "stats": {
-        "learned_count": 462798156746589199356085082594254829526394462209444336566796288,
+        "learned_count": 4070815637249397495359917441711684260466522898401426079512180687778195963904,
         "hit_count": 0,
-        "success_count": 462798156746589199356085082594254829526394462209444336566796288,
+        "success_count": 4070815637249397495359917441711684260466522898401426079512180687778195963904,
         "last_learned_at": "2026-05-04T22:39:12.690017+00:00",
         "last_success_at": "2026-05-04T22:39:12.606381+00:00",
         "failure_count": 0,
@@ -6011,7 +6011,7 @@
     {
       "mapping_id": "claroline_clear_clear_clear_clear_family_name_lastname_clear",
       "created_at": "2026-05-04T22:39:12.663197+00:00",
-      "updated_at": "2026-05-05T03:15:19.236924+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "007_AddTwiceUser",
       "source_signatures": [
         {
@@ -6199,9 +6199,9 @@
         ]
       },
       "stats": {
-        "learned_count": 102844034832575377634685573909834406561420991602098741459288064,
+        "learned_count": 904625697166532776746648320380374280103671755200316906558262375061821325312,
         "hit_count": 0,
-        "success_count": 102844034832575377634685573909834406561420991602098741459288064,
+        "success_count": 904625697166532776746648320380374280103671755200316906558262375061821325312,
         "last_learned_at": "2026-05-04T22:39:12.663197+00:00",
         "last_success_at": "2026-05-04T22:39:12.663197+00:00",
         "failure_count": 0,
@@ -6213,7 +6213,7 @@
     {
       "mapping_id": "claroline_click_click_click_click_family_assert_this_user",
       "created_at": "2026-05-04T22:39:12.720288+00:00",
-      "updated_at": "2026-05-05T03:15:19.236924+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "007_AddTwiceUser",
       "source_signatures": [
         {
@@ -6392,9 +6392,9 @@
         ]
       },
       "stats": {
-        "learned_count": 25711008708143844408671393477458601640355247900524685364822016,
+        "learned_count": 226156424291633194186662080095093570025917938800079226639565593765455331328,
         "hit_count": 0,
-        "success_count": 25711008708143844408671393477458601640355247900524685364822016,
+        "success_count": 226156424291633194186662080095093570025917938800079226639565593765455331328,
         "last_learned_at": "2026-05-04T22:39:12.720288+00:00",
         "last_success_at": "2026-05-04T22:39:12.720288+00:00",
         "failure_count": 0,
@@ -6406,7 +6406,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_div_table_tbody",
       "created_at": "2026-05-04T23:59:51.331858+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "027_deleteFileTest",
       "source_signatures": [
         {
@@ -6652,9 +6652,9 @@
         ]
       },
       "stats": {
-        "learned_count": 20151078585642564208118400393732360933588412302423457408221184,
+        "learned_count": 177250761737135612763030870808399899825418769947592317156472641155888054272,
         "hit_count": 0,
-        "success_count": 20151078585642564208118400393732360933588412302423457408221184,
+        "success_count": 177250761737135612763030870808399899825418769947592317156472641155888054272,
         "last_learned_at": "2026-05-05T02:16:27.132818+00:00",
         "last_success_at": "2026-05-05T01:36:01.844783+00:00",
         "failure_count": 0,
@@ -6668,7 +6668,7 @@
     {
       "mapping_id": "collabtive_input_input_input_input_family_avatar_send_keys_str",
       "created_at": "2026-05-05T00:43:48.440192+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "007_editUserTest",
       "source_signatures": [
         {
@@ -6829,9 +6829,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3213876088517980551083924184682325205044405987565585670602752,
+        "learned_count": 28269553036454149273332760011886696253239742350009903329945699220681916416,
         "hit_count": 0,
-        "success_count": 3213876088517980551083924184682325205044405987565585670602752,
+        "success_count": 28269553036454149273332760011886696253239742350009903329945699220681916416,
         "last_learned_at": "2026-05-05T00:43:48.440192+00:00",
         "last_success_at": "2026-05-05T00:43:48.440192+00:00",
         "failure_count": 0,
@@ -6843,7 +6843,7 @@
     {
       "mapping_id": "collabtive_clear_clear_clear_clear_family_name_clear",
       "created_at": "2026-05-05T00:45:13.930210+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "008_addProjectTest",
       "source_signatures": [
         {
@@ -7024,9 +7024,9 @@
         ]
       },
       "stats": {
-        "learned_count": 1606938044258990275541962092341162602522202993782792835301376,
+        "learned_count": 14134776518227074636666380005943348126619871175004951664972849610340958208,
         "hit_count": 0,
-        "success_count": 1606938044258990275541962092341162602522202993782792835301376,
+        "success_count": 14134776518227074636666380005943348126619871175004951664972849610340958208,
         "last_learned_at": "2026-05-05T00:45:13.930210+00:00",
         "last_success_at": "2026-05-05T00:45:13.930210+00:00",
         "failure_count": 0,
@@ -7038,7 +7038,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_table_span_click",
       "created_at": "2026-05-05T00:49:15.326029+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.941993+00:00",
       "learned_from_case": "024_addUserFromProjectTest",
       "source_signatures": [
         {
@@ -7231,9 +7231,9 @@
         ]
       },
       "stats": {
-        "learned_count": 401734702626690177121597817878669044419198700788088481775616,
+        "learned_count": 3533695814553435356081582168174279970381884896072764325028992471560880128,
         "hit_count": 0,
-        "success_count": 401734702626690177121597817878669044419198700788088481775616,
+        "success_count": 3533695814553435356081582168174279970381884896072764325028992471560880128,
         "last_learned_at": "2026-05-05T01:30:46.576420+00:00",
         "last_success_at": "2026-05-05T01:30:46.576420+00:00",
         "failure_count": 0,
@@ -7245,7 +7245,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_changeallduedates_click",
       "created_at": "2026-05-05T00:49:15.359182+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "009_editProjectTest",
       "source_signatures": [
         {
@@ -7390,9 +7390,9 @@
         ]
       },
       "stats": {
-        "learned_count": 200867255532373784442745261542645325315275374222849104412672,
+        "learned_count": 1766847064778384329583297500742918515827483896875618958121606201292619776,
         "hit_count": 0,
-        "success_count": 200867255532373784442745261542645325315275374222849104412672,
+        "success_count": 1766847064778384329583297500742918515827483896875618958121606201292619776,
         "last_learned_at": "2026-05-05T00:49:15.359182+00:00",
         "last_success_at": "2026-05-05T00:49:15.359182+00:00",
         "failure_count": 0,
@@ -7404,7 +7404,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_form_addmyproject_div_form",
       "created_at": "2026-05-05T00:49:15.387332+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "009_editProjectTest",
       "source_signatures": [
         {
@@ -7563,9 +7563,9 @@
         ]
       },
       "stats": {
-        "learned_count": 100433627766186892221372630771322662657637687111424552206336,
+        "learned_count": 883423532389192164791648750371459257913741948437809479060803100646309888,
         "hit_count": 0,
-        "success_count": 100433627766186892221372630771322662657637687111424552206336,
+        "success_count": 883423532389192164791648750371459257913741948437809479060803100646309888,
         "last_learned_at": "2026-05-05T00:49:15.387332+00:00",
         "last_success_at": "2026-05-05T00:49:15.387332+00:00",
         "failure_count": 0,
@@ -7577,7 +7577,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_link_text_close_click",
       "created_at": "2026-05-05T01:18:09.268847+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "036_closeMilestoneTest",
       "source_signatures": [
         {
@@ -7764,9 +7764,9 @@
         ]
       },
       "stats": {
-        "learned_count": 32374022560501689679921822178553380928669251702280186494976,
+        "learned_count": 284764913945233282105354105023721971054314587877551574271391310448427008,
         "hit_count": 0,
-        "success_count": 32374022560501689679921822178553380928669251702280186494976,
+        "success_count": 284764913945233282105354105023721971054314587877551574271391310448427008,
         "last_learned_at": "2026-05-05T02:16:27.349020+00:00",
         "last_success_at": "2026-05-05T02:16:27.321008+00:00",
         "failure_count": 0,
@@ -7780,7 +7780,7 @@
     {
       "mapping_id": "collabtive_input_input_input_input_family_filer_send_keys_str",
       "created_at": "2026-05-05T01:19:41.835670+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "020_addFileTest",
       "source_signatures": [
         {
@@ -7957,9 +7957,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3138550867693340381917894711603833208051177722232017256448,
+        "learned_count": 27606985387162255149739023449108101809804435888681546220650096895197184,
         "hit_count": 0,
-        "success_count": 3138550867693340381917894711603833208051177722232017256448,
+        "success_count": 27606985387162255149739023449108101809804435888681546220650096895197184,
         "last_learned_at": "2026-05-05T01:19:41.835670+00:00",
         "last_success_at": "2026-05-05T01:19:41.835670+00:00",
         "failure_count": 0,
@@ -7971,7 +7971,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_contains_href_showproject",
       "created_at": "2026-05-05T01:23:29.459829+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "021_addMsgTest",
       "source_signatures": [
         {
@@ -8138,9 +8138,9 @@
         ]
       },
       "stats": {
-        "learned_count": 395383849543399325456453533004779769373634693523369361408,
+        "learned_count": 3477833120062432533512044946225532356899191630507733850062365722148864,
         "hit_count": 0,
-        "success_count": 395383849543399325456453533004779769373634693523369361408,
+        "success_count": 3477833120062432533512044946225532356899191630507733850062365722148864,
         "last_learned_at": "2026-05-05T01:28:03.800620+00:00",
         "last_success_at": "2026-05-05T01:23:29.459829+00:00",
         "failure_count": 0,
@@ -8154,7 +8154,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_milestone_option_click",
       "created_at": "2026-05-05T01:23:29.530161+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "021_addMsgTest",
       "source_signatures": [
         {
@@ -8301,9 +8301,9 @@
         ]
       },
       "stats": {
-        "learned_count": 122599643269271108668667762172024734689499129774688174080,
+        "learned_count": 1078397866686025591786680603480785226945485776901622899244144409968640,
         "hit_count": 0,
-        "success_count": 122599643269271108668667762172024734689499129774688174080,
+        "success_count": 1078397866686025591786680603480785226945485776901622899244144409968640,
         "last_learned_at": "2026-05-05T01:23:29.587975+00:00",
         "last_success_at": "2026-05-05T01:23:29.530161+00:00",
         "failure_count": 0,
@@ -8317,7 +8317,7 @@
     {
       "mapping_id": "collabtive_select_select_select_select_family_select_milestone_select_by_visible_text",
       "created_at": "2026-05-05T01:23:29.559102+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "021_addMsgTest",
       "source_signatures": [
         {
@@ -8484,9 +8484,9 @@
         ]
       },
       "stats": {
-        "learned_count": 49039857307708443467467104868809893875799651909875269632,
+        "learned_count": 431359146674410236714672241392314090778194310760649159697657763987456,
         "hit_count": 0,
-        "success_count": 49039857307708443467467104868809893875799651909875269632,
+        "success_count": 431359146674410236714672241392314090778194310760649159697657763987456,
         "last_learned_at": "2026-05-05T01:23:29.559102+00:00",
         "last_success_at": "2026-05-05T01:23:29.559102+00:00",
         "failure_count": 0,
@@ -8498,7 +8498,7 @@
     {
       "mapping_id": "collabtive_hover_hover_hover_hover_family_actionchains_move_to_element_link_text",
       "created_at": "2026-05-05T01:28:03.854450+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.943434+00:00",
       "learned_from_case": "028_deleteFileFolderTest",
       "source_signatures": [
         {
@@ -8725,9 +8725,9 @@
         ]
       },
       "stats": {
-        "learned_count": 770737503462824962943895233381259013245752585863823360,
+        "learned_count": 6779478776163368893678473032136284080528871766410349036996269178880,
         "hit_count": 0,
-        "success_count": 770737503462824962943895233381259013245752585863823360,
+        "success_count": 6779478776163368893678473032136284080528871766410349036996269178880,
         "last_learned_at": "2026-05-05T01:39:12.560556+00:00",
         "last_success_at": "2026-05-05T01:39:12.560556+00:00",
         "failure_count": 0,
@@ -8739,7 +8739,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_proj_1_click",
       "created_at": "2026-05-05T01:39:12.427097+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "039_closeProjectTest",
       "source_signatures": [
         {
@@ -8954,9 +8954,9 @@
         ]
       },
       "stats": {
-        "learned_count": 35919325740681601020691962133668087774083854108721152,
+        "learned_count": 315949730510025632015958418747750026257505463825597596105615343616,
         "hit_count": 0,
-        "success_count": 35919325740681601020691962133668087774083854108721152,
+        "success_count": 315949730510025632015958418747750026257505463825597596105615343616,
         "last_learned_at": "2026-05-05T02:25:41.766624+00:00",
         "last_success_at": "2026-05-05T02:25:41.766624+00:00",
         "failure_count": 0,
@@ -8970,7 +8970,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_miles_1_click",
       "created_at": "2026-05-05T02:16:27.193166+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "036_closeMilestoneTest",
       "source_signatures": [
         {
@@ -9132,9 +9132,9 @@
         ]
       },
       "stats": {
-        "learned_count": 362452406058063923714513838513638188874671270658048,
+        "learned_count": 3188165079809836706675252791204866603404050739665060985237929984,
         "hit_count": 0,
-        "success_count": 362452406058063923714513838513638188874671270658048,
+        "success_count": 3188165079809836706675252791204866603404050739665060985237929984,
         "last_learned_at": "2026-05-05T02:16:27.296688+00:00",
         "last_success_at": "2026-05-05T02:16:27.242318+00:00",
         "failure_count": 0,
@@ -9148,7 +9148,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_donebutn_click",
       "created_at": "2026-05-05T02:28:00.174039+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "040_openProjectTest",
       "source_signatures": [
         {
@@ -9293,9 +9293,9 @@
         ]
       },
       "stats": {
-        "learned_count": 1096126227998177188652763624537212264741949407232,
+        "learned_count": 9641628265553941653251772554046975615133217962696757011808256,
         "hit_count": 0,
-        "success_count": 1096126227998177188652763624537212264741949407232,
+        "success_count": 9641628265553941653251772554046975615133217962696757011808256,
         "last_learned_at": "2026-05-05T02:28:00.214321+00:00",
         "last_success_at": "2026-05-05T02:28:00.214321+00:00",
         "failure_count": 0,
@@ -9307,7 +9307,7 @@
     {
       "mapping_id": "collabtive_click_click_click_click_family_confirm_target_div_table",
       "created_at": "2026-05-05T02:39:38.414700+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "043_deleteRoleTest",
       "source_signatures": [
         {
@@ -9456,9 +9456,9 @@
         ]
       },
       "stats": {
-        "learned_count": 182687704666362864775460604089535377456991567872,
+        "learned_count": 1606938044258990275541962092341162602522202993782792835301376,
         "hit_count": 0,
-        "success_count": 182687704666362864775460604089535377456991567872,
+        "success_count": 1606938044258990275541962092341162602522202993782792835301376,
         "last_learned_at": "2026-05-05T02:39:38.414700+00:00",
         "last_success_at": "2026-05-05T02:39:38.414700+00:00",
         "failure_count": 0,
@@ -9470,7 +9470,7 @@
     {
       "mapping_id": "collabtive_execute_script_execute_script_execute_script_execute_script_family_execute_script_window_confirm",
       "created_at": "2026-05-05T02:39:38.432377+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "043_deleteRoleTest",
       "source_signatures": [
         {
@@ -9629,9 +9629,9 @@
         ]
       },
       "stats": {
-        "learned_count": 91343852333181432387730302044767688728495783936,
+        "learned_count": 803469022129495137770981046170581301261101496891396417650688,
         "hit_count": 0,
-        "success_count": 91343852333181432387730302044767688728495783936,
+        "success_count": 803469022129495137770981046170581301261101496891396417650688,
         "last_learned_at": "2026-05-05T02:39:38.432377+00:00",
         "last_success_at": "2026-05-05T02:39:38.432377+00:00",
         "failure_count": 0,
@@ -9643,7 +9643,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_main_container_div_form",
       "created_at": "2026-05-05T02:43:11.267525+00:00",
-      "updated_at": "2026-05-05T03:15:19.237446+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "039_deleteAccountTest",
       "source_signatures": [
         {
@@ -9697,7 +9697,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "mantis-new",
             "view_all_bug_page"
@@ -9774,11 +9774,11 @@
         ],
         "context_terms": [],
         "page_terms": [
-          "我的视图",
+          "\u6211\u7684\u89c6\u56fe",
           "mantisbt",
           "mantis-new",
           "my_view_page",
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "view_all_bug_page",
           "summary_page"
         ],
@@ -9786,10 +9786,10 @@
         "action_chain_terms": [],
         "expected_terms": [],
         "required_page_terms": [
-          "我的视图",
+          "\u6211\u7684\u89c6\u56fe",
           "mantisbt",
           "click",
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "filter-toggle",
           "btn-scroll-up"
         ],
@@ -9860,9 +9860,9 @@
         ]
       },
       "stats": {
-        "learned_count": 57204199027380864685931809334127128308028014592,
+        "learned_count": 503173455905742484197946229506423916112642328421275204059136,
         "hit_count": 0,
-        "success_count": 57204199027380864685931809334127128308028014592,
+        "success_count": 503173455905742484197946229506423916112642328421275204059136,
         "last_learned_at": "2026-05-05T03:00:27.950478+00:00",
         "last_success_at": "2026-05-05T03:00:27.950478+00:00",
         "failure_count": 0,
@@ -9874,7 +9874,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_buglist_tbody_click",
       "created_at": "2026-05-05T02:58:20.824535+00:00",
-      "updated_at": "2026-05-05T03:15:19.238969+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "026_addSubProblemTest",
       "source_signatures": [
         {
@@ -9894,7 +9894,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "mantis-new",
             "view_all_bug_page"
@@ -9935,7 +9935,7 @@
         ],
         "context_terms": [],
         "page_terms": [
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "mantisbt",
           "mantis-new",
           "view_all_bug_page"
@@ -9944,7 +9944,7 @@
         "action_chain_terms": [],
         "expected_terms": [],
         "required_page_terms": [
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "mantisbt",
           "filter-toggle",
           "click"
@@ -9971,7 +9971,7 @@
         "outcome_contract": "script continues",
         "page_gate": {
           "required_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "filter-toggle",
             "click"
@@ -10012,9 +10012,9 @@
         ]
       },
       "stats": {
-        "learned_count": 23014369044883603082064861257373109074171789312,
+        "learned_count": 202436530966220454633704208898447241919300963083965113040896,
         "hit_count": 0,
-        "success_count": 23014369044883603082064861257373109074171789312,
+        "success_count": 202436530966220454633704208898447241919300963083965113040896,
         "last_learned_at": "2026-05-05T02:59:32.740748+00:00",
         "last_success_at": "2026-05-05T02:58:20.824535+00:00",
         "failure_count": 0,
@@ -10028,7 +10028,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_report_bug_form_div_input",
       "created_at": "2026-05-05T02:58:20.891929+00:00",
-      "updated_at": "2026-05-05T03:15:19.238969+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "026_addSubProblemTest",
       "source_signatures": [
         {
@@ -10052,7 +10052,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "mantis-new",
             "view_all_bug_page"
@@ -10085,7 +10085,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "mantis-new",
             "view_all_bug_page"
@@ -10116,7 +10116,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "mantis-new",
             "view_all_bug_page"
@@ -10163,7 +10163,7 @@
         ],
         "context_terms": [],
         "page_terms": [
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "mantisbt",
           "mantis-new",
           "view_all_bug_page"
@@ -10172,7 +10172,7 @@
         "action_chain_terms": [],
         "expected_terms": [],
         "required_page_terms": [
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "mantisbt",
           "filter-toggle",
           "click"
@@ -10203,7 +10203,7 @@
         "outcome_contract": "script continues",
         "page_gate": {
           "required_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "filter-toggle",
             "click"
@@ -10244,9 +10244,9 @@
         ]
       },
       "stats": {
-        "learned_count": 10704357695294699107937144770871213522870599680,
+        "learned_count": 94156526030800211457536841348114996241535331666960517693440,
         "hit_count": 0,
-        "success_count": 10704357695294699107937144770871213522870599680,
+        "success_count": 94156526030800211457536841348114996241535331666960517693440,
         "last_learned_at": "2026-05-05T02:58:20.979593+00:00",
         "last_success_at": "2026-05-05T02:58:20.979593+00:00",
         "failure_count": 0,
@@ -10258,7 +10258,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_mail_config_action_div_table",
       "created_at": "2026-05-05T02:59:05.786797+00:00",
-      "updated_at": "2026-05-05T03:15:19.238969+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "030_changeEmailAlertSetingTest",
       "source_signatures": [
         {
@@ -10281,7 +10281,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "邮件提醒",
+            "\u90ae\u4ef6\u63d0\u9192",
             "mantisbt",
             "mantis-new",
             "manage_config_email_page"
@@ -10325,7 +10325,7 @@
         ],
         "context_terms": [],
         "page_terms": [
-          "邮件提醒",
+          "\u90ae\u4ef6\u63d0\u9192",
           "mantisbt",
           "mantis-new",
           "manage_config_email_page"
@@ -10334,7 +10334,7 @@
         "action_chain_terms": [],
         "expected_terms": [],
         "required_page_terms": [
-          "邮件提醒",
+          "\u90ae\u4ef6\u63d0\u9192",
           "mantisbt",
           "bug_id",
           "click"
@@ -10362,7 +10362,7 @@
         "outcome_contract": "script continues",
         "page_gate": {
           "required_terms": [
-            "邮件提醒",
+            "\u90ae\u4ef6\u63d0\u9192",
             "mantisbt",
             "bug_id",
             "click"
@@ -10403,9 +10403,9 @@
         ]
       },
       "stats": {
-        "learned_count": 356811923176489970264571492362373784095686656,
+        "learned_count": 3138550867693340381917894711603833208051177722232017256448,
         "hit_count": 0,
-        "success_count": 356811923176489970264571492362373784095686656,
+        "success_count": 3138550867693340381917894711603833208051177722232017256448,
         "last_learned_at": "2026-05-05T02:59:05.786797+00:00",
         "last_success_at": "2026-05-05T02:59:05.786797+00:00",
         "failure_count": 0,
@@ -10417,7 +10417,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_action_group_div_form_div",
       "created_at": "2026-05-05T02:59:32.805246+00:00",
-      "updated_at": "2026-05-05T03:15:19.238969+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "033_deleteProblemTest",
       "source_signatures": [
         {
@@ -10439,7 +10439,7 @@
           ],
           "context_terms": [],
           "page_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "mantis-new",
             "view_all_bug_page"
@@ -10482,7 +10482,7 @@
         ],
         "context_terms": [],
         "page_terms": [
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "mantisbt",
           "mantis-new",
           "view_all_bug_page"
@@ -10491,7 +10491,7 @@
         "action_chain_terms": [],
         "expected_terms": [],
         "required_page_terms": [
-          "查看问题",
+          "\u67e5\u770b\u95ee\u9898",
           "mantisbt",
           "filter-toggle",
           "click"
@@ -10519,7 +10519,7 @@
         "outcome_contract": "script continues",
         "page_gate": {
           "required_terms": [
-            "查看问题",
+            "\u67e5\u770b\u95ee\u9898",
             "mantisbt",
             "filter-toggle",
             "click"
@@ -10560,9 +10560,9 @@
         ]
       },
       "stats": {
-        "learned_count": 44601490397061246283071436545296723011960832,
+        "learned_count": 392318858461667547739736838950479151006397215279002157056,
         "hit_count": 0,
-        "success_count": 44601490397061246283071436545296723011960832,
+        "success_count": 392318858461667547739736838950479151006397215279002157056,
         "last_learned_at": "2026-05-05T02:59:32.805246+00:00",
         "last_success_at": "2026-05-05T02:59:32.805246+00:00",
         "failure_count": 0,
@@ -10574,7 +10574,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_div_table_tbody",
       "created_at": "2026-05-05T03:00:27.886419+00:00",
-      "updated_at": "2026-05-05T03:15:19.238969+00:00",
+      "updated_at": "2026-05-05T10:19:44.944443+00:00",
       "learned_from_case": "039_deleteAccountTest",
       "source_signatures": [
         {
@@ -10711,9 +10711,9 @@
         ]
       },
       "stats": {
-        "learned_count": 11150372599265311570767859136324180752990208,
+        "learned_count": 98079714615416886934934209737619787751599303819750539264,
         "hit_count": 0,
-        "success_count": 11150372599265311570767859136324180752990208,
+        "success_count": 98079714615416886934934209737619787751599303819750539264,
         "last_learned_at": "2026-05-05T03:00:27.886419+00:00",
         "last_success_at": "2026-05-05T03:00:27.886419+00:00",
         "failure_count": 0,
@@ -10725,7 +10725,7 @@
     {
       "mapping_id": "mantisbt_click_click_click_click_family_manage_user_delete_form_fieldset_span",
       "created_at": "2026-05-05T03:00:27.917602+00:00",
-      "updated_at": "2026-05-05T03:15:19.238969+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
       "learned_from_case": "039_deleteAccountTest",
       "source_signatures": [
         {
@@ -10864,9 +10864,9 @@
         ]
       },
       "stats": {
-        "learned_count": 5575186299632655785383929568162090376495104,
+        "learned_count": 49039857307708443467467104868809893875799651909875269632,
         "hit_count": 0,
-        "success_count": 5575186299632655785383929568162090376495104,
+        "success_count": 49039857307708443467467104868809893875799651909875269632,
         "last_learned_at": "2026-05-05T03:00:27.917602+00:00",
         "last_success_at": "2026-05-05T03:00:27.917602+00:00",
         "failure_count": 0,
@@ -10878,7 +10878,7 @@
     {
       "mapping_id": "phpmyadmin_click_click_click_click_family_assert_css_selector_notice",
       "created_at": "2026-05-05T03:10:27.983296+00:00",
-      "updated_at": "2026-05-05T03:15:19.241165+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
       "learned_from_case": "016_ParseSQL",
       "source_signatures": [
         {
@@ -11085,9 +11085,9 @@
         ]
       },
       "stats": {
-        "learned_count": 3,
+        "learned_count": 26388279066624,
         "hit_count": 0,
-        "success_count": 3,
+        "success_count": 26388279066624,
         "last_learned_at": "2026-05-05T03:15:19.211188+00:00",
         "last_success_at": "2026-05-05T03:15:19.211188+00:00",
         "failure_count": 0,
@@ -11095,6 +11095,1311 @@
         "last_failure_at": ""
       },
       "merge_reasons": []
+    },
+    {
+      "mapping_id": "mrbs_clear_clear_clear_clear_family_area_name_clear",
+      "created_at": "2026-05-05T09:29:34.078828+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "002_addAreaTest",
+      "source_signatures": [
+        {
+          "source_key": "source_39507071f9bd",
+          "intent_key": "mrbs.clear.clear_clear.area_name.clear",
+          "learned_from_case": "002_addAreaTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '//*[@id=\"area_name\"]').clear()",
+          "locator_hint": "xpath=//*[@id=\"area_name\"]",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "area_name",
+            "clear"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "admin"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T09:29:34.077823+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.clear.clear_clear.area_name.clear",
+        "intent_keys": [
+          "mrbs.clear.clear_clear.area_name.clear"
+        ],
+        "business_goal": "clear",
+        "business_action": "clear_clear",
+        "action_type": "clear",
+        "action_family": "clear_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=//*[@id=\"area_name\"]",
+        "locator_hint": "xpath=//*[@id=\"area_name\"]",
+        "source_terms": [
+          "area_name",
+          "clear"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "admin"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "input",
+          "add",
+          "area"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=//*[@id=\"area_name\"]"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for clear intention 'click'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "clear_family",
+        "business_cues": [
+          "area_name",
+          "clear"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "input",
+            "add",
+            "area"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "//input[@value=\"Add Area\"]",
+          "selector_type": "xpath",
+          "action_type": "click",
+          "value": "test area",
+          "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')"
+        },
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "//input[@value=\"Add Area\"]",
+            "selector_type": "xpath",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "clear",
+            "selector": "area_name",
+            "selector_type": "id",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "area_name",
+            "selector_type": "id",
+            "value": "test area",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for clear intention 'click'.",
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "//input[@value=\"Add Area\"]",
+            "selector_type": "xpath",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "clear",
+            "selector": "area_name",
+            "selector_type": "id",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "area_name",
+            "selector_type": "id",
+            "value": "test area",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()\ndriver.find_element(By.ID, 'area_name').clear()\nelement = driver.find_element(By.ID, 'area_name')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test area')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 8192,
+        "hit_count": 0,
+        "success_count": 8192,
+        "last_learned_at": "2026-05-05T09:29:34.078828+00:00",
+        "last_success_at": "2026-05-05T09:29:34.078828+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": []
+    },
+    {
+      "mapping_id": "mrbs_click_click_click_click_family_add_area_fieldset_div",
+      "created_at": "2026-05-05T09:29:34.106060+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "002_addAreaTest",
+      "source_signatures": [
+        {
+          "source_key": "source_056c5ef84be5",
+          "intent_key": "mrbs.click.click_click.add_area.click",
+          "learned_from_case": "002_addAreaTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '//*[@id=\"add_area\"]/fieldset/div[2]/input').click()",
+          "locator_hint": "xpath=//*[@id=\"add_area\"]/fieldset/div[2]/input",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "add_area",
+            "fieldset",
+            "div",
+            "input",
+            "click"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "admin"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T09:29:34.105089+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.click.click_click.add_area.click",
+        "intent_keys": [
+          "mrbs.click.click_click.add_area.click"
+        ],
+        "business_goal": "click",
+        "business_action": "click_click",
+        "action_type": "click",
+        "action_family": "click_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=//*[@id=\"add_area\"]/fieldset/div[2]/input",
+        "locator_hint": "xpath=//*[@id=\"add_area\"]/fieldset/div[2]/input",
+        "source_terms": [
+          "add_area",
+          "fieldset",
+          "div",
+          "input",
+          "click"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "admin"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "input",
+          "add",
+          "area"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=//*[@id=\"add_area\"]/fieldset/div[2]/input"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "click_family",
+        "business_cues": [
+          "add_area",
+          "fieldset",
+          "div",
+          "input"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "input",
+            "add",
+            "area"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "//input[@value=\"Add Area\"]",
+          "selector_type": "xpath",
+          "action_type": "click",
+          "value": "",
+          "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()"
+        },
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "//input[@value=\"Add Area\"]",
+            "selector_type": "xpath",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 26.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "//input[@value=\"Add Area\"]",
+            "selector_type": "xpath",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add Area\"]').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 26.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 4096,
+        "hit_count": 0,
+        "success_count": 4096,
+        "last_learned_at": "2026-05-05T09:29:34.107223+00:00",
+        "last_success_at": "2026-05-05T09:29:34.107223+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": []
+    },
+    {
+      "mapping_id": "mrbs_click_click_click_click_family_header_nav_click",
+      "created_at": "2026-05-05T09:32:27.797863+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "012_addUserTest",
+      "source_signatures": [
+        {
+          "source_key": "source_39de9fe7ffbf",
+          "intent_key": "mrbs.click.click_click.header.click",
+          "learned_from_case": "030_searchRoomTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '/html/body/header/nav/nav[1]/nav[1]/a[4]').click()",
+          "locator_hint": "xpath=/html/body/header/nav/nav[1]/nav[1]/a[4]",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "header",
+            "nav",
+            "click"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "admin"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T09:32:27.796826+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.click.click_click.header.click",
+        "intent_keys": [
+          "mrbs.click.click_click.header.click"
+        ],
+        "business_goal": "click",
+        "business_action": "click_click",
+        "action_type": "click",
+        "action_family": "click_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=/html/body/header/nav/nav[1]/nav[1]/a[4]",
+        "locator_hint": "xpath=/html/body/header/nav/nav[1]/nav[1]/a[4]",
+        "source_terms": [
+          "header",
+          "nav",
+          "click"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "admin"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "rooms",
+          "click",
+          "users"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=/html/body/header/nav/nav[1]/nav[1]/a[4]",
+          "xpath=/html/body/header/nav/nav[1]/nav[1]/a[5]"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "click_family",
+        "business_cues": [
+          "header",
+          "nav",
+          "click"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "users",
+            "click"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "Users",
+          "selector_type": "link_text",
+          "action_type": "click",
+          "value": "",
+          "patch_statement": "driver.find_element(By.LINK_TEXT, 'Users').click()"
+        },
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "Users",
+            "selector_type": "link_text",
+            "value": "",
+            "patch_statement": "driver.find_element(By.LINK_TEXT, 'Users').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "Users",
+            "selector_type": "link_text",
+            "value": "",
+            "patch_statement": "driver.find_element(By.LINK_TEXT, 'Users').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 20.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 3236,
+        "hit_count": 0,
+        "success_count": 3236,
+        "last_learned_at": "2026-05-05T10:19:44.791866+00:00",
+        "last_success_at": "2026-05-05T09:46:20.363949+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": [
+        "same_locator"
+      ]
+    },
+    {
+      "mapping_id": "mrbs_click_click_click_click_family_add_new_user_input_click",
+      "created_at": "2026-05-05T09:46:20.402049+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "012_addUserTest",
+      "source_signatures": [
+        {
+          "source_key": "source_d2e87e05d0ed",
+          "intent_key": "mrbs.click.click_click.add_new_user.click",
+          "learned_from_case": "012_addUserTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '//*[@id=\"add_new_user\"]/input[3]').click()",
+          "locator_hint": "xpath=//*[@id=\"add_new_user\"]/input[3]",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "add_new_user",
+            "input",
+            "click"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "edit_users",
+            "view",
+            "day",
+            "page_date"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T09:46:20.402049+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.click.click_click.add_new_user.click",
+        "intent_keys": [
+          "mrbs.click.click_click.add_new_user.click"
+        ],
+        "business_goal": "click",
+        "business_action": "click_click",
+        "action_type": "click",
+        "action_family": "click_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=//*[@id=\"add_new_user\"]/input[3]",
+        "locator_hint": "xpath=//*[@id=\"add_new_user\"]/input[3]",
+        "source_terms": [
+          "add_new_user",
+          "input",
+          "click"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "edit_users",
+          "view",
+          "day",
+          "page_date"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "input",
+          "add",
+          "user"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=//*[@id=\"add_new_user\"]/input[3]"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "click_family",
+        "business_cues": [
+          "add_new_user",
+          "input",
+          "click"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "input",
+            "add",
+            "user"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "//input[@value=\"Add a new user\"]",
+          "selector_type": "xpath",
+          "action_type": "click",
+          "value": "",
+          "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add a new user\"]').click()"
+        },
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "//input[@value=\"Add a new user\"]",
+            "selector_type": "xpath",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add a new user\"]').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 22.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "//input[@value=\"Add a new user\"]",
+            "selector_type": "xpath",
+            "value": "",
+            "patch_statement": "driver.find_element(By.XPATH, '//input[@value=\"Add a new user\"]').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 22.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 512,
+        "hit_count": 0,
+        "success_count": 512,
+        "last_learned_at": "2026-05-05T09:46:20.402049+00:00",
+        "last_success_at": "2026-05-05T09:46:20.402049+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": []
+    },
+    {
+      "mapping_id": "mrbs_click_click_click_click_family_update_button_click",
+      "created_at": "2026-05-05T09:46:20.436786+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "012_addUserTest",
+      "source_signatures": [
+        {
+          "source_key": "source_bcd6a3f71739",
+          "intent_key": "mrbs.click.click_click.update_button.click",
+          "learned_from_case": "014_editUserTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '//*[@id=\"update_button\"]').click()",
+          "locator_hint": "xpath=//*[@id=\"update_button\"]",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "update_button",
+            "click"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "edit_users"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T09:46:20.435768+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.click.click_click.update_button.click",
+        "intent_keys": [
+          "mrbs.click.click_click.update_button.click"
+        ],
+        "business_goal": "click",
+        "business_action": "click_click",
+        "action_type": "click",
+        "action_family": "click_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=//*[@id=\"update_button\"]",
+        "locator_hint": "xpath=//*[@id=\"update_button\"]",
+        "source_terms": [
+          "update_button",
+          "click"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "edit_users"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "update_button",
+          "click"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=//*[@id=\"update_button\"]"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "click_family",
+        "business_cues": [
+          "update_button",
+          "click"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "update_button",
+            "click"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "update_button",
+          "selector_type": "name",
+          "action_type": "click",
+          "value": "",
+          "patch_statement": "driver.find_element(By.NAME, 'update_button').click()"
+        },
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "update_button",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'update_button').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 39.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for click intention 'click'.",
+        "steps": [
+          {
+            "action_type": "click",
+            "selector": "update_button",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'update_button').click()",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 39.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 320,
+        "hit_count": 0,
+        "success_count": 320,
+        "last_learned_at": "2026-05-05T09:47:48.451143+00:00",
+        "last_success_at": "2026-05-05T09:46:20.436786+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": [
+        "same_locator"
+      ]
+    },
+    {
+      "mapping_id": "mrbs_clear_clear_clear_clear_family_users_table_filter_label_input",
+      "created_at": "2026-05-05T10:17:32.446467+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "029_searchUserTest",
+      "source_signatures": [
+        {
+          "source_key": "source_018d9c467f56",
+          "intent_key": "mrbs.clear.clear_clear.users_table_filter.clear",
+          "learned_from_case": "029_searchUserTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '//*[@id=\"users_table_filter\"]/label/input').clear()",
+          "locator_hint": "xpath=//*[@id=\"users_table_filter\"]/label/input",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "users_table_filter",
+            "label",
+            "input",
+            "clear"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "edit_users",
+            "view",
+            "day",
+            "page_date"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T10:17:32.445913+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.clear.clear_clear.users_table_filter.clear",
+        "intent_keys": [
+          "mrbs.clear.clear_clear.users_table_filter.clear"
+        ],
+        "business_goal": "clear",
+        "business_action": "clear_clear",
+        "action_type": "clear",
+        "action_family": "clear_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=//*[@id=\"users_table_filter\"]/label/input",
+        "locator_hint": "xpath=//*[@id=\"users_table_filter\"]/label/input",
+        "source_terms": [
+          "users_table_filter",
+          "label",
+          "input",
+          "clear"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "edit_users",
+          "view",
+          "day",
+          "page_date"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "search_str",
+          "clear"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=//*[@id=\"users_table_filter\"]/label/input"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for clear intention 'clear'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "clear_family",
+        "business_cues": [
+          "users_table_filter",
+          "label",
+          "input",
+          "clear"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "search_str",
+            "clear"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "search_str",
+          "selector_type": "name",
+          "action_type": "clear",
+          "value": "",
+          "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')"
+        },
+        "steps": [
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "admin",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "\\ue007",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for clear intention 'clear'.",
+        "steps": [
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "admin",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "\\ue007",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('admin')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 24,
+        "hit_count": 0,
+        "success_count": 24,
+        "last_learned_at": "2026-05-05T10:17:32.489842+00:00",
+        "last_success_at": "2026-05-05T10:17:32.446467+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": [
+        "same_locator"
+      ]
+    },
+    {
+      "mapping_id": "mrbs_clear_clear_clear_clear_family_rooms_table_filter_label_input",
+      "created_at": "2026-05-05T10:19:44.860739+00:00",
+      "updated_at": "2026-05-05T10:19:44.945707+00:00",
+      "learned_from_case": "030_searchRoomTest",
+      "source_signatures": [
+        {
+          "source_key": "source_7b9140059bd7",
+          "intent_key": "mrbs.clear.clear_clear.rooms_table_filter.clear",
+          "learned_from_case": "030_searchRoomTest",
+          "suite_name": "mrbs_v1_11_1_tests",
+          "intent_name": "repair_breakpoint",
+          "source_statement": "driver.find_element(By.XPATH, '//*[@id=\"rooms_table_filter\"]/label/input').clear()",
+          "locator_hint": "xpath=//*[@id=\"rooms_table_filter\"]/label/input",
+          "target_role": "",
+          "target_role_terms": [],
+          "source_terms": [
+            "rooms_table_filter",
+            "label",
+            "input",
+            "clear"
+          ],
+          "context_terms": [],
+          "page_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "mrbs-new",
+            "edit_users",
+            "view",
+            "day",
+            "page_date"
+          ],
+          "phase": "",
+          "small_intention": "",
+          "expected_result": "",
+          "segment_intent_terms": [],
+          "action_chain_terms": [],
+          "expected_terms": [],
+          "created_at": "2026-05-05T10:19:44.859222+00:00"
+        }
+      ],
+      "match": {
+        "app_name": "mrbs",
+        "suite_name": "",
+        "learned_suite_name": "mrbs_v1_11_1_tests",
+        "intent_key": "mrbs.clear.clear_clear.rooms_table_filter.clear",
+        "intent_keys": [
+          "mrbs.clear.clear_clear.rooms_table_filter.clear"
+        ],
+        "business_goal": "clear",
+        "business_action": "clear_clear",
+        "action_type": "clear",
+        "action_family": "clear_family",
+        "intent_name": "repair_breakpoint",
+        "phase": "",
+        "small_intention": "",
+        "expected_result": "",
+        "target_role": "",
+        "target_role_terms": [],
+        "source_locator_hint": "xpath=//*[@id=\"rooms_table_filter\"]/label/input",
+        "locator_hint": "xpath=//*[@id=\"rooms_table_filter\"]/label/input",
+        "source_terms": [
+          "rooms_table_filter",
+          "label",
+          "input",
+          "clear"
+        ],
+        "context_terms": [],
+        "page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "mrbs-new",
+          "edit_users",
+          "view",
+          "day",
+          "page_date"
+        ],
+        "segment_intent_terms": [],
+        "action_chain_terms": [],
+        "expected_terms": [],
+        "required_page_terms": [
+          "meeting",
+          "room",
+          "booking",
+          "search_str",
+          "clear"
+        ],
+        "forbidden_page_terms": [],
+        "source_locators": [
+          "xpath=//*[@id=\"rooms_table_filter\"]/label/input"
+        ]
+      },
+      "intent_recipe": {
+        "summary": "Auto-learned target-side recipe for clear intention 'clear'.",
+        "phase": "",
+        "small_intention": "",
+        "target_role": "",
+        "action_family": "clear_family",
+        "business_cues": [
+          "rooms_table_filter",
+          "label",
+          "input",
+          "clear"
+        ],
+        "oracle_cues": [
+          "script continues"
+        ],
+        "outcome_contract": "script continues",
+        "page_gate": {
+          "required_terms": [
+            "meeting",
+            "room",
+            "booking",
+            "search_str",
+            "clear"
+          ],
+          "forbidden_terms": []
+        },
+        "binding": {
+          "selector": "search_str",
+          "selector_type": "name",
+          "action_type": "clear",
+          "value": "",
+          "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')"
+        },
+        "steps": [
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "test room",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "\\ue007",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "recipe": {
+        "summary": "Auto-learned target-side recipe for clear intention 'clear'.",
+        "steps": [
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "test room",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "clear",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          },
+          {
+            "action_type": "input",
+            "selector": "search_str",
+            "selector_type": "name",
+            "value": "\\ue007",
+            "patch_statement": "driver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('test room')\ndriver.find_element(By.NAME, 'search_str').clear()\nelement = driver.find_element(By.NAME, 'search_str')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('\\\\ue007')",
+            "expected_outcome": "script continues",
+            "explanation": "Auto-learned from successful migration step 28.",
+            "value_expression": ""
+          }
+        ]
+      },
+      "stats": {
+        "learned_count": 3,
+        "hit_count": 0,
+        "success_count": 3,
+        "last_learned_at": "2026-05-05T10:19:44.914519+00:00",
+        "last_success_at": "2026-05-05T10:19:44.860739+00:00",
+        "failure_count": 0,
+        "last_matched_at": "",
+        "last_failure_at": ""
+      },
+      "merge_reasons": [
+        "same_locator"
+      ]
     }
   ]
 }

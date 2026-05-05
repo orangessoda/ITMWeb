@@ -1,6 +1,118 @@
 {
-  "case_goal": "008_addEntryTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/008_addEntryTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Add a new booking entry in the MRBS system.",
+  "summary": "This test logs in as admin, navigates to the day view, selects a time slot, fills in entry details (name 'test entry'), and submits the booking. The action log is truncated, so entry details entry steps are not visible.",
+  "steps": [
+    {
+      "step_number": 1,
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Page opened successfully"
+    },
+    {
+      "step_number": 2,
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Element located"
+    },
+    {
+      "step_number": 3,
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Field cleared"
+    },
+    {
+      "step_number": 4,
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "step_number": 5,
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Element located"
+    },
+    {
+      "step_number": 6,
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Field cleared"
+    },
+    {
+      "step_number": 7,
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "step_number": 8,
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Element located"
+    },
+    {
+      "step_number": 9,
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "User logged in and redirected to admin page"
+    },
+    {
+      "step_number": 10,
+      "action_type": "click",
+      "target": "xpath=/html/body/header/nav/nav[2]/form/input[6]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Navigated to day view (index.php)"
+    },
+    {
+      "step_number": 11,
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"day_main\"]/tbody/tr[1]/td/a",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/index.php?view=day&area=2&page_date=2026-05-03",
+      "expected_result": "Navigated to edit entry page for the selected time slot"
+    },
+    {
+      "step_number": 12,
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"skip\"]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_entry.php?view=day&year=2026&month=5&day=3&area=2&room=1&hour=7&minute=0",
+      "expected_result": "Clicked skip for repeat booking (if present)"
+    },
+    {
+      "step_number": 13,
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"main\"]/fieldset[4]/div/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_entry.php?view=day&year=2026&month=5&day=3&area=2&room=1&hour=7&minute=0",
+      "expected_result": "Element located"
+    },
+    {
+      "step_number": 14,
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"main\"]/fieldset[4]/div/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_entry.php?view=day&year=2026&month=5&day=3&area=2&room=1&hour=7&minute=0",
+      "expected_result": "Booking submitted and navigated to day view"
+    }
+  ]
 }

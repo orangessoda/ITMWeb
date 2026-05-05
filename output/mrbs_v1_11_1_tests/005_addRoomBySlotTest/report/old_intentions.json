@@ -1,6 +1,76 @@
 {
-  "case_goal": "005_addRoomBySlotTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/005_addRoomBySlotTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Add a new room to an existing area with specified attributes.",
+  "summary": "The test logs into the MRBS admin panel, navigates to the Rooms management page, fills in room details (name, description, capacity, admin email), and submits the form to add the room.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin login page is displayed with username and password fields."
+    },
+    {
+      "action_type": "type",
+      "target": "username",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field is filled with 'admin'."
+    },
+    {
+      "action_type": "type",
+      "target": "password",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field is filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "login button",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin panel is displayed with navigation links including 'Rooms'."
+    },
+    {
+      "action_type": "click",
+      "target": "Rooms link",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Rooms management page is shown with area selection and 'Add Room' form."
+    },
+    {
+      "action_type": "type",
+      "target": "room name",
+      "value": "test room",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Room name field is filled with 'test room'."
+    },
+    {
+      "action_type": "type",
+      "target": "room description",
+      "value": "test description",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Room description field is filled with 'test description'."
+    },
+    {
+      "action_type": "type",
+      "target": "capacity",
+      "value": "40",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Capacity field is filled with '40'."
+    },
+    {
+      "action_type": "type",
+      "target": "room admin email",
+      "value": "test@admin.com",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Admin email field is filled with 'test@admin.com'."
+    },
+    {
+      "action_type": "click",
+      "target": "submit button",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=0&room=0",
+      "expected_result": "Room is added and page redirects to admin.php?area=2 showing the new room with Edit/Delete options."
+    }
+  ]
 }

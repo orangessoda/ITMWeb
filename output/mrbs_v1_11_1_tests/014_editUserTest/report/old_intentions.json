@@ -1,6 +1,69 @@
 {
-  "case_goal": "014_editUserTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/014_editUserTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Edit an existing user's display name and password in the MRBS system.",
+  "summary": "Login as admin, navigate to Users page, edit the user 'test' by changing display name to '123' and password to 'test001', then submit the changes.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin login page displayed with username and password fields."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "username",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username field filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password field filled."
+    },
+    {
+      "action_type": "click",
+      "target": "Log in button",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Logged in as admin, admin panel shown with Users link."
+    },
+    {
+      "action_type": "click",
+      "target": "Users link",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "User management page displayed with edit form for user 'test'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "f_display_name",
+      "value": "123",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Display name field cleared and set to '123'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password0",
+      "value": "test001",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Password field filled with new password."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password1",
+      "value": "test001",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "Confirm password field filled."
+    },
+    {
+      "action_type": "click",
+      "target": "Update button",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/edit_users.php?view=day&page_date=2026-05-03&area=2&room=1&datatable=1",
+      "expected_result": "User updated, redirected to user list page with success message (Add a new user button visible)."
+    }
+  ]
 }

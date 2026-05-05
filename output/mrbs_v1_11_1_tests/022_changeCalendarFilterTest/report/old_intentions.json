@@ -1,6 +1,48 @@
 {
-  "case_goal": "022_changeCalendarFilterTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/022_changeCalendarFilterTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Verify that a user can change the calendar filter (area selection) and toggle the view from day to week in the MRBS system.",
+  "summary": "Log in as admin, navigate to the day view for area 2, then change the area to 3, and finally switch the view from day to week.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login page opens with title 'Meeting Room Booking System' and visible username/password fields."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath",
+      "value": "//*[@id=\"username\"]",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Text 'admin' entered into username field."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath",
+      "value": "//*[@id=\"password\"]",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Text 'admin' entered into password field."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath",
+      "value": "//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login succeeds, page shows admin panel with navigation links ('Rooms', 'Users', etc.) and logged-in user 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath",
+      "value": "/html/body/header/nav/nav[2]/form/input[6]",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Navigated to day view for area 2 on 2026-05-03 (URL: index.php?view=day&area=2&page_date=2026-05-03)."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath",
+      "value": "/html/body/div[1]/div[2]/nav[1]/nav[3]/div/a[3]",
+      "page_url": "http://mrbs-old.local:8094/index.php?csrf_token=63136fa56c23f07d3686bbab10f484346f42b782336f7f6440107b238a43385d&view=day&page_date=2026-05-04&area=3",
+      "expected_result": "View changes to week view for area 3 on 2026-05-04 (URL: index.php?view=week&page_date=2026-05-04&area=3)."
+    }
+  ]
 }

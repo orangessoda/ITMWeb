@@ -1,6 +1,55 @@
 {
-  "case_goal": "011_exportEntryTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/011_exportEntryTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Verify that a user can export a booking entry from the system.",
+  "summary": "The test logs in as admin, navigates to the day view, selects an existing entry, and initiates an export action.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Login page is displayed with username and password fields."
+    },
+    {
+      "action_type": "enter_text",
+      "target": "username field (id=username)",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Username 'admin' is entered."
+    },
+    {
+      "action_type": "enter_text",
+      "target": "password field (id=password)",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Password is entered."
+    },
+    {
+      "action_type": "click",
+      "target": "Log in button (xpath=//*[@id=\"logon\"]/fieldset[2]/div/input)",
+      "value": null,
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Admin is logged in and navigation bar appears with links to Report, Import, Rooms, Users, and a user button."
+    },
+    {
+      "action_type": "click",
+      "target": "User button to go to day view (xpath=/html/body/header/nav/nav[2]/form/input[6])",
+      "value": null,
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "Page navigates to index.php with day view for area 2 and date 2026-05-03."
+    },
+    {
+      "action_type": "click",
+      "target": "First entry link in day view (xpath=//*[@id=\"day_main\"]/tbody/tr[1]/td/div/a)",
+      "value": null,
+      "page_url": "http://mrbs-old.local:8094/index.php?view=day&area=2&page_date=2026-05-03",
+      "expected_result": "Entry details page is displayed at view_entry.php for the selected entry (id=2)."
+    },
+    {
+      "action_type": "click",
+      "target": "Export button (xpath=//*[@id=\"view_entry_nav\"]/div[4]/div[2]/form/input[6])",
+      "value": null,
+      "page_url": "http://mrbs-old.local:8094/view_entry.php?view=day&year=2026&month=5&day=3&area=2&id=2",
+      "expected_result": "Export action is triggered (likely download of entry data)."
+    }
+  ]
 }

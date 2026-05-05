@@ -1,10 +1,10 @@
 {
   "report_schema": "research_v1",
   "case_id": "014_editUserTest",
-  "migration_status": "blocked",
-  "migration_success": false,
-  "migration_duration_seconds": 6.828,
-  "repair_count": 0,
+  "migration_status": "passed",
+  "migration_success": true,
+  "migration_duration_seconds": 41.514,
+  "repair_count": 2,
   "trace": {
     "context": {
       "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetnew\\mrbs_v1_11_1_tests\\014_editUserTest.py",
@@ -56,15 +56,51 @@
     }
   },
   "migration": {
-    "status": "blocked",
-    "success": false,
+    "status": "passed",
+    "success": true,
     "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\itmweb\\output\\mrbs_v1_11_1_tests\\014_editUserTest\\replay\\migrated_014_editUserTest.py",
-    "patch": null,
-    "attempts": []
+    "patch": {
+      "patch_type": "block",
+      "original_statement": "driver.find_element(By.XPATH, '//*[@id=\"update_button\"]').click()",
+      "migrated_statement": "driver.find_element(By.NAME, 'update_button').click()",
+      "line_num": 33,
+      "candidate_selector": "update_button",
+      "replacement_line_count": 1,
+      "required_imports": [
+        "from selenium.webdriver.common.by import By"
+      ],
+      "inserted_lines_before": [],
+      "inserted_lines_after": [],
+      "flow_patch_kind": "",
+      "flow_patch_steps": [],
+      "explanation": "Intent recipe memory 'mrbs_click_click_click_click_family_update_button_click' matched target role ''."
+    },
+    "attempts": [
+      {
+        "round_index": 1,
+        "intention_step_index": 0,
+        "candidate_id": "",
+        "selector": "Users",
+        "action_type": "click",
+        "verdict": "passed",
+        "plan_source": "intent_mapping",
+        "failed_checks": []
+      },
+      {
+        "round_index": 2,
+        "intention_step_index": 0,
+        "candidate_id": "",
+        "selector": "update_button",
+        "action_type": "click",
+        "verdict": "passed",
+        "plan_source": "intent_mapping",
+        "failed_checks": []
+      }
+    ]
   },
   "llm": {
     "provider": "deepseek",
-    "remote_calls": 0,
-    "seconds": 0.952
+    "remote_calls": 1,
+    "seconds": 26.265
   }
 }

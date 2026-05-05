@@ -1,6 +1,76 @@
 {
-  "case_goal": "007_addRoomByPeriodTest",
-  "summary": "Migrate mrbs_v1_11_1_tests/007_addRoomByPeriodTest.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "To verify that a room can be added with specific details (name, description, capacity, admin email) in the MRBS system by an admin user.",
+  "summary": "Admin logs into MRBS, navigates to Room management via the 'Rooms' link, fills in room details (name: 'test room', description: 'test description', capacity: 40, admin email: 'test@admin.com'), and submits the form to create a new room.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mrbs-old.local:8094/admin.php",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "The admin login page loads successfully with username and password fields visible."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "The username field is filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "The password field is filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"logon\"]/fieldset[2]/div/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php",
+      "expected_result": "User is logged in and redirected to the admin panel page with navigation links (including 'Rooms') visible."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/header/nav/nav[1]/nav[1]/a[4]",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=2&room=1",
+      "expected_result": "The Rooms management page is displayed, showing an area selector and the form to add a new room."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"room_name\"]",
+      "value": "test room",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=2&room=1",
+      "expected_result": "The 'Room Name' field is filled with 'test room'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"room_description\"]",
+      "value": "test description",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=2&room=1",
+      "expected_result": "The 'Description' field is filled with 'test description'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"capacity\"]",
+      "value": "40",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=2&room=1",
+      "expected_result": "The 'Capacity' field is filled with '40'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"room_admin_email\"]",
+      "value": "test@admin.com",
+      "page_url": "http://mrbs-old.local:8094/admin.php?view=day&page_date=2026-05-03&area=2&room=1",
+      "expected_result": "The 'Room Admin Email' field is filled with 'test@admin.com'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"add_room\"]/fieldset/div[5]/input",
+      "value": "",
+      "page_url": "http://mrbs-old.local:8094/admin.php?area=3",
+      "expected_result": "The room is added successfully and the page reloads to the area management page showing the newly created room in the rooms list."
+    }
+  ]
 }
