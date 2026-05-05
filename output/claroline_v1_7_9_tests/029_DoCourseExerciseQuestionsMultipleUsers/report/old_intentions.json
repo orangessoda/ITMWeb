@@ -1,0 +1,174 @@
+{
+  "case_goal": "Do course exercise questions as multiple users and verify tracking statistics by admin.",
+  "summary": "Log in as testuser1, complete Exercise 1 in Math course, log out. Log in as testuser2, complete with different answers, log out. Log in as admin, navigate to exercise tracking to view statistics.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://claroline-old.local:8088/",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "login",
+      "target": "id=login, id=password, name=submitAuth",
+      "value": "testuser1",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Logged in as testuser1"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=1 - Math",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "Course home page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercises",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": "Exercises list page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercise 1",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Exercise 1 questions page"
+    },
+    {
+      "action_type": "select",
+      "target": "input[name='choice[2]'][value='2']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Radio option selected"
+    },
+    {
+      "action_type": "select",
+      "target": "input[name='choice[3]'][value='2']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Radio option selected"
+    },
+    {
+      "action_type": "select",
+      "target": "input[name='choice[4][3]'][value='1']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Checkbox selected"
+    },
+    {
+      "action_type": "click",
+      "target": "input[type=submit]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercise_result.php",
+      "expected_result": "Exercise result page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Logout",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/index.php?logout=true",
+      "expected_result": "Logged out, login page displayed"
+    },
+    {
+      "action_type": "login",
+      "target": "id=login, id=password, name=submitAuth",
+      "value": "testuser2",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Logged in as testuser2"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=1 - Math",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "Course home page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercises",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": "Exercises list page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercise 1",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Exercise 1 questions page"
+    },
+    {
+      "action_type": "select",
+      "target": "input[name='choice[2]'][value='1']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Radio option selected"
+    },
+    {
+      "action_type": "select",
+      "target": "input[name='choice[3]'][value='2']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Radio option selected"
+    },
+    {
+      "action_type": "select",
+      "target": "input[name='choice[4][3]'][value='1']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Checkbox selected"
+    },
+    {
+      "action_type": "click",
+      "target": "input[type=submit]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercise_result.php",
+      "expected_result": "Exercise result page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Logout",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/index.php?logout=true",
+      "expected_result": "Logged out, login page displayed"
+    },
+    {
+      "action_type": "login",
+      "target": "id=login, id=password, name=submitAuth",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Logged in as admin"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=1 - Math",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "Course home page (admin view)"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercises",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": "Exercises list page with admin tools"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='claroBody']/table[2]/tbody[2]/tr/td[6]/a/img",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/tracking/exercises_details.php?exo_id=2&src=ex",
+      "expected_result": "Exercise statistics page"
+    },
+    {
+      "action_type": "get_text",
+      "target": "table rows",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/tracking/exercises_details.php?exo_id=2&src=ex",
+      "expected_result": "User names and scores displayed (admin, testuser1, testuser2)"
+    }
+  ]
+}

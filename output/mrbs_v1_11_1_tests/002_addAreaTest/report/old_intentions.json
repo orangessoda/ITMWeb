@@ -1,0 +1,6 @@
+{
+  "case_goal": "002_addAreaTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/002_addAreaTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

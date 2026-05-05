@@ -1,0 +1,97 @@
+{
+  "case_goal": "Verify that attempting to create a user with all required fields empty shows a validation error message.",
+  "summary": "Login as admin, navigate to the user creation form, leave all fields empty, and submit. Expect an error message to be displayed on the same page.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Home page loaded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login successful, dashboard appears"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page loaded"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Create user",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Create user form loaded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=lastname",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Lastname field cleared and set empty"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=firstname",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Firstname field cleared and set empty"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=username",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Username field cleared and set empty"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password field cleared and set empty"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password_conf",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password confirmation field cleared and set empty"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input[type=submit]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Form submitted, page reloads with same URL"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[1]/tbody/tr/td",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Error message element is present indicating validation failure"
+    }
+  ]
+}

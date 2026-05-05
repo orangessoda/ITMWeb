@@ -1,0 +1,6 @@
+{
+  "case_goal": "020_generateReportsTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/020_generateReportsTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

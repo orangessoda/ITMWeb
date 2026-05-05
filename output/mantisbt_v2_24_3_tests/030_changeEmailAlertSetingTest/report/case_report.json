@@ -1,10 +1,10 @@
 {
   "report_schema": "research_v1",
   "case_id": "030_changeEmailAlertSetingTest",
-  "migration_status": "trace_only",
+  "migration_status": "passed",
   "migration_success": true,
-  "migration_duration_seconds": 0.0,
-  "repair_count": 0,
+  "migration_duration_seconds": 10.624,
+  "repair_count": 1,
   "trace": {
     "context": {
       "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetnew\\mantisbt_v2_24_3_tests\\030_changeEmailAlertSetingTest.py",
@@ -56,21 +56,41 @@
     }
   },
   "migration": {
-    "status": "trace_only",
+    "status": "passed",
     "success": true,
-    "repair_count": 0,
-    "oracle_migration_path": "",
-    "oracle_migration": {},
-    "script_path": "",
-    "patch": null,
-    "attempts": []
+    "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\itmweb\\output\\mantisbt_v2_24_3_tests\\030_changeEmailAlertSetingTest\\replay\\migrated_030_changeEmailAlertSetingTest.py",
+    "patch": {
+      "patch_type": "block",
+      "original_statement": "driver.find_element(By.XPATH, '//*[@id=\"mail_config_action\"]/div[3]/div[2]/div/div/table/tbody/tr[14]/td[11]/label').click()",
+      "migrated_statement": "element = driver.find_element(By.NAME, 'bug_id')\nelement.clear() if (element.get_attribute('type') or '').lower() != 'file' else None\nelement.send_keys('')",
+      "line_num": 54,
+      "candidate_selector": "bug_id",
+      "replacement_line_count": 1,
+      "required_imports": [
+        "from selenium.webdriver.common.by import By"
+      ],
+      "inserted_lines_before": [],
+      "inserted_lines_after": [],
+      "flow_patch_kind": "",
+      "flow_patch_steps": [],
+      "explanation": "Candidate 1:  name=bug_id  bug_id text  nav-search-input  "
+    },
+    "attempts": [
+      {
+        "round_index": 1,
+        "intention_step_index": 0,
+        "candidate_id": "c001",
+        "selector": "bug_id",
+        "action_type": "input",
+        "verdict": "passed",
+        "plan_source": "dom",
+        "failed_checks": []
+      }
+    ]
   },
   "llm": {
     "provider": "deepseek",
-    "model_name": "deepseek-v4-flash",
-    "api_base": "https://api.deepseek.com",
-    "remote_used": false,
     "remote_calls": 0,
-    "seconds": 0
+    "seconds": 1.067
   }
 }

@@ -1,9 +1,9 @@
 {
   "report_schema": "research_v1",
   "case_id": "020_generateReportsTest",
-  "migration_status": "trace_only",
-  "migration_success": true,
-  "migration_duration_seconds": 0.0,
+  "migration_status": "blocked",
+  "migration_success": false,
+  "migration_duration_seconds": 7.008,
   "repair_count": 0,
   "trace": {
     "context": {
@@ -56,21 +56,15 @@
     }
   },
   "migration": {
-    "status": "trace_only",
-    "success": true,
-    "repair_count": 0,
-    "oracle_migration_path": "",
-    "oracle_migration": {},
-    "script_path": "",
+    "status": "blocked",
+    "success": false,
+    "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\itmweb\\output\\mrbs_v1_11_1_tests\\020_generateReportsTest\\replay\\migrated_020_generateReportsTest.py",
     "patch": null,
     "attempts": []
   },
   "llm": {
     "provider": "deepseek",
-    "model_name": "deepseek-v4-flash",
-    "api_base": "https://api.deepseek.com",
-    "remote_used": false,
     "remote_calls": 0,
-    "seconds": 0
+    "seconds": 1.06
   }
 }

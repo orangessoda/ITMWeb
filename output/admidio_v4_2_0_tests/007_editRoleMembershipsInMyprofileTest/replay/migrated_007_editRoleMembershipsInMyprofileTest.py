@@ -1,0 +1,36 @@
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+CHROMEDRIVER_PATH = r"D:\chromedriver\chromedriver-win64\chromedriver-win64\chromedriver.exe"
+driver_options = webdriver.ChromeOptions()
+driver_options.add_argument("--window-size=1920,1080")
+driver = webdriver.Chrome(service=Service(CHROMEDRIVER_PATH), options=driver_options)
+driver.set_window_size(1920, 1080)
+driver.get("http://admidio-new.local:8083/modules/overview.php")
+time.sleep(1)
+driver.find_element(By.XPATH, '//*[@id="plg_usr_login_name"]').clear()
+driver.find_element(By.XPATH, '//*[@id="plg_usr_login_name"]').send_keys("admin")
+time.sleep(1)
+driver.find_element(By.XPATH, '//*[@id="plg_usr_password"]').clear()
+driver.find_element(By.XPATH, '//*[@id="plg_usr_password"]').send_keys("admin")
+time.sleep(1)
+driver.find_element(By.ID, 'plg_btn_login').click()
+time.sleep(1)
+driver.find_element(By.LINK_TEXT, 'admin').click()
+time.sleep(1)
+driver.find_element(By.ID, 'adm_profile_role_memberships_tab').click()
+driver.find_element(By.ID, 'adm_profile_role_memberships_change').click()
+time.sleep(1)
+driver.find_element(By.ID, 'leader-75763e1d-152d-48d4-aff4-652c63492a44').click()
+time.sleep(1)
+driver.find_element(By.ID, 'leader-9c4f10fe-1e77-4488-a1cb-e24c9e648d70').click()
+time.sleep(1)
+driver.find_element(By.XPATH, '//*[@id="btn_save"]').click()
+time.sleep(2)
+time.sleep(1)
+driver.close()
+time.sleep(1)
+driver.quit()
+time.sleep(1)
+

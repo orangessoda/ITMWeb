@@ -1,0 +1,92 @@
+{
+  "case_id": "014_AddDeniedCourse",
+  "suite_name": "claroline_v1_7_9_tests",
+  "case_goal": "Create a course with enrollment denied and verify it appears in the course list",
+  "summary": "Admin logs in, navigates to Platform Administration, creates a new course titled 'Music' with official code '3' in Humanities category, sets enrollment to not allowed, submits, then returns to course list confirming the new course appears.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login page with username and password fields visible"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Logged in as admin, page shows navigation links including 'Platform Administration' and course list"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page with links like 'Create course' visible"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Create course",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Course creation form with fields title, officialCode, category dropdown, etc."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=title",
+      "value": "Music",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Title field now contains 'Music'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=officialCode",
+      "value": "3",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Official code field now contains '3'"
+    },
+    {
+      "action_type": "click",
+      "target": "id=category",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Category dropdown activated (later submission shows HUMA selected)"
+    },
+    {
+      "action_type": "click",
+      "target": "id=courseEnrollAllowed_false",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Enrollment allowed radio set to false"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitFromCoursProperties",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?cmd=exCreate&title=Music&officialCode=3&category=HUMA&courseEnrollAllowed=false",
+      "expected_result": "Course created, page shows 'Back to my course list' link"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Back to my course list",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/index.php",
+      "expected_result": "Course list page displays new course '3 - Music'"
+    }
+  ]
+}

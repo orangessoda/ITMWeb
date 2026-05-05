@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete an uploaded file from a folder in Documents & Files",
+  "summary": "Admin logs in, navigates to Documents & Files, opens a folder, deletes a file, and confirms deletion.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page loads with login form visible"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=plg_usr_login_name",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=plg_usr_password",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "id=next_page",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login successful, page updates with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "id=documents-files",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Navigate to Documents & Files page"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div[2]/div/table/tbody/tr/td[2]/a",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "Folder 'test' opened, showing files inside"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div[2]/div/table/tbody/tr/td[6]/a[3]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Delete confirmation dialog appears"
+    },
+    {
+      "action_type": "click",
+      "target": "id=btn_yes",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "File deleted, page remains with folder content (file no longer listed)"
+    }
+  ]
+}

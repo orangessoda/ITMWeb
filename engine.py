@@ -186,10 +186,12 @@ class LLMClient:
                 "Return up to 3 target-side Selenium action chains for the failing statement, ordered from most "
                 "likely to least likely. Each choice must be one complete action chain. Return compact JSON: "
                 "{\"choices\":[{\"steps\":[{\"candidate_index\":1,\"action_type\":\"click|input|clear|select|submit|wait|"
-                "get|open_url|execute_script|switch_frame|default_content|hover\","
+                "get|open_url|execute_script|switch_frame|default_content|hover|accept_alert|dismiss_alert\","
                 "\"selector\":\"...\",\"selector_type\":\"id|css|xpath|name|link_text\",\"value\":\"optional\"}]}]}. "
                 "For get/open_url put the URL in value. For execute_script put the JavaScript in value. "
-                "For default_content selector may be empty. "
+                "For default_content, accept_alert, and dismiss_alert selector may be empty. "
+                "Do not skip popup confirmation actions: if the old script confirms a dialog, the migrated chain "
+                "must include the equivalent alert accept or confirmation-button click. "
                 "Prefer stable selectors in this order: id, name, link_text, partial_link_text, xpath, css. "
                 "Avoid broad CSS selectors when an id, name, or link_text candidate exists. "
                 "Use candidate_index when a step uses one of the provided candidates; otherwise provide selector "
@@ -269,7 +271,15 @@ class LLMClient:
                     primary_base = base
                 selector = str(step.get("selector", "") or (base.selector if base else ""))
                 action_type = self._normalize_action(str(step.get("action_type", "") or (base.action_type if base else "")))
-                if not selector and action_type not in {"wait", "get", "open_url", "execute_script", "default_content"}:
+                if not selector and action_type not in {
+                    "wait",
+                    "get",
+                    "open_url",
+                    "execute_script",
+                    "default_content",
+                    "accept_alert",
+                    "dismiss_alert",
+                }:
                     continue
                 selector_type = str(step.get("selector_type", "") or (base.metadata.get("selector_type", "") if base else ""))
                 normalized_steps.append(
@@ -405,6 +415,10 @@ class LLMClient:
             return "default_content"
         if action in {"mouse_over", "move_to_element", "actionchains"}:
             return "hover"
+        if action in {"alert_accept", "accept", "confirm_accept"}:
+            return "accept_alert"
+        if action in {"alert_dismiss", "dismiss", "confirm_dismiss", "cancel_alert"}:
+            return "dismiss_alert"
         if action in {"js_click", "confirm_click"}:
             return "click"
         return action or "click"
@@ -679,8 +693,24 @@ class IntentionMigrationEngine:
             if self._ignore_source_statement(source):
                 continue
             if self._is_driver_get(source):
-                self._execute_driver_get(source)
-                namespace["driver"] = self.browser.driver
+                try:
+                    self._execute_driver_get(source)
+                    namespace["driver"] = self.browser.driver
+                except Exception:
+                    tb = traceback.format_exc()
+                    return _RunState(
+                        success=False,
+                        next_line=line_num,
+                        failure=FailureInfo(
+                            script_path=str(script_path),
+                            line_num=line_num,
+                            broken_statement=source,
+                            error_type=self._error_type_from_traceback(tb),
+                            traceback=tb,
+                            message="Migration stopped while opening the target page.",
+                        ),
+                        stderr=tb,
+                    )
                 continue
             if self.browser.driver is None and self._needs_driver(source):
                 self.browser.open()
@@ -781,6 +811,7 @@ class IntentionMigrationEngine:
                         "selector_type": selector_type,
                         "target_role": self._element_text(element)[:160],
                         "is_visible": bool(element.is_visible),
+                        "is_popup_confirmation": self._is_popup_confirmation_element(element),
                     },
                 )
             )
@@ -799,7 +830,8 @@ class IntentionMigrationEngine:
             }.get(selector_type, 9)
             broad_css = 1 if selector_type == "css" and self._is_broad_css_selector(selector) else 0
             hidden = 1 if not bool(element.is_visible) else 0
-            return hidden, broad_css, priority
+            popup_confirm = 0 if self._is_popup_confirmation_element(element) else 1
+            return hidden, popup_confirm, broad_css, priority
 
         return sorted(elements, key=rank)
 
@@ -808,6 +840,40 @@ class IntentionMigrationEngine:
         if not value:
             return True
         return not any(token in value for token in ["#", "[id=", "[name=", "[href=", "[aria-label=", "[title="])
+
+    def _is_popup_confirmation_element(self, element: ElementRecord) -> bool:
+        attrs = element.attributes or {}
+        blob = " ".join(
+            [
+                str(element.text or ""),
+                str(attrs.get("id", "")),
+                str(attrs.get("name", "")),
+                str(attrs.get("class", "")),
+                str(attrs.get("title", "")),
+                str(attrs.get("aria-label", "")),
+                str(attrs.get("data-bs-dismiss", "")),
+            ]
+        ).strip().lower()
+        if not blob:
+            return False
+        return any(
+            token in blob
+            for token in [
+                "yes",
+                "ok",
+                "confirm",
+                "accept",
+                "save",
+                "apply",
+                "delete",
+                "btn_yes",
+                "button_yes",
+                "messagebox_button_yes",
+                "确认",
+                "确定",
+                "是",
+            ]
+        )
 
     def _prepare_candidate_values(
         self,
@@ -1179,8 +1245,14 @@ class IntentionMigrationEngine:
             return "switch_frame"
         if "switch_to.default_content" in lowered:
             return "default_content"
+        if "switch_to.alert.accept" in lowered or ".alert.accept" in lowered:
+            return "accept_alert"
+        if "switch_to.alert.dismiss" in lowered or ".alert.dismiss" in lowered:
+            return "dismiss_alert"
         if "execute_script" in lowered:
             return "execute_script"
+        if "window.confirm" in lowered:
+            return "accept_alert"
         if "actionchains" in lowered or "move_to_element" in lowered:
             return "hover"
         if "driver.get(" in lowered:

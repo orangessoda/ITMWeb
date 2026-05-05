@@ -1,0 +1,62 @@
+{
+  "case_goal": "Activate an inactive role",
+  "summary": "Log in as admin, navigate to Groups & roles, filter to show inactive roles, click the activate icon on an inactive role, and confirm the activation.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://admidio-old.local:8082/adm_program/overview.php",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login page is displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "plg_usr_login_name",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "plg_usr_password",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "next_page",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Logged in, overview page with user menu displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "groups-roles",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Groups & roles page displayed with default filter (Active groups and roles)"
+    },
+    {
+      "action_type": "select",
+      "target": "role_type",
+      "value": "Inactive groups and roles",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php?show=card&cat_uuid=0&role_type=0",
+      "expected_result": "Filter set to show inactive groups and roles"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/div/div/div/ul/li[1]/a[3]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php?show=card&cat_uuid=0&role_type=0",
+      "expected_result": "Activation confirmation dialog appears (Yes/No buttons)"
+    },
+    {
+      "action_type": "click",
+      "target": "btn_yes",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php?show=card&cat_uuid=0&role_type=0",
+      "expected_result": "Role is activated, dialog disappears"
+    }
+  ]
+}

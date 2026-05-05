@@ -78,20 +78,6 @@ def write_mapping_library(data: dict) -> None:
     MAPPING_PATH.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
-def reset_mapping_library() -> int:
-    if not MAPPING_PATH.parent.exists():
-        MAPPING_PATH.parent.mkdir(parents=True, exist_ok=True)
-    previous_count = 0
-    if MAPPING_PATH.exists():
-        previous_count = len(load_mapping_library().get("mappings", []))
-    data = {
-        "updated_at": datetime.now(timezone.utc).isoformat(),
-        "mappings": [],
-    }
-    write_mapping_library(data)
-    return previous_count
-
-
 def reset_mapping_library_for_app(app: str) -> int:
     data = load_mapping_library()
     mappings = data.get("mappings", [])
@@ -110,51 +96,15 @@ def reset_mapping_library_for_app(app: str) -> int:
     return removed
 
 
-def output_app_dirs(app: str | None = None) -> list[Path]:
-    if not OUTPUT_ROOT.exists():
-        return []
-    dirs = [path for path in OUTPUT_ROOT.iterdir() if path.is_dir() and not path.name.startswith("_")]
-    if not app:
-        return dirs
-    return [path for path in dirs if app_matches(path.name, app)]
-
-
-def delete_output_memory_files(app: str | None = None) -> dict[str, int]:
-    if not OUTPUT_ROOT.exists():
-        return {
-            "old_intentions_deleted": 0,
-            "llm_dialog_deleted": 0,
-            "repair_states_deleted": 0,
-        }
-    counts = {
-        "old_intentions_deleted": 0,
-        "llm_dialog_deleted": 0,
-        "repair_states_deleted": 0,
-    }
-    output_root = OUTPUT_ROOT.resolve()
-    roots = output_app_dirs(app)
-    for root in roots:
-        for filename, count_key in [
-            ("old_intentions.json", "old_intentions_deleted"),
-            ("llm_dialog.jsonl", "llm_dialog_deleted"),
-            ("repair_states.jsonl", "repair_states_deleted"),
-        ]:
-            for path in root.rglob(filename):
-                resolved = path.resolve()
-                if output_root not in resolved.parents:
-                    raise RuntimeError(f"Refusing to delete outside output: {resolved}")
-                path.unlink()
-                counts[count_key] += 1
-    return counts
-
-
 def list_apps() -> None:
     names: set[str] = set()
-    for path in output_app_dirs():
-        names.add(path.name)
-        normalized = normalize_app_name(path.name)
-        if normalized:
-            names.add(normalized)
+    if OUTPUT_ROOT.exists():
+        for path in OUTPUT_ROOT.iterdir():
+            if path.is_dir() and not path.name.startswith("_"):
+                names.add(path.name)
+                normalized = normalize_app_name(path.name)
+                if normalized:
+                    names.add(normalized)
     for mapping in load_mapping_library().get("mappings", []):
         if isinstance(mapping, dict):
             names.update(value for value in mapping_app_values(mapping) if value)
@@ -163,11 +113,11 @@ def list_apps() -> None:
 
 
 def build_parser() -> argparse.ArgumentParser:
-    parser = argparse.ArgumentParser(description="Reset ITMWeb experiment memory.")
+    parser = argparse.ArgumentParser(description="Clear ITMWeb mapping memory for one app.")
     parser.add_argument(
         "--app",
         default="",
-        help="Only clear experiment memory under this output app and mappings learned for the same app.",
+        help="Clear mappings learned for this app only, for example admidio or admidio_v4_2_0_tests.",
     )
     parser.add_argument(
         "--list-apps",
@@ -184,29 +134,13 @@ def main() -> None:
         return
 
     app = str(args.app or "").strip()
-    if app:
-        removed_mappings = reset_mapping_library_for_app(app)
-        deleted = delete_output_memory_files(app)
-        matched_dirs = [path.name for path in output_app_dirs(app)]
-        print("[ITMWeb] experiment memory reset")
-        print(f"[ITMWeb] app={app}")
-        print(f"[ITMWeb] matched_output_apps={matched_dirs}")
-        print(f"[ITMWeb] mapping_library={MAPPING_PATH}")
-        print(f"[ITMWeb] mappings_removed={removed_mappings}")
-        print(f"[ITMWeb] old_intentions_deleted={deleted['old_intentions_deleted']}")
-        print(f"[ITMWeb] llm_dialog_deleted={deleted['llm_dialog_deleted']}")
-        print(f"[ITMWeb] repair_states_deleted={deleted['repair_states_deleted']}")
-        return
-
-    removed_mappings = reset_mapping_library()
-    deleted = delete_output_memory_files()
-    print("[ITMWeb] experiment memory reset")
-    print("[ITMWeb] app=all")
+    if not app:
+        raise SystemExit("Missing required --app. This script only clears mapping memory for one specified app.")
+    removed_mappings = reset_mapping_library_for_app(app)
+    print("[ITMWeb] mapping memory reset")
+    print(f"[ITMWeb] app={app}")
     print(f"[ITMWeb] mapping_library={MAPPING_PATH}")
     print(f"[ITMWeb] mappings_removed={removed_mappings}")
-    print(f"[ITMWeb] old_intentions_deleted={deleted['old_intentions_deleted']}")
-    print(f"[ITMWeb] llm_dialog_deleted={deleted['llm_dialog_deleted']}")
-    print(f"[ITMWeb] repair_states_deleted={deleted['repair_states_deleted']}")
 
 
 if __name__ == "__main__":

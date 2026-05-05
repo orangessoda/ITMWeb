@@ -1,0 +1,6 @@
+{
+  "case_goal": "018_deleteEntryTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/018_deleteEntryTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

@@ -1,0 +1,6 @@
+{
+  "case_goal": "032_deleteProjectVersionTest",
+  "summary": "Migrate mantisbt_v2_24_3_tests/032_deleteProjectVersionTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

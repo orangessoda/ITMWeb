@@ -1,0 +1,153 @@
+{
+  "case_goal": "Test the filter functionality of the time tracker in the Collabtive project management application.",
+  "summary": "Login as admin, navigate to the 'test' project, open the timetracker, configure and apply a filter with date range (01.03.2024 - 20.03.2024), select a user and a task, then submit the filter.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page is displayed"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field is cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username 'admin' is entered"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field is cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password 'admin' is entered"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login form submits (page remains login page but credentials filled)"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Successfully logged in, desktop page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project 'test' page is displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"contentwrapper\"]/div[1]/ul/li[7]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Timetracker page is displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"filter_butn\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Filter form is opened (start date field becomes visible)"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"start\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Start date field is cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"start\"]",
+      "value": "01.03.2024",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Start date '01.03.2024' is entered"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"datepicker_startfilter\"]/table/tbody/tr[8]/td/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Date picker closes and start date is set"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"end\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "End date field is cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"end\"]",
+      "value": "20.03.2024",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "End date '20.03.2024' is entered"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"datepicker_endfilter\"]/table/tbody/tr[8]/td/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Date picker closes and end date is set"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"usr\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "User dropdown is opened"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"usr\"]/option[2]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Second user option is selected"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"ttask\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Task dropdown is opened"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"ttask\"]/option[2]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Second task option is selected"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"filterTimetrackerForm\"]/fieldset/div[7]/button[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Filter is applied, timetable updates with matching entries"
+    }
+  ]
+}

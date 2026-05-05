@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete an existing announcement as an admin user.",
+  "summary": "Admin logs in, navigates to Announcements, opens the dropdown menu for an announcement, clicks Delete, then confirms deletion by clicking Yes.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Navigate to homepage"
+    },
+    {
+      "action_type": "type",
+      "target": "username field (plg_usr_login_name)",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Enter username"
+    },
+    {
+      "action_type": "type",
+      "target": "password field (plg_usr_password)",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Enter password"
+    },
+    {
+      "action_type": "click",
+      "target": "Sign in button (next_page)",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login successful, redirect to overview with admin options"
+    },
+    {
+      "action_type": "click",
+      "target": "Announcements link",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/announcements/announcements.php",
+      "expected_result": "Navigate to announcements page"
+    },
+    {
+      "action_type": "click",
+      "target": "dropdownMenuButton (first announcement)",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/announcements/announcements.php",
+      "expected_result": "Open dropdown menu for first announcement"
+    },
+    {
+      "action_type": "click",
+      "target": "Delete link (third item in dropdown)",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/announcements/announcements.php",
+      "expected_result": "Open confirmation dialog"
+    },
+    {
+      "action_type": "click",
+      "target": "Yes button (btn_yes)",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/announcements/announcements.php",
+      "expected_result": "Announcement deleted, return to announcements page without that announcement"
+    }
+  ]
+}

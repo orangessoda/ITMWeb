@@ -1,0 +1,90 @@
+{
+  "case_goal": "Edit a project version's description in MantisBT",
+  "summary": "Login as admin, navigate to project management, select project '123', edit its version by updating the description to 'test', then submit the update.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "username input",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "click",
+      "target": "login button",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Navigate to password page (http://mantis-old.local:8080/login_password_page.php)"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password input",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "login button",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigate to my view page (http://mantis-old.local:8080/my_view_page.php)"
+    },
+    {
+      "action_type": "click",
+      "target": "sidebar manage link",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/my_view_page.php",
+      "expected_result": "Navigate to manage overview page (http://mantis-old.local:8080/manage_overview_page.php)"
+    },
+    {
+      "action_type": "click",
+      "target": "project management link",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Navigate to project management page (http://mantis-old.local:8080/manage_proj_page.php)"
+    },
+    {
+      "action_type": "click",
+      "target": "project '123' link",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_page.php",
+      "expected_result": "Navigate to project edit page (http://mantis-old.local:8080/manage_proj_edit_page.php?project_id=1)"
+    },
+    {
+      "action_type": "click",
+      "target": "version edit button",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_edit_page.php?project_id=1",
+      "expected_result": "Navigate to version edit page (http://mantis-old.local:8080/manage_proj_ver_edit_page.php?version_id=1)"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "version description textarea",
+      "value": "test",
+      "page_url": "http://mantis-old.local:8080/manage_proj_ver_edit_page.php?version_id=1",
+      "expected_result": "Description field cleared and set to 'test'"
+    },
+    {
+      "action_type": "click",
+      "target": "released checkbox label/span",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_ver_edit_page.php?version_id=1",
+      "expected_result": "Toggled released checkbox (state remains checked in log)"
+    },
+    {
+      "action_type": "click",
+      "target": "update version submit button",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_ver_edit_page.php?version_id=1",
+      "expected_result": "Version updated, redirected to manage_proj_ver_update.php with success indicator"
+    }
+  ]
+}

@@ -1,0 +1,69 @@
+{
+  "case_goal": "Create a new folder named 'test' in the Documents & Files module after logging in as admin.",
+  "summary": "Open overview, login with admin/admin, navigate to Documents & Files, click Create folder, enter folder name 'test' and description 'test', submit to create the folder.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://admidio-old.local:8082/adm_program/overview.php",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login form with username, password fields visible."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login field filled with 'admin'."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Logged in, 'My profile' and 'Sign out' links appear."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"documents-files\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "Documents & Files page with 'Upload files', 'Create folder', 'Permissions' links."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"menu_item_documents_create_folder\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_new.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Create folder form with 'new_folder', 'new_description' fields and 'Create folder' button."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"new_folder\"]",
+      "value": "test",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_new.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Folder name field filled with 'test'."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"new_description\"]",
+      "value": "test",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_new.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Description field filled with 'test'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"btn_create\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files_function.php?mode=3&folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Success note page with 'Next' button."
+    }
+  ]
+}

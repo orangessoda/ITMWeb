@@ -1,0 +1,83 @@
+{
+  "case_goal": "Link an existing custom field to a specific project and update its sequence order.",
+  "summary": "Login as admin, navigate to custom field management, edit the first custom field (123), select a project to associate it with, set sequence to 1, and save.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page loaded successfully"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username 'admin' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"login-form\"]/fieldset/input[2]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Navigated to password page"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password 'admin' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"login-form\"]/fieldset/input[3]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Logged in and redirected to my_view_page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=管理",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/my_view_page.php",
+      "expected_result": "Navigated to manage overview page"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[5]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Navigated to custom field management page"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"main-container\"]/div[2]/div[2]/div/div/div[2]/div[2]/div[1]/div/table/tbody/tr/td[1]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_custom_field_page.php",
+      "expected_result": "Navigated to edit page for custom field '123'"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"custom-field-project-id\"]/option",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_custom_field_edit_page.php?field_id=1",
+      "expected_result": "First project option selected (field linked to project)"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"custom-field-sequence\"]",
+      "value": "1",
+      "page_url": "http://mantis-old.local:8080/manage_custom_field_edit_page.php?field_id=1",
+      "expected_result": "Sequence set to 1"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"main-container\"]/div[2]/div[2]/div/div[3]/div[2]/div[2]/div/div/table/tbody/tr[4]/td/div/input",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_custom_field_edit_page.php?field_id=1",
+      "expected_result": "Form submitted successfully, custom field updated"
+    }
+  ]
+}

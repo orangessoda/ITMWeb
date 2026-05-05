@@ -1,0 +1,41 @@
+{
+  "case_goal": "Close a project in Collabtive",
+  "summary": "Login to Collabtive, then navigate to a project by clicking its link to close it.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed with title 'Login @ Collabtive'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Successful login; desktop page displayed with title 'Desktop @ Collabtive'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"proj_1\"]/tr[1]/td[1]/a",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Project details page loaded (expected, though log shows same URL)"
+    }
+  ]
+}

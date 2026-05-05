@@ -1,0 +1,69 @@
+{
+  "case_goal": "Edit an existing role (test) by enabling permissions for projects, milestones, tasks, messages, files, and timetracker.",
+  "summary": "Admin logs in, navigates to User Administration, opens the role editor for the first role (test), checks 14 permission checkboxes to grant various permissions, and submits the form.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "http://collabtive-old.local:8084/",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page loaded"
+    },
+    {
+      "action_type": "type",
+      "target": "Username field",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "type",
+      "target": "Password field",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "Login button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Logged in, Desktop page shown"
+    },
+    {
+      "action_type": "click",
+      "target": "Menu: Project Administration",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Project Administration page"
+    },
+    {
+      "action_type": "click",
+      "target": "Submenu: User Administration",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "User Administration page"
+    },
+    {
+      "action_type": "click",
+      "target": "Edit role icon for first role (test)",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Role editing form expanded"
+    },
+    {
+      "action_type": "click",
+      "target": "Permission checkboxes (14 total) for projects, milestones, tasks, messages, files, timetracker",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Selected permissions enabled"
+    },
+    {
+      "action_type": "click",
+      "target": "Submit button to save role",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Role saved, URL changes to mode=roleedited"
+    }
+  ]
+}

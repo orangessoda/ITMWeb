@@ -1,0 +1,69 @@
+{
+  "case_goal": "Open a milestone in Collabtive",
+  "summary": "Logs in as admin, navigates to project 'test', goes to Milestones tab, clicks 'Show done milestones' button, then opens the first milestone.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed (Login @ Collabtive)"
+    },
+    {
+      "action_type": "type",
+      "target": "username",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field populated"
+    },
+    {
+      "action_type": "type",
+      "target": "password",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field populated"
+    },
+    {
+      "action_type": "click",
+      "target": "Stay logged in checkbox area",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Stay logged in toggle (state unchanged)"
+    },
+    {
+      "action_type": "click",
+      "target": "Login button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Logged in, Desktop page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "First project link",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project test page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "Milestones tab",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Milestones page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "Show done milestones button (donebutn)",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Done milestones section toggled"
+    },
+    {
+      "action_type": "click",
+      "target": "First milestone link in miles_undefined",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1&mode=opened",
+      "expected_result": "Milestone opened in opened mode"
+    }
+  ]
+}

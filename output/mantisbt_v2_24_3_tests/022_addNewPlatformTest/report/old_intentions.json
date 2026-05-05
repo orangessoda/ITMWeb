@@ -1,0 +1,90 @@
+{
+  "case_goal": "Add a new platform profile in MantisBT platform configuration management",
+  "summary": "Login as admin, navigate to platform profile management page, fill in new profile fields (platform, OS, OS version, description), and submit the form. Verify the new profile appears in the profile selection dropdown.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page is loaded"
+    },
+    {
+      "action_type": "type",
+      "target": "username input",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field contains 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "login button",
+      "value": "//*[@id=\"login-form\"]/fieldset/input[2]",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password page is displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "password input",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field contains 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "login submit button",
+      "value": "//*[@id=\"login-form\"]/fieldset/input[3]",
+      "page_url": "http://mantis-old.local:8080/my_view_page.php",
+      "expected_result": "Main dashboard page is loaded (My View)"
+    },
+    {
+      "action_type": "click",
+      "target": "management link",
+      "value": "link text=管理",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Management overview page is displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "platform configuration link",
+      "value": "xpath=//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[6]/a",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Platform profile management page is displayed with form fields"
+    },
+    {
+      "action_type": "type",
+      "target": "platform field",
+      "value": "Windows",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Platform field contains 'Windows'"
+    },
+    {
+      "action_type": "type",
+      "target": "OS field",
+      "value": "Windows11",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "OS field contains 'Windows11'"
+    },
+    {
+      "action_type": "type",
+      "target": "OS version field",
+      "value": "version 23H2",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "OS version field contains 'version 23H2'"
+    },
+    {
+      "action_type": "type",
+      "target": "description textarea",
+      "value": "test",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Description field contains 'test'"
+    },
+    {
+      "action_type": "click",
+      "target": "add platform profile submit button",
+      "value": "xpath=//*[@id=\"account-profile-form\"]/fieldset/div/div[2]/div[2]/input",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "New profile 'Windows Windows11 version 23H2' appears in the profile selection dropdown"
+    }
+  ]
+}

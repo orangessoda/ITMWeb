@@ -1,0 +1,62 @@
+{
+  "case_goal": "Verify that an existing project can be edited successfully by toggling 'Never due' and 'Change all due dates' checkboxes and saving.",
+  "summary": "Login to Collabtive, navigate to the edit form of the first project, enable 'never due' and 'change all due dates' options, then submit the edit. Confirm the project details page shows the updated budget and customer information.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page loaded, title 'Login @ Collabtive'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field cleared and 'admin' entered"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field cleared and 'admin' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login successful, navigates to Desktop page with title 'Desktop @ Collabtive'"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[5]/a[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Edit form for first project appears, pre-filled with budget 100, name 'test', etc."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"neverdue\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "'never due' checkbox is checked"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"changeallduedates\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "'change all due dates' checkbox is checked"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"form_addmyproject\"]/div/form/fieldset/div[8]/button[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Form submits, navigates to manageproject.php?action=showproject&id=1&mode=edited, title 'Project test @ Collabtive', displays budget 100 and customer details"
+    }
+  ]
+}

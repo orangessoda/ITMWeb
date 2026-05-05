@@ -1,0 +1,55 @@
+{
+  "case_goal": "Delete a role from the Groups & roles page in Admidio.",
+  "summary": "The test logs in as admin, navigates to Groups & roles, clicks the delete icon for a role, and confirms the deletion via the confirmation dialog.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Overview page displayed with login form."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login name field filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Successfully logged in; page now shows 'My profile' and 'Sign out' links in the header."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"groups-roles\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Navigated to Groups & roles page; page title 'Demo-Organisation - Groups & roles'."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/div[3]/div/div/ul/li[1]/a[6]/i",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Confirmation dialog appears with 'Yes' and 'No' buttons (btn_yes and btn_no become visible)."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"btn_yes\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Role deleted; page shows '×' close button and confirmation dialog remains visible, role removed from list."
+    }
+  ]
+}

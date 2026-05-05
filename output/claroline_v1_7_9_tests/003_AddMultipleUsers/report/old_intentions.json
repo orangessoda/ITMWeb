@@ -1,0 +1,153 @@
+{
+  "case_goal": "Add multiple users to the Claroline platform via the admin interface",
+  "summary": "Admin logs in, navigates to Platform Administration, creates two users (testuser1 and testuser2) with password 'testuser', then views the user list to verify creation.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login page displayed with username and password fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field populated with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field populated with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "User is logged in; admin links visible (Platform Administration, Logout, etc.)"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page displayed with links to manage users and courses"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Create user",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Create a new user form displayed with fields: lastname, firstname, username, password, etc."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=lastname",
+      "value": "testuser1",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Last name field filled with 'testuser1'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=firstname",
+      "value": "testuser1",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "First name field filled with 'testuser1'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=username",
+      "value": "testuser1",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Username field filled with 'testuser1'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "testuser",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password field filled with 'testuser'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password_conf",
+      "value": "testuser",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password confirmation field filled with 'testuser'"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input[type=submit]",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "User created; success page displayed with links 'Register this user to a course', 'Go to user settings', 'Create another new user', 'Back to admin page'"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Create another new user",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Form cleared and ready for new user creation"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=lastname",
+      "value": "testuser2",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Last name field filled with 'testuser2'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=firstname",
+      "value": "testuser2",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "First name field filled with 'testuser2'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=username",
+      "value": "testuser2",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Username field filled with 'testuser2'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "testuser",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password field filled with 'testuser'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password_conf",
+      "value": "testuser",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password confirmation field filled with 'testuser'"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input[type=submit]",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Second user created; success page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Back to admin page",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/index.php",
+      "expected_result": "Administration page displayed again"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=User list",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php",
+      "expected_result": "User list table displayed, showing both testuser1 and testuser2 with '0 course'"
+    }
+  ]
+}

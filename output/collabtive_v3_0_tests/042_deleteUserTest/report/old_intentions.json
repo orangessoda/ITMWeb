@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete a user from the Collabtive system via the admin interface.",
+  "summary": "Log in as admin, navigate to User Administration, hover over the first user (test) and click the delete link, bypassing the confirmation dialog.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url=http://collabtive-old.local:8084/",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed with username and password fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Desktop page displayed after successful login"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"mainmenue\"]/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Project Administration page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"contentwrapper\"]/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "User Administration page with user list"
+    },
+    {
+      "action_type": "hover",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[1]/div[4]/div[2]/div[1]/div/div/ul/li[1]/div",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Delete link becomes visible for the first user"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "User deleted, redirected to admin.php?action=users&mode=deleted"
+    }
+  ]
+}

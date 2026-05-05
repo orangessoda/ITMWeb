@@ -1,0 +1,83 @@
+{
+  "case_goal": "Edit an existing task in project 'test' by modifying its description and assigning a milestone, and verify the edit is successful.",
+  "summary": "Log in as admin, navigate to project 'test', go to tasks section, edit the first task, change description to '123', select a milestone, and save.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://collabtive-old.local:8084/",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page loaded with username and password fields."
+    },
+    {
+      "action_type": "type",
+      "target": "xpath=//*[@id='username']",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field contains 'admin'."
+    },
+    {
+      "action_type": "type",
+      "target": "xpath=//*[@id='pass']",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field contains 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='loginform']/fieldset/div[4]/button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "User logged in and desktop page displayed."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project page for 'test' loaded with project details."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='contentwrapper']/div[1]/ul/li[3]/a",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Tasks page displayed with task list."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div/div[4]/div[4]/div[2]/table/tbody/tr[1]/td[5]/a[1]",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Inline edit form for first task appears with text editor and milestone select."
+    },
+    {
+      "action_type": "switch_to_frame",
+      "target": "xpath=//*[@id='text_ifr']",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Focus switched to TinyMCE editor iframe."
+    },
+    {
+      "action_type": "type",
+      "target": "xpath=/html/body",
+      "value": "123",
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Editor body contains '123'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div/div[4]/div[4]/div[1]/div/form/fieldset/div[8]/select/option[2]",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Milestone option 'test milestone' selected."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div/div[4]/div[4]/div[1]/div/form/fieldset/div[9]/button[1]",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1&mode=edited",
+      "expected_result": "Task edited successfully (mode=edited in URL)."
+    }
+  ]
+}

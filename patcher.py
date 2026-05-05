@@ -4,6 +4,7 @@ import os
 import re
 import subprocess
 import sys
+import tempfile
 import time
 from dataclasses import dataclass
 from pathlib import Path
@@ -138,6 +139,10 @@ class PatchGenerator:
             return [f"driver.execute_script({value})"]
         if action in {"default_content", "switch_default_content"}:
             return ["driver.switch_to.default_content()"]
+        if action in {"accept_alert", "alert_accept"}:
+            return ["driver.switch_to.alert.accept()"]
+        if action in {"dismiss_alert", "alert_dismiss"}:
+            return ["driver.switch_to.alert.dismiss()"]
         locator = self._locator_expr(str(step.get("selector_type", "") or ""), str(step.get("selector", "") or ""))
         if action in {"input", "send_keys"}:
             return [
@@ -252,42 +257,97 @@ class ReplayRunner:
     def replay(self, script_path: str | Path) -> ReplayResult:
         script_path = Path(script_path)
         started = time.perf_counter()
-        env = self._replay_env()
-        result = subprocess.run(
-            [sys.executable, str(script_path)],
-            cwd=str(script_path.parent),
-            capture_output=True,
-            text=True,
-            env=env,
-            timeout=self._timeout_seconds(),
-        )
+        log_path = script_path.parent / "action_log.txt"
+        log_path.write_text("", encoding="utf-8")
+        env = self._replay_env(log_path)
+        with tempfile.TemporaryFile(mode="w+", encoding="utf-8", errors="ignore") as stdout_file:
+            with tempfile.TemporaryFile(mode="w+", encoding="utf-8", errors="ignore") as stderr_file:
+                process = subprocess.Popen(
+                    [sys.executable, str(script_path)],
+                    cwd=str(script_path.parent),
+                    stdout=stdout_file,
+                    stderr=stderr_file,
+                    text=True,
+                    env=env,
+                )
+                try:
+                    return_code = process.wait(timeout=self._timeout_seconds())
+                except subprocess.TimeoutExpired:
+                    self._kill_process_tree(process.pid)
+                    return_code = None
+                    timeout = self._timeout_seconds()
+                    message = f"Replay timed out after {timeout} seconds."
+                    with log_path.open("a", encoding="utf-8", errors="ignore") as handle:
+                        handle.write(f"\n[stderr]\n{message}\n")
+                    stdout_file.seek(0)
+                    stderr_file.seek(0)
+                    stdout = stdout_file.read()
+                    stderr = stderr_file.read()
+                    failure = FailureInfo(
+                        script_path=str(script_path),
+                        line_num=0,
+                        broken_statement="",
+                        error_type="ReplayTimeout",
+                        traceback=stderr,
+                        message=message,
+                    )
+                    return ReplayResult(False, return_code, stdout, stderr, time.perf_counter() - started, failure)
+                stdout_file.seek(0)
+                stderr_file.seek(0)
+                stdout = stdout_file.read()
+                stderr = stderr_file.read()
+        if return_code != 0:
+            self._kill_process_tree(process.pid)
         failure = None
-        if result.returncode != 0:
+        if return_code != 0:
             failure = FailureInfo(
                 script_path=str(script_path),
                 line_num=0,
                 broken_statement="",
                 error_type="ReplayFailure",
-                traceback=result.stderr,
+                traceback=stderr,
                 message="Migrated script failed during replay.",
             )
-        return ReplayResult(result.returncode == 0, result.returncode, result.stdout, result.stderr, time.perf_counter() - started, failure)
+        return ReplayResult(return_code == 0, return_code, stdout, stderr, time.perf_counter() - started, failure)
+
+    def _kill_process_tree(self, pid: int) -> None:
+        if os.name == "nt":
+            subprocess.run(
+                ["taskkill", "/PID", str(pid), "/T", "/F"],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                check=False,
+            )
+            return
+        try:
+            os.kill(pid, 9)
+        except OSError:
+            pass
 
     def _timeout_seconds(self) -> int | None:
         try:
-            value = int(getattr(getattr(self.config, "trace", None), "script_timeout_seconds", 0) or 0)
+            trace_config = getattr(self.config, "trace", None)
+            value = int(
+                getattr(
+                    trace_config,
+                    "replay_timeout_seconds",
+                    getattr(trace_config, "script_timeout_seconds", 0),
+                )
+                or 0
+            )
         except Exception:
             value = 0
         return value if value > 0 else None
 
-    def _replay_env(self) -> dict[str, str]:
+    def _replay_env(self, log_path: Path) -> dict[str, str]:
         env = os.environ.copy()
         bootstrap_dir = self._ensure_bootstrap_dir()
         existing_pythonpath = env.get("PYTHONPATH", "")
         env["PYTHONPATH"] = str(bootstrap_dir) + (os.pathsep + existing_pythonpath if existing_pythonpath else "")
         browser = getattr(self.config, "browser", None)
-        env["ITMWEB_TRACE_LOG_FILE"] = ""
+        env["ITMWEB_TRACE_LOG_FILE"] = str(log_path)
         env["ITMWEB_TRACE_HOLD_ON_ERROR"] = "0"
+        env["ITMWEB_CLOSE_BROWSER_ON_ERROR"] = "1"
         env["ITMWEB_BROWSER_NO_PROXY_SERVER"] = "1" if getattr(browser, "force_no_proxy_server", True) else "0"
         env["ITMWEB_BROWSER_ISOLATED_PROFILE"] = "1" if getattr(browser, "use_isolated_user_data_dir", True) else "0"
         env["ITMWEB_BROWSER_ISOLATED_PROFILE_ROOT"] = str(

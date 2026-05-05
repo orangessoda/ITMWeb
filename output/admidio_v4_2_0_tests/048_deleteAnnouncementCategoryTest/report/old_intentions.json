@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete an existing announcement category (e.g., '123') to verify deletion functionality.",
+  "summary": "Log in as admin, navigate to Announcements, open Edit categories, select the third category delete button, and confirm deletion.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login page is displayed with username and password fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "plg_usr_login_name",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "plg_usr_password",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "next_page",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "User is logged in and redirected to overview page with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "announcements",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/announcements/announcements.php",
+      "expected_result": "Announcements page is displayed with 'Edit categories' button"
+    },
+    {
+      "action_type": "click",
+      "target": "menu_item_announcement_categories",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ANN",
+      "expected_result": "Categories management page is displayed with list of categories"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/table/tbody/tr[3]/td[6]/a[2]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ANN",
+      "expected_result": "A confirmation dialog appears asking to delete the category"
+    },
+    {
+      "action_type": "click",
+      "target": "btn_yes",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ANN",
+      "expected_result": "Category is deleted and a success message is shown (or category removed from list)"
+    }
+  ]
+}

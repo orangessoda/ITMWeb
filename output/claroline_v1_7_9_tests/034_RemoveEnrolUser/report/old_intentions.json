@@ -1,0 +1,55 @@
+{
+  "case_goal": "Remove a course enrolment for user UserU",
+  "summary": "Log in as UserU, navigate to the Remove course enrolment page, unsubscribe from the '1 - Math' course by confirming the JavaScript dialog, and verify the success message.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Home page displayed with login form"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "UserU",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "passwordU",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Logged in, user sees 'Remove course enrolment' link"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Remove course enrolment",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=rqUnreg",
+      "expected_result": "Course list page with unsubscribe icons"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "script",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=exUnreg&course=1b2e",
+      "expected_result": "Confirmation dialog accepted, page shows 'Back to my personal course list'"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/blockquote/table/tbody/tr/td/p[1]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=exUnreg&course=1b2e",
+      "expected_result": "Success message element located"
+    }
+  ]
+}

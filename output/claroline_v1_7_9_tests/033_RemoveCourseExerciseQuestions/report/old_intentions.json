@@ -1,0 +1,146 @@
+{
+  "case_goal": "Remove exercise questions from a course exercise.",
+  "summary": "Admin logs into Claroline, navigates to the Math course, accesses Exercises, modifies the Sample exercise, and deletes a question by confirming the delete dialog.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Page loaded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "login",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "clear",
+      "target": "id=login",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "login",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "password",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "clear",
+      "target": "id=password",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "password",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "find_element",
+      "target": "name",
+      "value": "submitAuth",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "User logged in"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text",
+      "value": "1 - Math",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "link text=1 - Math",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "Course page displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text",
+      "value": "Exercises",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercises",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": "Exercises page displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath",
+      "value": "(//img[@alt='Modify'])[1]",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=(//img[@alt='Modify'])[1]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php?exerciseId=1",
+      "expected_result": "Exercise admin page displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath",
+      "value": "/html/body/div[3]/table/tbody/tr[2]/td/a[2]/img",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php?exerciseId=1",
+      "expected_result": ""
+    },
+    {
+      "action_type": "execute_script",
+      "target": "script",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php?deleteQuestion=1",
+      "expected_result": "Question deleted"
+    },
+    {
+      "action_type": "find_element",
+      "target": "tag name",
+      "value": "body",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php?deleteQuestion=1",
+      "expected_result": ""
+    }
+  ]
+}

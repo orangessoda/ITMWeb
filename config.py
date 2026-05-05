@@ -139,7 +139,8 @@ class ArtifactConfig:
 
 @dataclass(slots=True)
 class TraceConfig:
-    script_timeout_seconds: int = 300
+    script_timeout_seconds: int = 90
+    replay_timeout_seconds: int = 90
     stdout_tail_chars: int = 4000
     stderr_tail_chars: int = 4000
     keep_browser_on_trace_failure: bool = False
@@ -191,6 +192,14 @@ def load_config() -> ProjectConfig:
     config.model.api_key_env = _env_str("ITMWEB_API_KEY_ENV", config.model.api_key_env)
     config.model.api_key_value = _env_str("ITMWEB_API_KEY", config.model.api_key_value)
     config.model.timeout_seconds = max(1, _env_int("ITMWEB_LLM_TIMEOUT_SECONDS", config.model.timeout_seconds))
+    config.trace.script_timeout_seconds = max(
+        1,
+        _env_int("ITMWEB_TRACE_SCRIPT_TIMEOUT_SECONDS", config.trace.script_timeout_seconds),
+    )
+    config.trace.replay_timeout_seconds = max(
+        1,
+        _env_int("ITMWEB_REPLAY_TIMEOUT_SECONDS", config.trace.replay_timeout_seconds),
+    )
     config.model.strict_llm = _env_str("ITMWEB_STRICT_LLM", "1" if config.model.strict_llm else "0") == "1"
     config.migration.max_attempts_per_breakpoint = max(
         1,

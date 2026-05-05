@@ -1,0 +1,62 @@
+{
+  "case_goal": "Assign a member to a role and designate them as a leader.",
+  "summary": "Logs in as admin, navigates to Groups & roles, selects the 'test' role's member assignment, checks the membership and leader checkboxes for Paul Schmidt.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "login_name",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "sign_in_button",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Logged in, overview page with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "groups-roles link",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Groups & roles page with list of roles"
+    },
+    {
+      "action_type": "click",
+      "target": "member assignment icon for role 'test'",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/members_assignment.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393",
+      "expected_result": "Member assignment page for 'test' role"
+    },
+    {
+      "action_type": "click",
+      "target": "member checkbox for Paul Schmidt",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/members_assignment.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393",
+      "expected_result": "Paul Schmidt is added as a member"
+    },
+    {
+      "action_type": "click",
+      "target": "leader checkbox for Paul Schmidt",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/members_assignment.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393",
+      "expected_result": "Paul Schmidt is set as a leader"
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+[ACTION][TRY] get url=http://mrbs-new.local:8095/admin.php | note: opening page
+[ACTION][OK] get url=http://mrbs-new.local:8095/admin.php | note: page opened
+[PAGE_STATE] {"action_index": 1, "trigger": "after_get", "note": "url=http://mrbs-new.local:8095/admin.php", "url": "http://mrbs-new.local:8095/admin.php", "title": "Meeting Room Booking System", "widgets": [{"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 1, "name": "MAX_FILE_SIZE", "role": "", "tag": "input", "text": "2097152", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 2, "name": "csrf_token", "role": "", "tag": "input", "text": "a48d64ea9163e24f8fd6508540685a6834561a0c09b921c050f73a34014ad5d2", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 3, "name": "returl", "role": "", "tag": "input", "text": "", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 4, "name": "target_url", "role": "", "tag": "input", "text": "admin.php", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 5, "name": "action", "role": "", "tag": "input", "text": "SetName", "type": "hidden", "visible": false}, {"box": {"height": 46, "width": 270, "x": 817, "y": 177}, "enabled": true, "href": "", "id": "username", "index": 6, "name": "username", "role": "", "tag": "input", "text": "Username or email address", "type": "text", "visible": true}, {"box": {"height": 46, "width": 270, "x": 817, "y": 223}, "enabled": true, "href": "", "id": "password", "index": 7, "name": "password", "role": "", "tag": "input", "text": "Passwort", "type": "password", "visible": true}, {"box": {"height": 48, "width": 270, "x": 817, "y": 279}, "enabled": true, "href": "", "id": "", "index": 8, "name": "", "role": "", "tag": "input", "text": "Log in", "type": "submit", "visible": true}, {"box": {"height": 20, "width": 165, "x": 870, "y": 329}, "enabled": true, "href": "reset_password.php", "id": "", "index": 9, "name": "", "role": "", "tag": "a", "text": "Lost your password?", "type": "", "visible": true}]}
+[ACTION][TRY] find_element by=xpath value=//*[@id="username"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="username"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="username"] | note: clearing element
+[ACTION][OK] clear locator=xpath=//*[@id="username"] | note: clear succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="username"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="username"] | note: element located
+[ACTION][TRY] send_keys locator=xpath=//*[@id="username"] text="admin" | note: typing into element
+[ACTION][OK] send_keys locator=xpath=//*[@id="username"] | note: typing succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="password"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="password"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="password"] | note: clearing element
+[ACTION][OK] clear locator=xpath=//*[@id="password"] | note: clear succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="password"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="password"] | note: element located
+[ACTION][TRY] send_keys locator=xpath=//*[@id="password"] text="admin" | note: typing into element
+[ACTION][OK] send_keys locator=xpath=//*[@id="password"] | note: typing succeeded
+[ACTION][TRY] find_element by=xpath value=//*[@id="logon"]/fieldset[2]/div/input | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="logon"]/fieldset[2]/div/input | note: element located
+[ACTION][TRY] click locator=xpath=//*[@id="logon"]/fieldset[2]/div/input | note: clicking element
+[ACTION][OK] click locator=xpath=//*[@id="logon"]/fieldset[2]/div/input | note: click succeeded
+[PAGE_STATE] {"action_index": 11, "trigger": "after_click", "note": "locator=xpath=//*[@id=\"logon\"]/fieldset[2]/div/input", "url": "http://mrbs-new.local:8095/admin.php", "title": "Meeting Room Booking System", "widgets": [{"box": {"height": 70, "width": 318, "x": 12, "y": 8}, "enabled": true, "href": "index.php", "id": "", "index": 1, "name": "", "role": "", "tag": "a", "text": "Your Company Meeting Room Booking System", "type": "", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 2, "name": "", "role": "", "tag": "button", "text": "", "type": "button", "visible": false}, {"box": {"height": 40, "width": 71, "x": 1149, "y": 23}, "enabled": true, "href": "report.php?view=day&page_date=2026-05-05", "id": "", "index": 3, "name": "", "role": "", "tag": "a", "text": "Report", "type": "", "visible": true}, {"box": {"height": 40, "width": 72, "x": 1220, "y": 23}, "enabled": true, "href": "import.php?view=day&page_date=2026-05-05", "id": "", "index": 4, "name": "", "role": "", "tag": "a", "text": "Import", "type": "", "visible": true}, {"box": {"height": 40, "width": 71, "x": 1292, "y": 23}, "enabled": true, "href": "admin.php?view=day&page_date=2026-05-05", "id": "", "index": 5, "name": "", "role": "", "tag": "a", "text": "Rooms", "type": "", "visible": true}, {"box": {"height": 40, "width": 60, "x": 1363, "y": 23}, "enabled": true, "href": "edit_users.php?view=day&page_date=2026-05-05", "id": "", "index": 6, "name": "", "role": "", "tag": "a", "text": "Users", "type": "", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 7, "name": "view", "role": "", "tag": "input", "text": "day", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 8, "name": "area", "role": "", "tag": "input", "text": "0", "type": "hidden", "visible": false}, {"box": {"height": 38, "width": 160, "x": 1428, "y": 24}, "enabled": true, "href": "", "id": "", "index": 9, "name": "page_date", "role": "", "tag": "input", "text": "2026-05-05", "type": "date", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 10, "name": "MAX_FILE_SIZE", "role": "", "tag": "input", "text": "2097152", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 11, "name": "csrf_token", "role": "", "tag": "input", "text": "a48d64ea9163e24f8fd6508540685a6834561a0c09b921c050f73a34014ad5d2", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 12, "name": "view", "role": "", "tag": "input", "text": "day", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 13, "name": "year", "role": "", "tag": "input", "text": "2026", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 14, "name": "month", "role": "", "tag": "input", "text": "5", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 15, "name": "day", "role": "", "tag": "input", "text": "5", "type": "hidden", "visible": false}, {"box": {"height": 38, "width": 204, "x": 1596, "y": 24}, "enabled": true, "href": "", "id": "", "index": 16, "name": "search_str", "role": "", "tag": "input", "text": "Search", "type": "search", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 17, "name": "MAX_FILE_SIZE", "role": "", "tag": "input", "text": "2097152", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 18, "name": "csrf_token", "role": "", "tag": "input", "text": "a48d64ea9163e24f8fd6508540685a6834561a0c09b921c050f73a34014ad5d2", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 19, "name": "target_url", "role": "", "tag": "input", "text": "admin.php", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 20, "name": "action", "role": "", "tag": "input", "text": "SetName", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 21, "name": "username", "role": "", "tag": "input", "text": "", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 22, "name": "password", "role": "", "tag": "input", "text": "", "type": "hidden", "visible": false}, {"box": {"height": 38, "width": 80, "x": 1808, "y": 24}, "enabled": true, "href": "", "id": "", "index": 23, "name": "", "role": "", "tag": "input", "text": "Log off", "type": "submit", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 24, "name": "MAX_FILE_SIZE", "role": "", "tag": "input", "text": "2097152", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 25, "name": "csrf_token", "role": "", "tag": "input", "text": "a48d64ea9163e24f8fd6508540685a6834561a0c09b921c050f73a34014ad5d2", "type": "hidden", "visible": false}, {"box": {"height": 38, "width": 127, "x": 304, "y": 190}, "enabled": true, "href": "", "id": "", "index": 26, "name": "", "role": "", "tag": "input", "text": "Edit message", "type": "submit", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 27, "name": "MAX_FILE_SIZE", "role": "", "tag": "input", "text": "2097152", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 28, "name": "csrf_token", "role": "", "tag": "input", "text": "a48d64ea9163e24f8fd6508540685a6834561a0c09b921c050f73a34014ad5d2", "type": "hidden", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 29, "name": "type", "role": "", "tag": "input", "text": "area", "type": "hidden", "visible": false}, {"box": {"height": 38, "width": 114, "x": 321, "y": 388}, "enabled": true, "href": "", "id": "", "index": 30, "name": "", "role": "", "tag": "button", "text": "Add Area", "type": "button", "visible": true}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "area_name", "index": 31, "name": "name", "role": "", "tag": "input", "text": "", "type": "text", "visible": false}, {"box": {"height": 0, "width": 0, "x": 0, "y": 0}, "enabled": true, "href": "", "id": "", "index": 32, "name": "", "role": "", "tag": "input", "text": "Add Area", "type": "submit", "visible": false}, {"box": {"height": 40, "width": 239, "x": 832, "y": 625}, "enabled": true, "href": "", "id": "", "index": 33, "name": "", "role": "", "tag": "button", "text": "Return to previous page", "type": "", "visible": true}]}
+[ACTION][TRY] find_element by=xpath value=//*[@id="area_name"] | note: locating element
+[ACTION][OK] find_element by=xpath value=//*[@id="area_name"] | note: element located
+[ACTION][TRY] clear locator=xpath=//*[@id="area_name"] | note: clearing element
+[ACTION][FAIL] clear locator=xpath=//*[@id="area_name"] error=Message: element not interactable
+  (Session info: chrome=147.0.7727.138); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementnotinteractableexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff62c220245+146d5]
+	chromedriver!GetHandleVerifier [0x7ff62c2202b0+14740]
+	chromedriver!(No symbol) [0x7ff62bf8d5b6]
+	chromedriver!(No symbol) [0x7ff62bfdd5f2]
+	chromedriver!(No symbol) [0x7ff62c00ff6a]
+	chromedriver!(No symbol) [0x7ff62bfda986]
+	chromedriver!(No symbol) [0x7ff62c034818]
+	chromedriver!(No symbol) [0x7ff62bfd9018]
+	chromedriver!(No symbol) [0x7ff62bfd9f03]
+	chromedriver!GetHandleVerifier [0x7ff62c5358f9+329d89]
+	chromedriver!GetHandleVerifier [0x7ff62c52fe46+3242d6]
+	chromedriver!GetHandleVerifier [0x7ff62c5530b2+347542]
+	chromedriver!GetHandleVerifier [0x7ff62c23d3d5+31865]
+	chromedriver!GetHandleVerifier [0x7ff62c24600c+3a49c]
+	chromedriver!GetHandleVerifier [0x7ff62c229634+1dac4]
+	chromedriver!GetHandleVerifier [0x7ff62c2297e6+1dc76]
+	chromedriver!GetHandleVerifier [0x7ff62c20e2f7+2787]
+	KERNEL32!BaseThreadInitThunk [0x7fffa318e957+17]
+	ntdll!RtlUserThreadStart [0x7fffa53e427c+2c]
+ | note: clear failed
+[stderr]
+Traceback (most recent call last):
+  File "C:\Users\DELL\Downloads\Graduation_project\ITMWeb\itmweb\output\_bootstrap\bootstrap_trace\sitecustomize.py", line 265, in _clear_with_log
+    result = _orig_clear(self)
+  File "C:\Users\DELL\AppData\Roaming\Python\Python310\site-packages\selenium\webdriver\remote\webelement.py", line 147, in clear
+    self._execute(Command.CLEAR_ELEMENT)
+  File "C:\Users\DELL\AppData\Roaming\Python\Python310\site-packages\selenium\webdriver\remote\webelement.py", line 508, in _execute
+    return self._parent.execute(command, params)
+  File "C:\Users\DELL\AppData\Roaming\Python\Python310\site-packages\selenium\webdriver\remote\webdriver.py", line 432, in execute
+    self.error_handler.check_response(response)
+  File "C:\Users\DELL\AppData\Roaming\Python\Python310\site-packages\selenium\webdriver\remote\errorhandler.py", line 232, in check_response
+    raise exception_class(message, screen, stacktrace)
+selenium.common.exceptions.ElementNotInteractableException: Message: element not interactable
+  (Session info: chrome=147.0.7727.138); For documentation on this error, please visit: https://www.selenium.dev/documentation/webdriver/troubleshooting/errors#elementnotinteractableexception
+Stacktrace:
+	chromedriver!GetHandleVerifier [0x7ff62c220245+146d5]
+	chromedriver!GetHandleVerifier [0x7ff62c2202b0+14740]
+	chromedriver!(No symbol) [0x7ff62bf8d5b6]
+	chromedriver!(No symbol) [0x7ff62bfdd5f2]
+	chromedriver!(No symbol) [0x7ff62c00ff6a]
+	chromedriver!(No symbol) [0x7ff62bfda986]
+	chromedriver!(No symbol) [0x7ff62c034818]
+	chromedriver!(No symbol) [0x7ff62bfd9018]
+	chromedriver!(No symbol) [0x7ff62bfd9f03]
+	chromedriver!GetHandleVerifier [0x7ff62c5358f9+329d89]
+	chromedriver!GetHandleVerifier [0x7ff62c52fe46+3242d6]
+	chromedriver!GetHandleVerifier [0x7ff62c5530b2+347542]
+	chromedriver!GetHandleVerifier [0x7ff62c23d3d5+31865]
+	chromedriver!GetHandleVerifier [0x7ff62c24600c+3a49c]
+	chromedriver!GetHandleVerifier [0x7ff62c229634+1dac4]
+	chromedriver!GetHandleVerifier [0x7ff62c2297e6+1dc76]
+	chromedriver!GetHandleVerifier [0x7ff62c20e2f7+2787]
+	KERNEL32!BaseThreadInitThunk [0x7fffa318e957+17]
+	ntdll!RtlUserThreadStart [0x7fffa53e427c+2c]

@@ -1,0 +1,83 @@
+{
+  "case_goal": "Edit an existing milestone's description and update it.",
+  "summary": "Log in with admin/admin, navigate to project 'test', go to Milestones tab, edit the first milestone, change its description to '123', check 'Change all due dates', and submit.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page loaded."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username entered."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password entered."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login successful, redirect to desktop."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project 'test' page loaded."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"contentwrapper\"]/div[1]/ul/li[2]/a",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Milestones page loaded."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div/div[2]/div[5]/div[2]/div/table/tbody/tr[1]/td[5]/a[1]",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=editform&mid=1&id=1",
+      "expected_result": "Edit milestone form loaded."
+    },
+    {
+      "action_type": "switch_frame",
+      "target": "//*[@id=\"desc_ifr\"]",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=editform&mid=1&id=1",
+      "expected_result": "Switched to description iframe."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "/html/body",
+      "value": "123",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=editform&mid=1&id=1",
+      "expected_result": "Description updated to '123'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"changeallduedates\"]",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=editform&mid=1&id=1",
+      "expected_result": "'Change all due dates' checkbox checked."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"content-left-in\"]/div/div[2]/form/fieldset/div[9]/button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=editform&mid=1&id=1",
+      "expected_result": "Milestone edited, redirect to milestones page with mode=edited."
+    }
+  ]
+}

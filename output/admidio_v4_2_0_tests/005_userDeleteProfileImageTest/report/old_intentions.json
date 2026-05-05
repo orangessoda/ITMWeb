@@ -1,0 +1,55 @@
+{
+  "case_goal": "Delete the user's profile image after logging in.",
+  "summary": "Log in as admin, navigate to profile page, click delete profile image button, confirm deletion.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page title 'Demo-Organisation - Overview' displayed with login form."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='plg_usr_login_name']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='plg_usr_password']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='next_page']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Sign in successful, page shows 'My profile' and 'Sign out' links."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='navbarNav']/ul/li[1]/a",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Profile page displayed with 'Delete profile image' button visible."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='btn_delete_photo']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Confirmation dialog appears with 'Yes' button."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='btn_yes']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Profile image deleted."
+    }
+  ]
+}

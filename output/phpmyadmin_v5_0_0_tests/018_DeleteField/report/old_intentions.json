@@ -1,0 +1,6 @@
+{
+  "case_goal": "018_DeleteField",
+  "summary": "Migrate phpmyadmin_v5_0_0_tests/018_DeleteField.",
+  "steps": [],
+  "error": "APIStatusError"
+}

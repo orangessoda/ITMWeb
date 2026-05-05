@@ -1,0 +1,90 @@
+{
+  "case_goal": "Edit a task list's description and save the changes.",
+  "summary": "Login as admin, navigate to the project 'test', expand all task lists, open 'test list', edit its description using the rich text editor, and save.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://collabtive-old.local:8084/",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed with username, password fields and login button."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Click on the 'Stay logged in' checkbox area (no navigation)."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Logged in and redirected to Desktop page with project list."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Navigated to project 'test' overview page."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"openall\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "All task lists expanded (page stays same)."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[3]/div/div[1]/div[2]/div/div/div[2]/div[2]/div[2]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetasklist.php?action=showtasklist&id=1&tlid=2",
+      "expected_result": "Navigated to task list 'test list' view."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"edit_butn\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetasklist.php?action=showtasklist&id=1&tlid=2",
+      "expected_result": "Edit form for the task list becomes visible (name, description, milestone fields)."
+    },
+    {
+      "action_type": "switch_frame",
+      "target": "//*[@id=\"desc_ifr\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetasklist.php?action=showtasklist&id=1&tlid=2",
+      "expected_result": "Switched to the rich text editor iframe."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "/html/body",
+      "value": "123",
+      "page_url": "http://collabtive-old.local:8084/managetasklist.php?action=showtasklist&id=1&tlid=2",
+      "expected_result": "Description field cleared and set to '123'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"form_edit\"]/div[2]/form/fieldset/div[4]/button[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetasklist.php?action=showtasklist&id=1&tlid=2&mode=edited",
+      "expected_result": "Task list saved with updated description and redirected to same page with 'mode=edited' parameter."
+    }
+  ]
+}

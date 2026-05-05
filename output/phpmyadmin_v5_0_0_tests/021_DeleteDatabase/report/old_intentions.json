@@ -1,0 +1,6 @@
+{
+  "case_goal": "021_DeleteDatabase",
+  "summary": "Migrate phpmyadmin_v5_0_0_tests/021_DeleteDatabase.",
+  "steps": [],
+  "error": "APIStatusError"
+}

@@ -1,0 +1,69 @@
+{
+  "case_goal": "Edit an existing web link (change name and URL) and verify the update is saved.",
+  "summary": "Login as admin, navigate to Web links page, click the edit link icon for the first link, change its name to 'baidu' and its URL to 'www.baidu.com', then save. Confirm that the link name in the list is updated to 'baidu'.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page opens with title 'Demo-Organisation - Overview' and login form is visible."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login name field is cleared and filled with 'admin'."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field is cleared and filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"next_page\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page reloads with admin logged in – menu shows 'My profile' and 'Sign out' links."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"weblinks\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links.php",
+      "expected_result": "Navigate to Web links page with title 'Demo-Organisation - Web links' and list of links visible."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/div/div[2]/div/a[2]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?link_uuid=ee8deb42-4c6b-4b81-a985-9964249e1ba3&headline=Web%20links",
+      "expected_result": "Edit form opens with current link name 'test', URL 'http://www.baidu.com', and description '<p>test</p>'."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"lnk_name\"]",
+      "value": "baidu",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?link_uuid=ee8deb42-4c6b-4b81-a985-9964249e1ba3&headline=Web%20links",
+      "expected_result": "Name field is cleared and filled with 'baidu'."
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"lnk_url\"]",
+      "value": "www.baidu.com",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?link_uuid=ee8deb42-4c6b-4b81-a985-9964249e1ba3&headline=Web%20links",
+      "expected_result": "URL field is cleared and filled with 'www.baidu.com'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"btn_save\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links.php",
+      "expected_result": "Return to Web links page; the link name in the list is updated from 'test' to 'baidu'."
+    }
+  ]
+}

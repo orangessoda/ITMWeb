@@ -1,0 +1,104 @@
+{
+  "case_goal": "Create a password-protected course named 'Society' under the Humanities category and verify it appears in the course list.",
+  "summary": "Admin logs in, navigates to Platform Administration, creates a course with title 'Society', official code '2', category Humanities, enrollment allowed with key 'password', and visibility on. After submission, returns to course list and confirms the new course '2 - Society' is displayed.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://claroline-old.local:8088/",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Home page with login fields is displayed."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": null
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": null
+    },
+    {
+      "action_type": "click",
+      "target": "submitAuth",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login succeeds, main menu with 'Platform Administration' link appears."
+    },
+    {
+      "action_type": "click",
+      "target": "Platform Administration",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page with 'Create course' link is displayed."
+    },
+    {
+      "action_type": "click",
+      "target": "Create course",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Course creation form is displayed."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "title",
+      "value": "Society",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": null
+    },
+    {
+      "action_type": "send_keys",
+      "target": "officialCode",
+      "value": "2",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": null
+    },
+    {
+      "action_type": "select",
+      "target": "category",
+      "value": "HUMA",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Category dropdown set to Humanities."
+    },
+    {
+      "action_type": "click",
+      "target": "courseEnrollAllowed_true",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Enrollment allowed radio selected."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "enrollmentKey",
+      "value": "password",
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": null
+    },
+    {
+      "action_type": "click",
+      "target": "courseVisibility_true",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?fromAdmin=yes",
+      "expected_result": "Course visibility set to true."
+    },
+    {
+      "action_type": "click",
+      "target": "submitFromCoursProperties",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/claroline/create_course/add_course.php?cmd=exCreate&title=Society&officialCode=2&holder=admin%20admin&email=admin%40example.com&category=HUMA&extLinkName=&extLinkUrl=&languageCourse=english&courseVisibility=true&courseEnrollAllowed=true&enrollmentKey=password&submitFr",
+      "expected_result": "Course created successfully, success page with 'Back to my course list' link appears."
+    },
+    {
+      "action_type": "click",
+      "target": "Back to my course list",
+      "value": null,
+      "page_url": "http://claroline-old.local:8088/index.php",
+      "expected_result": "Main page displays new course '2 - Society' in the course list."
+    }
+  ]
+}

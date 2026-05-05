@@ -1,9 +1,9 @@
 {
   "report_schema": "research_v1",
   "case_id": "035_deleteFieldProgramLinkTest",
-  "migration_status": "trace_only",
+  "migration_status": "passed",
   "migration_success": true,
-  "migration_duration_seconds": 0.0,
+  "migration_duration_seconds": 6.166,
   "repair_count": 0,
   "trace": {
     "context": {
@@ -56,21 +56,15 @@
     }
   },
   "migration": {
-    "status": "trace_only",
+    "status": "passed",
     "success": true,
-    "repair_count": 0,
-    "oracle_migration_path": "",
-    "oracle_migration": {},
-    "script_path": "",
+    "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\itmweb\\output\\mantisbt_v2_24_3_tests\\035_deleteFieldProgramLinkTest\\replay\\migrated_035_deleteFieldProgramLinkTest.py",
     "patch": null,
     "attempts": []
   },
   "llm": {
     "provider": "deepseek",
-    "model_name": "deepseek-v4-flash",
-    "api_base": "https://api.deepseek.com",
-    "remote_used": false,
     "remote_calls": 0,
-    "seconds": 0
+    "seconds": 0.476
   }
 }

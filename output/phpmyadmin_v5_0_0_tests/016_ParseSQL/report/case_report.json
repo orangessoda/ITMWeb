@@ -1,10 +1,10 @@
 {
   "report_schema": "research_v1",
   "case_id": "016_ParseSQL",
-  "migration_status": "trace_only",
+  "migration_status": "passed",
   "migration_success": true,
-  "migration_duration_seconds": 0.0,
-  "repair_count": 0,
+  "migration_duration_seconds": 15.605,
+  "repair_count": 1,
   "trace": {
     "context": {
       "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetnew\\phpmyadmin_v5_0_0_tests\\016_ParseSQL.py",
@@ -56,21 +56,41 @@
     }
   },
   "migration": {
-    "status": "trace_only",
+    "status": "passed",
     "success": true,
-    "repair_count": 0,
-    "oracle_migration_path": "",
-    "oracle_migration": {},
-    "script_path": "",
-    "patch": null,
-    "attempts": []
+    "script_path": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\itmweb\\output\\phpmyadmin_v5_0_0_tests\\016_ParseSQL\\replay\\migrated_016_ParseSQL.py",
+    "patch": {
+      "patch_type": "block",
+      "original_statement": "assert driver.find_element(By.CSS_SELECTOR, \".notice:nth-child(3)\").text == \"Note: #1003 /* select#1 */ select `test`.`testtable`.`id` AS `id`,`test`.`testtable`.`name` AS `name` from `test`.`testtable`\"",
+      "migrated_statement": "driver.find_element(By.ID, 'pma_navigation_settings_icon').click()",
+      "line_num": 34,
+      "candidate_selector": "pma_navigation_settings_icon",
+      "replacement_line_count": 1,
+      "required_imports": [
+        "from selenium.webdriver.common.by import By"
+      ],
+      "inserted_lines_before": [],
+      "inserted_lines_after": [],
+      "flow_patch_kind": "",
+      "flow_patch_steps": [],
+      "explanation": "Candidate 1:  id=pma_navigation_settings_icon pma_navigation_settings_icon   #   导航面板设定"
+    },
+    "attempts": [
+      {
+        "round_index": 1,
+        "intention_step_index": 0,
+        "candidate_id": "c001",
+        "selector": "pma_navigation_settings_icon",
+        "action_type": "click",
+        "verdict": "passed",
+        "plan_source": "dom",
+        "failed_checks": []
+      }
+    ]
   },
   "llm": {
     "provider": "deepseek",
-    "model_name": "deepseek-v4-flash",
-    "api_base": "https://api.deepseek.com",
-    "remote_used": false,
     "remote_calls": 0,
-    "seconds": 0
+    "seconds": 0.906
   }
 }

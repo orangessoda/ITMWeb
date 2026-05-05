@@ -1,0 +1,6 @@
+{
+  "case_goal": "011_SearchRecord",
+  "summary": "Migrate phpmyadmin_v5_0_0_tests/011_SearchRecord.",
+  "steps": [],
+  "error": "APIStatusError"
+}

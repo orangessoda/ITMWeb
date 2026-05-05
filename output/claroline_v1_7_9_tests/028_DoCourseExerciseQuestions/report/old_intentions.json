@@ -1,0 +1,90 @@
+{
+  "case_goal": "Complete exercise questions in a course",
+  "summary": "Logs in as UserU, navigates to Math course, opens Exercise 1, selects answers for three questions, and submits the exercise.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Landing page with login form displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "UserU",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Username entered in login field"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "passwordU",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password entered in password field"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Logged in, main page with course list shown"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=1 - Math",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "Course home page for Math with navigation menu"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercises",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": "Exercises list page showing available exercises"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Exercise 1",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Exercise page with three questions displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[3]/table/tbody/tr[1]/td/table[1]/tfoot/tr[3]/td[1]/input",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "First radio button selected (question 1)"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[3]/table/tbody/tr[1]/td/table[3]/tfoot/tr[3]/td[1]/input",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Second radio button selected (question 2)"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[3]/table/tbody/tr[1]/td/table[2]/tfoot/tr[3]/td[1]/input",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice_submit.php?exerciseId=2",
+      "expected_result": "Checkbox selected (question 3)"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input[type=submit]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercise_result.php",
+      "expected_result": "Exercise submitted, result page shown with Finish button"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=/html/body/div[3]/form/table[4]/tbody/tr[2]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercise_result.php",
+      "expected_result": "Result element located, confirming exercise was completed"
+    }
+  ]
+}

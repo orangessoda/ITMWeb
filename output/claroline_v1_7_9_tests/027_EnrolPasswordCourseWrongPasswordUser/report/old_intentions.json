@@ -1,0 +1,83 @@
+{
+  "case_goal": "Test that enrolling in a password-protected course with an incorrect enrollment key displays an error message",
+  "summary": "Login as testuser1, navigate to course enrollment, search for 'Society', select the course, enter incorrect enrollment key 'passowrd', submit, and verify error message is shown",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Page loaded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "testuser1",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "testuser",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login successful, user menu displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Enrol on a new course",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=rqReg&category=",
+      "expected_result": "Course enrollment page displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=keyword",
+      "value": "Society",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=rqReg&category=",
+      "expected_result": "Keyword entered"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input[type='submit']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php",
+      "expected_result": "Search results displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=a > img",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=exReg&course=250f",
+      "expected_result": "Enrollment key input displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "name=enrollmentKey",
+      "value": "passowrd",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php?cmd=exReg&course=250f",
+      "expected_result": "Enrollment key entered"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input[type='submit']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php",
+      "expected_result": "Page refreshes with error message"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[1]/tbody/tr/td",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/auth/courses.php",
+      "expected_result": "Error message element found"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "case_goal": "Create a new role category with name 'test' under Roles categories.",
+  "summary": "Admin logs in, navigates to Groups & roles, opens Edit categories, creates a new category named 'test', and verifies it appears in the list.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login form visible with username and password fields and Sign in button."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id='plg_usr_login_name']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field contains 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id='plg_usr_password']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='next_page']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "User logged in, 'My profile' and 'Sign out' links appear."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='groups-roles']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Groups & roles page loads with buttons: Create role, Show permissions, Edit categories, Configure lists."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='menu_item_groups_roles_maintain_categories']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Categories page for roles displayed, showing existing categories."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='menu_item_categories_add']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ROL",
+      "expected_result": "Create category form appears with Name field, Default checkbox, Save button."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id='cat_name']",
+      "value": "test",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ROL",
+      "expected_result": "Name field contains 'test'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='cat_default_group']/div/div/label",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ROL",
+      "expected_result": "Default checkbox toggled."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='btn_save']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ROL",
+      "expected_result": "Category saved; new category 'test' appears in categories list."
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "case_goal": "Delete a role from the User Administration page in Collabtive.",
+  "summary": "Log in as admin, navigate to Project Administration, then User Administration, and delete the first role in the list by clicking its delete link and confirming the JavaScript dialog.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page is opened successfully."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located."
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Typing succeeded."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located."
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Typing succeeded."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Click succeeded (no page change)."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Login successful, redirected to Desktop."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"mainmenue\"]/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Element located (Admin menu)."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"mainmenue\"]/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "Navigated to Project Administration."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"contentwrapper\"]/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "Element located (User Administration tab)."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"contentwrapper\"]/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Navigated to User Administration."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div[3]/div[2]/table/tbody[1]/tr[1]/td[4]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Element located (delete link for first role)."
+    },
+    {
+      "action_type": "execute_script",
+      "target": "script",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "JavaScript executed, click performed after overriding confirm to return true."
+    }
+  ]
+}

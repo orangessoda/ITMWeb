@@ -1,0 +1,97 @@
+{
+  "case_goal": "Add a milestone to an existing project in Collabtive",
+  "summary": "Log in with admin credentials, navigate to project 'test', go to Milestones section, click 'Add milestone' button, fill in milestone details (name, description, start date, end date), and submit the form.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "URL",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "username field",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field populated"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "password field",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field populated"
+    },
+    {
+      "action_type": "click",
+      "target": "Login button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Desktop page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "Project 'test' link",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project detail page for 'test' displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "Milestones tab",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Milestones page for project 'test' displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "Add milestone button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Add milestone form appears"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "Milestone name field",
+      "value": "test milestone",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Name field populated"
+    },
+    {
+      "action_type": "switch_to_frame",
+      "target": "description iframe",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Switched to description editor iframe"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "Description editor body",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Description typed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "Start date field",
+      "value": "02.05.2026",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Start date set to 02.05.2026"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "End date field",
+      "value": "04.05.2026",
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "End date set to 04.05.2026"
+    },
+    {
+      "action_type": "click",
+      "target": "Save milestone button",
+      "value": null,
+      "page_url": "http://collabtive-old.local:8084/managemilestone.php?action=showproject&id=1",
+      "expected_result": "Milestone added, form closes or updates list"
+    }
+  ]
+}

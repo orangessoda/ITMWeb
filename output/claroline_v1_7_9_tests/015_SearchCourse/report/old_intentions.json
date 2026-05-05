@@ -1,0 +1,55 @@
+{
+  "case_goal": "Search for a specific course in the admin panel and verify that the course appears in the search results.",
+  "summary": "Admin logs in, navigates to Platform Administration, uses the course search function to find a course titled 'Math', and then verifies that the course title and code are displayed in the results list.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Homepage loads successfully with login form visible."
+    },
+    {
+      "action_type": "login",
+      "target": "login form",
+      "value": "admin / admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Successful login, user is redirected to homepage with admin links visible."
+    },
+    {
+      "action_type": "click",
+      "target": "link text",
+      "value": "Platform Administration",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Admin panel page loads with search fields for users and courses."
+    },
+    {
+      "action_type": "type",
+      "target": "input field",
+      "value": "Math",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Text 'Math' is entered into the course search field."
+    },
+    {
+      "action_type": "click",
+      "target": "submit button",
+      "value": "Search",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Course list page loads with search results filtered by 'Math'."
+    },
+    {
+      "action_type": "verify_element",
+      "target": "xpath",
+      "value": "//*[@id='claroBody']/table[3]/tbody/tr/td[2]",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/admincourses.php?search=Math",
+      "expected_result": "Element containing course title (e.g., 'Math') is present in the results table."
+    },
+    {
+      "action_type": "verify_element",
+      "target": "xpath",
+      "value": "//*[@id='claroBody']/table[3]/tbody/tr/td[1]",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/admincourses.php?search=Math",
+      "expected_result": "Element containing course code (e.g., '1b2e') is present in the results table."
+    }
+  ]
+}

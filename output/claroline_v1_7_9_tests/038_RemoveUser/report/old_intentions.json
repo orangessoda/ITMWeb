@@ -1,0 +1,62 @@
+{
+  "case_goal": "Remove a user named Smith from the Claroline platform as admin.",
+  "summary": "Admin logs in, navigates to user administration, searches for 'Smith', and deletes the user via delete button with confirmation.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Page loaded with title 'claroline' and login form visible."
+    },
+    {
+      "action_type": "type",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field filled with 'admin'."
+    },
+    {
+      "action_type": "type",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login successful; page now shows navigation links including 'Platform Administration'."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page with user search field (id=search_user) is displayed."
+    },
+    {
+      "action_type": "type",
+      "target": "id=search_user",
+      "value": "Smith",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Search field filled with 'Smith'."
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=form[name='searchUser'] > input[type='submit']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php?search=Smith",
+      "expected_result": "User list filtered showing only users with last name 'Smith'."
+    },
+    {
+      "action_type": "execute_script",
+      "target": "img[alt='Delete']",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php?cmd=delete&user_id=2&ffset=0",
+      "expected_result": "User deleted; page shows 'Search again (advanced)' link indicating no matching users."
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "case_goal": "Add a new version to an existing project in MantisBT",
+  "summary": "Log in as admin, navigate to project management, select project testProgram, add version 1.0, and submit.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "http://mantis-old.local:8080/login_page.php",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"login-form\"]/fieldset/input[2]",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Navigate to password page"
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"login-form\"]/fieldset/input[3]",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigate to dashboard"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"sidebar\"]/ul/li[7]/a",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/my_view_page.php",
+      "expected_result": "Navigate to manage overview page"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[3]/a",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Navigate to project management page"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/div/div[2]/div[2]/div/div[2]/table/tbody/tr/td[1]/a",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_proj_page.php",
+      "expected_result": "Navigate to project edit page for testProgram"
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id=\"manage-project-add-version-form\"]/fieldset/input[3]",
+      "value": "1.0",
+      "page_url": "http://mantis-old.local:8080/manage_proj_edit_page.php?project_id=1",
+      "expected_result": "Version number entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"manage-project-add-version-form\"]/fieldset/input[4]",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_proj_edit_page.php?project_id=1",
+      "expected_result": "Version added and redirected to manage_proj_ver_add.php"
+    }
+  ]
+}

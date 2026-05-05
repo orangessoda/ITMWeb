@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete a photo album named 'test' from the Photos module after logging in as admin.",
+  "summary": "Login as admin, navigate to Photos, open the dropdown for the 'test' album, click 'Delete album', and confirm the deletion.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login page with sign-in form displayed."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login name field filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Logged in and redirected to overview page with user-specific menu."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"photo\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Photo albums page displayed with list of albums."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"dropdownMenuButton\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Dropdown menu for the 'test' album appears with 'Edit album', 'Lock album', 'Delete album' options."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div/div/div/h5/div/div/a[3]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Confirmation dialog asking to delete the album with 'Yes' and 'No' buttons."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"btn_yes\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Album 'test' is deleted and no longer appears in the album list."
+    }
+  ]
+}

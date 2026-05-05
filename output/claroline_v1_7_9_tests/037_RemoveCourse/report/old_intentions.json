@@ -1,0 +1,69 @@
+{
+  "case_goal": "Remove a course (Math) from the platform using the admin interface.",
+  "summary": "Admin logs in, navigates to Platform Administration, searches for 'Math' course, and deletes it by clicking the delete icon and confirming the action.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login page loaded with input fields for username and password"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Admin logged in, top menu with 'Platform Administration' link visible"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page loaded with course search functionality"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=search_course",
+      "value": "Math",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Search field filled with 'Math'"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=form[name='searchCourse'] > input[type='submit']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/admincourses.php?search=Math",
+      "expected_result": "Course list filtered to show Math course with delete link"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/admincourses.php?cmd=delete&delCode=1b2e&offsetC=0",
+      "expected_result": "Course deleted, page reloaded showing empty course list"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[1]/tbody/tr/td",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/admincourses.php?cmd=delete&delCode=1b2e&offsetC=0",
+      "expected_result": "Element indicating no courses found or confirmation of deletion"
+    }
+  ]
+}

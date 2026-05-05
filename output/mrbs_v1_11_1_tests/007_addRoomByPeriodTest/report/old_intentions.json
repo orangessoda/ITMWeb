@@ -1,0 +1,6 @@
+{
+  "case_goal": "007_addRoomByPeriodTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/007_addRoomByPeriodTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

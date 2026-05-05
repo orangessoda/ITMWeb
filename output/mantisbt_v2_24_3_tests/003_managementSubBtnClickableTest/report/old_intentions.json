@@ -1,0 +1,97 @@
+{
+  "case_goal": "Verify that all management sub-buttons in the MantisBT admin panel are clickable and navigate to the correct management pages.",
+  "summary": "Log in as admin, access the management section, and sequentially click each sub-button (Overview, User Management, Project Management, Tag Management, Custom Field Management, Profile Management, Plugin Management, Config Management) to confirm they are functional.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page displayed successfully"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field cleared and filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"login-form\"]/fieldset/input[2]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigated to password page"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field cleared and filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"login-form\"]/fieldset/input[3]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_create_page.php",
+      "expected_result": "Logged in and redirected to manage_proj_create_page.php"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[1]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Management Overview page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_page.php",
+      "expected_result": "User Management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_page.php",
+      "expected_result": "Project Management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[4]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_tags_page.php",
+      "expected_result": "Tag Management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[5]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_custom_field_page.php",
+      "expected_result": "Custom Field Management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[6]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Profile (Platform) Management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[7]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_plugin_page.php",
+      "expected_result": "Plugin Management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[8]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/adm_permissions_report.php",
+      "expected_result": "Config Management (Permissions Report) page displayed"
+    }
+  ]
+}

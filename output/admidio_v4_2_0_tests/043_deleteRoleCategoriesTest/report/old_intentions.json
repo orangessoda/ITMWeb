@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete a role category named '123' from the roles categories page.",
+  "summary": "This test navigates to the roles categories page, clicks the delete icon for the '123' category, and confirms deletion.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Overview page loaded"
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id='plg_usr_login_name']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "type",
+      "target": "//*[@id='plg_usr_password']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='next_page']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "User logged in, overview page displayed with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='groups-roles']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Groups & roles page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='menu_item_groups_roles_maintain_categories']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ROL",
+      "expected_result": "Roles categories page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/table/tbody/tr[6]/td[6]/a[2]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ROL",
+      "expected_result": "Delete confirmation dialog appears"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='btn_yes']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ROL",
+      "expected_result": "Category '123' deleted, page updated"
+    }
+  ]
+}

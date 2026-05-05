@@ -1,0 +1,125 @@
+{
+  "case_goal": "Edit an existing time tracker entry to update end date and comment",
+  "summary": "Login as admin, navigate to the 'test' project, open the Timetracker tab, edit the first entry by changing the end day to 16.03.2024 and comment to '123', then save.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field set to 'admin'"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field set to 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login form submitted (still on login page due to stay logged in checkbox)"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Redirected to Desktop page"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Project 'test' page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"contentwrapper\"]/div[1]/ul/li[7]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Timetracker tab opened (page title Timetracker)"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div/div[2]/div[2]/div[2]/table/tbody[1]/tr[1]/td[7]/a[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=showproject&id=1",
+      "expected_result": "Edit form for first time tracker entry displayed"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id=\"endday\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "End day field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"endday\"]",
+      "value": "16.03.2024",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "End day set to 16.03.2024"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"datepicker_endday\"]/table/tbody/tr[8]/td/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "Date picker closes (page remains on edit form)"
+    },
+    {
+      "action_type": "switch_frame",
+      "target": "//*[@id=\"comment_ifr\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "Focus switched to editor iframe"
+    },
+    {
+      "action_type": "clear",
+      "target": "/html/body",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "Editor body cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "/html/body",
+      "value": "123",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "Comment set to '123'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"content-left-in\"]/div/div[2]/form/fieldset/div[9]/button[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetimetracker.php?action=editform&tid=1&id=1",
+      "expected_result": "Form submitted, redirected to Timetracker page with mode=edited"
+    }
+  ]
+}

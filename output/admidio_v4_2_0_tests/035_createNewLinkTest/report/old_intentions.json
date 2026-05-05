@@ -1,0 +1,97 @@
+{
+  "case_goal": "Test the creation of a new web link in Admidio.",
+  "summary": "Log in as admin, navigate to Web links module, create a new link with name 'test', URL 'www.baidu.com', and description 'test' (with center alignment in CKEditor), then save and verify the link appears in the list.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url=http://admidio-old.local:8082/adm_program/overview.php",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page opens with login form."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "plg_usr_login_name",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login name field filled."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "plg_usr_password",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled."
+    },
+    {
+      "action_type": "click",
+      "target": "next_page",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login successful, overview page with admin menu."
+    },
+    {
+      "action_type": "click",
+      "target": "weblinks",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Navigate to Web links page."
+    },
+    {
+      "action_type": "click",
+      "target": "menu_item_links_add",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links.php",
+      "expected_result": "Navigate to create link form."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "lnk_name",
+      "value": "test",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "Link name field filled with 'test'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "lnk_url",
+      "value": "www.baidu.com",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "URL field filled with 'www.baidu.com'."
+    },
+    {
+      "action_type": "click",
+      "target": "cke_15",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "Bold button clicked."
+    },
+    {
+      "action_type": "click",
+      "target": "cke_22",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "Center align button clicked."
+    },
+    {
+      "action_type": "switch_frame",
+      "target": "//*[@id='cke_1_contents']/iframe",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "Switched to CKEditor iframe."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "/html/body",
+      "value": "test",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "Description body filled with 'test'."
+    },
+    {
+      "action_type": "click",
+      "target": "btn_save",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/links/links_new.php?headline=Web%20links",
+      "expected_result": "Save successful, redirect to Web links page with new link 'test' visible."
+    }
+  ]
+}

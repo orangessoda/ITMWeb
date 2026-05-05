@@ -1,0 +1,370 @@
+{
+  "case_goal": "Edit an existing user's profile information (avatar, web, phone, address, country, state, gender) and save changes.",
+  "summary": "Admin logs in, navigates to User Administration, selects user 'test', edits profile fields including avatar, web, phone, address, country, state, gender, and clicks Save.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": null,
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "page opened"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='username']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='username']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='username']",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='pass']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='pass']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='pass']",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='loginform']/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='loginform']/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='loginform']/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='loginform']/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='mainmenue']/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='mainmenue']/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='contentwrapper']/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='contentwrapper']/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[1]/div[4]/div[2]/div[1]/div/div/ul/li[1]/div/table/tbody/tr[2]/td/span/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[1]/div[4]/div[2]/div[1]/div/div/ul/li[1]/div/table/tbody/tr[2]/td/span/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='contentwrapper']/div[1]/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageuser.php?action=profile&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='contentwrapper']/div[1]/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageuser.php?action=profile&id=2",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='avatar']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='avatar']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='avatar']",
+      "value": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetold\\collabtive_v3_0_tests\\aTestImg.png",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='web']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='web']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='web']",
+      "value": "https://test.com",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='tel1']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='tel1']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='tel1']",
+      "value": "123456",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='tel2']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='tel2']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='tel2']",
+      "value": "123456",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='address1']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='address1']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='address1']",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='zip']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='zip']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='zip']",
+      "value": "123456",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='address2']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='address2']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='address2']",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='country']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='country']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='country']",
+      "value": "China",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='state']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='state']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='state']",
+      "value": "active",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='gender']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='gender']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='gender']/option[2]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='gender']/option[2]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='content-left-in']/div/div[1]/form/fieldset/table/tbody/tr/td[2]/div/div/table/tbody[24]/tr/td[2]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='content-left-in']/div/div[1]/form/fieldset/table/tbody/tr/td[2]/div/div/table/tbody[24]/tr/td[2]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=editform&id=2",
+      "expected_result": "click succeeded"
+    }
+  ]
+}

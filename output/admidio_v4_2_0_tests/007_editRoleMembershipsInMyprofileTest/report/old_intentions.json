@@ -1,0 +1,69 @@
+{
+  "case_goal": "Edit role memberships for the current user in My Profile",
+  "summary": "Log in as admin, navigate to My Profile, open role memberships editor, toggle leader checkboxes for two roles, and save changes.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login form is displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='plg_usr_login_name']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='plg_usr_password']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='next_page']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Successful login, page shows 'My profile' link"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='navbarNav']/ul/li[1]/a",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Navigate to My Profile page"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='profile_role_memberships_change']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Role memberships editor opens with checkboxes"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='leader-1']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Leader checkbox for role 1 is toggled (checked)"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='leader-2']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Leader checkbox for role 2 is toggled (checked)"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='btn_save']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/profile/profile.php",
+      "expected_result": "Role memberships are saved successfully"
+    }
+  ]
+}

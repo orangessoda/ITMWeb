@@ -173,7 +173,18 @@ def run_suite(test_root: str, limit: int | None = None, start_app: str | None = 
     migration_started = time.perf_counter()
     for index, script in enumerate(scripts, start=1):
         print(_line("suite_migration_case_start", index=f"{index}/{len(scripts)}", case=script.stem))
-        report = engine.migrate_case(str(script))
+        case_started = time.perf_counter()
+        try:
+            report = engine.migrate_case(str(script))
+        except Exception as exc:
+            report = engine.build_migration_error_report(
+                str(script),
+                "failed",
+                f"{exc.__class__.__name__}: {exc}",
+                case_started,
+                exc,
+            )
+            engine.reporter.export_case(report)
         reports.append(report)
         case_seconds[report.case_id] = {
             "migration": float(report.migration_duration_seconds or 0),

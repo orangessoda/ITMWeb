@@ -1,0 +1,146 @@
+{
+  "case_goal": "Delete a task from the project's task list.",
+  "summary": "Log in as admin, navigate to project 'test', go to tasks tab, expand the task list, and delete the first task by overriding the confirmation dialog.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login form clicked (checkbox area)"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login button clicked"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Navigates to Desktop @ Collabtive"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Project link located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Navigates to project 'test'"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"contentwrapper\"]/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Tasks tab located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"contentwrapper\"]/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Navigates to Tasks @ Collabtive"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"toggle-2\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Toggle element located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"toggle-2\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Task list expanded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"task_1\"]/tr[1]/td[5]/a[2]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Delete task link located"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "script",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://collabtive-old.local:8084/managetask.php?action=showproject&id=1",
+      "expected_result": "Task deleted from list"
+    }
+  ]
+}

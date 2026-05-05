@@ -1,0 +1,69 @@
+{
+  "case_goal": "Upload a photo to an existing photo album in Admidio.",
+  "summary": "Log in as admin, navigate to the Photos module, select the existing album 'test', upload an image file from a local path, then return to the album to verify the photo appears.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://admidio-old.local:8082/adm_program/overview.php",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login page is displayed with username, password fields and Sign in button."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='plg_usr_login_name']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field is cleared and filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='plg_usr_password']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field is cleared and filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='next_page']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "User is logged in and redirected to the overview page with 'My profile' and 'Sign out' links visible."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='photo']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Navigates to the Photos module page with list of albums and 'Create album' button."
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/div/div/div/h5/a",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Opens the existing album named 'test' showing album details and action buttons (Edit album, Upload photos)."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='menu_item_photos_upload_photo']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php?photo_uuid=ad60dc33-c3ae-4bb7-b3d0-e475dba3f148",
+      "expected_result": "Navigates to the file upload page for that album, with a file input field and 'Back to album' button."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='fileupload']",
+      "value": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetold\\admidio_v4_2_0_tests\\aTestImg.png",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=photos&uuid=ad60dc33-c3ae-4bb7-b3d0-e475dba3f148",
+      "expected_result": "The file path is entered into the file input, triggering an upload (implicitly)."
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='back']",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=photos&uuid=ad60dc33-c3ae-4bb7-b3d0-e475dba3f148",
+      "expected_result": "Returns to the album page where the uploaded photo is now visible (indicated by thumbnail link and download/edit icons)."
+    }
+  ]
+}

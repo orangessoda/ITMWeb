@@ -1,0 +1,237 @@
+{
+  "case_goal": "Add a new user account in MantisBT through admin interface.",
+  "summary": "Log in as admin, navigate to user management, and create a new user with username 'test', realname 'test', email 'test@outlook.com'.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page is displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='username']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='username']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field cleared"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='username']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field located again"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='username']",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username 'admin' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='login-form']/fieldset/input[2]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login button located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='login-form']/fieldset/input[2]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Navigate to password page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='password']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='password']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field cleared"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='password']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field located again"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='password']",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password 'admin' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='login-form']/fieldset/input[3]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Login button located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='login-form']/fieldset/input[3]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigate to manage overview page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text=管理",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_create_page.php",
+      "expected_result": "Management link located"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=管理",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_create_page.php",
+      "expected_result": "Navigate to management overview page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='main-container']/div[2]/div[2]/div/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "User management link located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='main-container']/div[2]/div[2]/div/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Navigate to user management page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='manage-user-div']/div[1]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_page.php",
+      "expected_result": "Create user link located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='manage-user-div']/div[1]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_page.php",
+      "expected_result": "Navigate to create user page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='user-username']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Username field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='user-username']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Username field cleared"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='user-username']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Username field located again"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='user-username']",
+      "value": "test",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Username 'test' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='user-realname']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Realname field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='user-realname']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Realname field cleared"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='user-realname']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Realname field located again"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='user-realname']",
+      "value": "test",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Realname 'test' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='email-field']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Email field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='email-field']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Email field cleared"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='email-field']",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Email field located again"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='email-field']",
+      "value": "test@outlook.com",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Email 'test@outlook.com' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='manage-user-create-form']/div/div[3]/input",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "Create user button located"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='manage-user-create-form']/div/div[3]/input",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_create_page.php",
+      "expected_result": "User created and redirected to manage_user_create.php"
+    }
+  ]
+}

@@ -1,0 +1,55 @@
+{
+  "case_goal": "Search for a teacher by last name using Advanced User Search and verify the user appears in the results.",
+  "summary": "Logs in as admin, navigates to Platform Administration, accesses Advanced User Search, enters the last name 'testuser2', performs the search, and verifies the user is listed.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Page loaded with login form"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login successful, user is redirected to homepage with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Platform Administration page loaded with user and course management options"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Advanced",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/advancedUserSearch.php",
+      "expected_result": "Advanced User Search page loaded with search fields"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=lastName",
+      "value": "testuser2",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/advancedUserSearch.php",
+      "expected_result": "Last name field filled with 'testuser2'"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=input.claroButton",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php?lastName=testuser2&firstName=&userName=&mail=&action=createcourse",
+      "expected_result": "User list page displayed with search results"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[3]/tbody/tr[1]/td[2]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php?lastName=testuser2&firstName=&userName=&mail=&action=createcourse",
+      "expected_result": "Element containing user last name found"
+    }
+  ]
+}

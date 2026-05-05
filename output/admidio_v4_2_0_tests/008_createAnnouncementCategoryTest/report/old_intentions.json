@@ -1,0 +1,104 @@
+{
+  "case_goal": "Create a new announcement category named 'test' with specific view and edit permissions.",
+  "summary": "Login as admin, navigate to Announcements > Edit categories, create a new category 'test', configure view permissions (General, Groups, Courses), edit permissions (General), uncheck default, and save.",
+  "steps": [
+    {
+      "action_type": "open",
+      "target": "Overview page",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login form displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "Username input",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "type",
+      "target": "Password input",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "Sign in button",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Logged in, overview page with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "Announcements menu link",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Announcements page with Add entry and Edit categories buttons"
+    },
+    {
+      "action_type": "click",
+      "target": "Edit categories button",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/announcements/announcements.php",
+      "expected_result": "Categories page with Create category button"
+    },
+    {
+      "action_type": "click",
+      "target": "Create category button",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories.php?type=ANN",
+      "expected_result": "Create category form"
+    },
+    {
+      "action_type": "type",
+      "target": "Category name input",
+      "value": "test",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "Category name filled"
+    },
+    {
+      "action_type": "select",
+      "target": "View permissions dropdown (General)",
+      "value": "General",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "General selected in view permissions"
+    },
+    {
+      "action_type": "select",
+      "target": "View permissions dropdown (Groups)",
+      "value": "Groups",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "Groups selected in view permissions"
+    },
+    {
+      "action_type": "select",
+      "target": "View permissions dropdown (Courses)",
+      "value": "Courses",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "Courses selected in view permissions"
+    },
+    {
+      "action_type": "select",
+      "target": "Edit permissions dropdown (General)",
+      "value": "General",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "General selected in edit permissions"
+    },
+    {
+      "action_type": "uncheck",
+      "target": "Default category checkbox",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "Checkbox unchecked"
+    },
+    {
+      "action_type": "click",
+      "target": "Save button",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/categories/categories_new.php?type=ANN",
+      "expected_result": "Categories page with new 'test' category listed"
+    }
+  ]
+}

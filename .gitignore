@@ -1,0 +1,11 @@
+# Python runtime caches
+__pycache__/
+*.py[cod]
+
+# Runtime folders/files generated with a leading underscore, at any depth.
+_*/
+_*
+
+# Keep package markers and this ignore file tracked.
+!__init__.py
+!.gitignore

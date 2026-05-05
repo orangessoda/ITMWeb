@@ -1,0 +1,167 @@
+{
+  "case_goal": "Upload a file to a specific folder in Documents & Files",
+  "summary": "Login as admin, navigate to Documents & Files, enter the 'test' folder, upload 'aTestImg.png', and return to folder view.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "page opened with title 'Demo-Organisation - Overview'"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='plg_usr_login_name']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id='plg_usr_login_name']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='plg_usr_login_name']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id='plg_usr_login_name']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='plg_usr_password']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id='plg_usr_password']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='plg_usr_password']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id='plg_usr_password']",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='next_page']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='next_page']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "page reloaded (logged in) with title 'Demo-Organisation - Overview' and new menu items"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='documents-files']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='documents-files']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "navigated to Documents & Files page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div[2]/div/table/tbody/tr/td[2]/a",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "element located (the 'test' folder link)"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div[2]/div/table/tbody/tr/td[2]/a",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "navigated to folder 'test'"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='menu_item_documents_upload_files']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='menu_item_documents_upload_files']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "navigated to upload files page"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='fileupload']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=documents_files&uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id='fileupload']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=documents_files&uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='fileupload']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=documents_files&uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id='fileupload']",
+      "value": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetold\\admidio_v4_2_0_tests\\aTestImg.png",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=documents_files&uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "typing succeeded (file selected)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='back']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=documents_files&uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='back']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/system/file_upload.php?module=documents_files&uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "navigated back to folder 'test' with uploaded file listed"
+    }
+  ]
+}

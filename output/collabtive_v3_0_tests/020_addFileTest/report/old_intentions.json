@@ -1,0 +1,76 @@
+{
+  "case_goal": "Add a file to a project in Collabtive",
+  "summary": "Log in as admin, navigate to project 'test', go to Files section, select image file aTestImg.png, assign to admin user, and submit.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Logged in and redirected to Desktop page"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project 'test' page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"contentwrapper\"]/div[1]/ul/li[5]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managefile.php?action=showproject&id=1",
+      "expected_result": "Files section displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"add_file_butn\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managefile.php?action=showproject&id=1",
+      "expected_result": "Add file form displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"filer\"]",
+      "value": "C:\\Users\\DELL\\Downloads\\Graduation_project\\ITMWeb\\datasetold\\collabtive_v3_0_tests\\aTestImg.png",
+      "page_url": "http://collabtive-old.local:8084/managefile.php?action=showproject&id=1",
+      "expected_result": "File selected"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"sendto\"]/option[6]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managefile.php?action=showproject&id=1",
+      "expected_result": "User 'admin' selected for assignment"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"filesubmit\"]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/managefile.php?action=showproject&id=1",
+      "expected_result": "File added successfully and appears in file list"
+    }
+  ]
+}

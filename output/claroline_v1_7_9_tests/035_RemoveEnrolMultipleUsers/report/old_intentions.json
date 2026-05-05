@@ -1,0 +1,139 @@
+{
+  "case_goal": "Remove multiple users (Testuser1 and Testuser2) from the course '1 - Math' in Claroline platform using admin credentials.",
+  "summary": "Admin logs in, navigates to Math course, accesses Users section, and unregisters two students by clicking on unregister icons and bypassing confirmation dialogs via JavaScript.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "page opened"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id=login",
+      "value": "id=login",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "locator=id=login",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "locator=id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id=password",
+      "value": "id=password",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "locator=id=password",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "locator=id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "name=submitAuth",
+      "value": "name=submitAuth",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "locator=name=submitAuth",
+      "value": "name=submitAuth",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text=1 - Math",
+      "value": "link text=1 - Math",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "locator=link text=1 - Math",
+      "value": "link text=1 - Math",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text=Users",
+      "value": "link text=Users",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "click",
+      "target": "locator=link text=Users",
+      "value": "link text=Users",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=(//img[@alt='Unregister'])[1]",
+      "value": "(//img[@alt='Unregister'])[1]",
+      "page_url": "http://claroline-old.local:8088/claroline/user/user.php",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://claroline-old.local:8088/claroline/user/user.php",
+      "expected_result": "javascript executed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=(//img[@alt='Unregister'])[1]",
+      "value": "(//img[@alt='Unregister'])[1]",
+      "page_url": "http://claroline-old.local:8088/claroline/user/user.php?cmd=unregister&user_id=3",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "execute_script",
+      "target": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "value": "window.confirm = function(){ return true; }; arguments[0].click();",
+      "page_url": "http://claroline-old.local:8088/claroline/user/user.php?cmd=unregister&user_id=3",
+      "expected_result": "javascript executed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "tag name=body",
+      "value": "tag name=body",
+      "page_url": "http://claroline-old.local:8088/claroline/user/user.php?cmd=unregister&user_id=4",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "find_element",
+      "target": "tag name=body",
+      "value": "tag name=body",
+      "page_url": "http://claroline-old.local:8088/claroline/user/user.php?cmd=unregister&user_id=4",
+      "expected_result": "element located"
+    }
+  ]
+}

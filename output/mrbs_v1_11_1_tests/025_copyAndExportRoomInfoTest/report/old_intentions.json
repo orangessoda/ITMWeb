@@ -1,0 +1,6 @@
+{
+  "case_goal": "025_copyAndExportRoomInfoTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/025_copyAndExportRoomInfoTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

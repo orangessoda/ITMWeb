@@ -1,0 +1,90 @@
+{
+  "case_goal": "Search for users with username 'testuser' and verify that at least two users are returned in the results.",
+  "summary": "Admin logs in, navigates to Platform Administration, searches for 'testuser', and retrieves the last names of the first two matching users.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login page is displayed with username and password fields."
+    },
+    {
+      "action_type": "clear",
+      "target": "id=login",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field is cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Username 'admin' is entered."
+    },
+    {
+      "action_type": "clear",
+      "target": "id=password",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field is cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password 'admin' is entered."
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "User is logged in and redirected to the home page with admin links."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Admin page is loaded with search fields."
+    },
+    {
+      "action_type": "clear",
+      "target": "id=search_user",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Search field is cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=search_user",
+      "value": "testuser",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Search term 'testuser' is entered."
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=form[name='searchUser'] > input[type='submit']",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "User list is displayed with filtered results matching 'testuser'."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[3]/tbody/tr[1]/td[2]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php?search=testuser",
+      "expected_result": "Element is found and contains the last name of the first user."
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[3]/tbody/tr[2]/td[2]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminusers.php?search=testuser",
+      "expected_result": "Element is found and contains the last name of the second user."
+    }
+  ]
+}

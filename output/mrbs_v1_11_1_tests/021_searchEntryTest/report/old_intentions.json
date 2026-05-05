@@ -1,0 +1,6 @@
+{
+  "case_goal": "021_searchEntryTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/021_searchEntryTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

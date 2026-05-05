@@ -1,0 +1,104 @@
+{
+  "case_goal": "Verify that adding a new user with an invalid email address shows error and user not created.",
+  "summary": "Log in as admin, navigate to admin panel, click 'Create user', fill form with valid data except email (set to 'email'), submit, expect error message.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "id=login",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Admin username entered"
+    },
+    {
+      "action_type": "type",
+      "target": "id=password",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Admin password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submitAuth",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Successfully logged in, Dashboard page displayed with 'Platform Administration' link"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Platform Administration",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/",
+      "expected_result": "Administration page displayed with 'Create user' link"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=Create user",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Create a new user form displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "id=lastname",
+      "value": "user",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Lastname field filled with 'user'"
+    },
+    {
+      "action_type": "type",
+      "target": "id=firstname",
+      "value": "user",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Firstname field filled with 'user'"
+    },
+    {
+      "action_type": "type",
+      "target": "id=username",
+      "value": "user",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Username field filled with 'user'"
+    },
+    {
+      "action_type": "type",
+      "target": "id=password",
+      "value": "pass",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password field filled with 'pass'"
+    },
+    {
+      "action_type": "type",
+      "target": "id=password_conf",
+      "value": "pass",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Password confirmation filled with 'pass'"
+    },
+    {
+      "action_type": "type",
+      "target": "id=email",
+      "value": "email",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Email field filled with invalid email 'email'"
+    },
+    {
+      "action_type": "click",
+      "target": "css=input[type=submit]",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Form submitted, page remains on same page with error message displayed (no redirect)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id='claroBody']/table[1]/tbody/tr/td",
+      "value": "",
+      "page_url": "http://claroline-old.local:8088/claroline/admin/adminaddnewuser.php",
+      "expected_result": "Error message element found indicating invalid email"
+    }
+  ]
+}

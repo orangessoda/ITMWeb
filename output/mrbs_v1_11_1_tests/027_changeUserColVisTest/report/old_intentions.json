@@ -1,0 +1,6 @@
+{
+  "case_goal": "027_changeUserColVisTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/027_changeUserColVisTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

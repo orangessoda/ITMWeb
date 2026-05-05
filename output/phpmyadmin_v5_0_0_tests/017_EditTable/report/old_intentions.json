@@ -1,0 +1,6 @@
+{
+  "case_goal": "017_EditTable",
+  "summary": "Migrate phpmyadmin_v5_0_0_tests/017_EditTable.",
+  "steps": [],
+  "error": "APIStatusError"
+}

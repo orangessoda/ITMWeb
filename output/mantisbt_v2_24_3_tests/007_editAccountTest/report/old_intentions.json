@@ -1,0 +1,125 @@
+{
+  "case_goal": "Edit an existing user account's details (username, realname, access level) in MantisBT.",
+  "summary": "Log in as admin, navigate to user management, select a user with ID 2, update username and realname to '123', change access level to '开发人员' (developer), and submit the changes.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page loaded successfully."
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Text 'admin' entered into username field."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"login-form\"]/fieldset/input[2]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigated to password entry page."
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"password\"]",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Text 'admin' entered into password field."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"login-form\"]/fieldset/input[3]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_proj_create_page.php",
+      "expected_result": "Logged in and redirected to project creation page (unexpected, but test proceeds)."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=管理",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Navigated to management overview page."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"main-container\"]/div[2]/div[2]/div/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_page.php",
+      "expected_result": "Navigated to user management page."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"main-container\"]/div[2]/div[2]/div/div/div[4]/div[2]/div[2]/div/table/tbody/tr[2]/td[1]/a",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Navigated to edit page for user ID 2."
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"edit-username\"]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Username field cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"edit-username\"]",
+      "value": "123",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Text '123' entered into username field."
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"edit-realname\"]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Realname field cleared."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"edit-realname\"]",
+      "value": "123",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Text '123' entered into realname field."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"edit-access-level\"]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Access level dropdown opened."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"edit-access-level\"]/option[4]",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_edit_page.php?user_id=2",
+      "expected_result": "Access level changed to '开发人员' (developer)."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"edit-user-form\"]/div/div[2]/div[2]/input",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_user_update.php",
+      "expected_result": "User account updated; page shows '已处理' link indicating success."
+    }
+  ]
+}

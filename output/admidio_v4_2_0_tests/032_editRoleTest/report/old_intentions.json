@@ -1,0 +1,83 @@
+{
+  "case_goal": "Edit a role's description and save changes",
+  "summary": "Logs in as admin, navigates to Groups & roles, edits an existing role by changing its description to '123', and saves.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url=http://admidio-old.local:8082/adm_program/overview.php",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Overview page loaded with login form"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"plg_usr_login_name\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": ""
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"plg_usr_password\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Redirect to overview page with logged-in state"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"groups-roles\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles.php",
+      "expected_result": "Groups & roles page loaded with role list"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div[3]/div/div/ul/li[1]/a[5]/i",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles_new.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393",
+      "expected_result": "Edit role page for the selected role"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"rol_description\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles_new.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"rol_description\"]",
+      "value": "123",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles_new.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"btn_save\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/groups-roles/groups_roles_function.php?role_uuid=c3035a35-dcc1-4e7f-a7b1-d56e79269393&mode=2",
+      "expected_result": "Note page appears with 'Next' button indicating successful save"
+    }
+  ]
+}

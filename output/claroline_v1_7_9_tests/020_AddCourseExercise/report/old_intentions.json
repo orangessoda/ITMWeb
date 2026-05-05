@@ -1,0 +1,76 @@
+{
+  "case_goal": "Add a course exercise in Claroline",
+  "summary": "As admin, login, navigate to Math course, open Exercises, create a new exercise titled 'Exercise 1', and confirm its creation.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://claroline-old.local:8088/",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Homepage loaded with login form and category links"
+    },
+    {
+      "action_type": "input",
+      "target": "login field",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Login field cleared and filled with 'admin'"
+    },
+    {
+      "action_type": "input",
+      "target": "password field",
+      "value": "admin",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Password field cleared and filled"
+    },
+    {
+      "action_type": "click",
+      "target": "Sign in button",
+      "value": "name=submitAuth",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "User logged in, page shows 'My course list', 'Platform Administration' links"
+    },
+    {
+      "action_type": "click",
+      "target": "Course link",
+      "value": "1 - Math",
+      "page_url": "http://claroline-old.local:8088/",
+      "expected_result": "Course home page '1 - claroline' loaded with tool links"
+    },
+    {
+      "action_type": "click",
+      "target": "Exercises link",
+      "value": "Exercises",
+      "page_url": "http://claroline-old.local:8088/courses/1b2e/",
+      "expected_result": "Exercises page with 'New exercise' and 'Question pool' links"
+    },
+    {
+      "action_type": "click",
+      "target": "New exercise link",
+      "value": "New exercise",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/exercice.php",
+      "expected_result": "New exercise form displayed with title field and various settings"
+    },
+    {
+      "action_type": "input",
+      "target": "Exercise title",
+      "value": "Exercise 1",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php",
+      "expected_result": "Title field cleared and set to 'Exercise 1'"
+    },
+    {
+      "action_type": "click",
+      "target": "Submit button",
+      "value": "Ok",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php",
+      "expected_result": "Exercise created, page shows 'Edit exercise settings' and 'New question' links"
+    },
+    {
+      "action_type": "verify",
+      "target": "Success element",
+      "value": "//*[@id='claroBody']/table[1]/tbody/tr/td",
+      "page_url": "http://claroline-old.local:8088/claroline/exercice/admin.php?modifyExercise=yes",
+      "expected_result": "Element indicating exercise creation success is present"
+    }
+  ]
+}

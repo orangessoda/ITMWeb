@@ -1,0 +1,83 @@
+{
+  "case_goal": "Add a new tag in MantisBT",
+  "summary": "Login as admin, navigate to Manage Tags page, and create a new tag with name 'test' and description 'test'.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "login page",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "username input",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "login submit button (username step)",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigated to password page"
+    },
+    {
+      "action_type": "type",
+      "target": "password input",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "login submit button (password step)",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/my_view_page.php",
+      "expected_result": "Logged in, my view page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "管理 (Manage) link",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Manage overview page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "标签管理 (Tag Management) link",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_tags_page.php",
+      "expected_result": "Tag management page displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "Create tag link (button to show create form)",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_tags_page.php#tagcreate",
+      "expected_result": "Create tag form appears"
+    },
+    {
+      "action_type": "type",
+      "target": "tag name input (#tag-name)",
+      "value": "test",
+      "page_url": "http://mantis-old.local:8080/manage_tags_page.php#tagcreate",
+      "expected_result": "Tag name filled"
+    },
+    {
+      "action_type": "type",
+      "target": "tag description input (#tag-description)",
+      "value": "test",
+      "page_url": "http://mantis-old.local:8080/manage_tags_page.php#tagcreate",
+      "expected_result": "Tag description filled"
+    },
+    {
+      "action_type": "click",
+      "target": "Create tag submit button",
+      "value": "",
+      "page_url": "http://mantis-old.local:8080/manage_tags_page.php",
+      "expected_result": "Tag created, page refreshed with new tag in list"
+    }
+  ]
+}

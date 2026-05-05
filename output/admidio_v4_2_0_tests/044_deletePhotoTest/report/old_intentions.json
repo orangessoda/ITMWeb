@@ -1,0 +1,62 @@
+{
+  "case_goal": "Delete a photo from a photo album",
+  "summary": "Log in as admin, navigate to the 'test' photo album, delete the first photo by clicking the delete icon, and confirm the deletion.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page loads with login form visible"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username 'admin' entered"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password 'admin' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Logged in, dashboard with admin menu visible"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"photo\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Navigated to Photo albums page"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[2]/div/div[2]/div/div[2]/div/div/div/h5/a",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php?photo_uuid=ad60dc33-c3ae-4bb7-b3d0-e475dba3f148",
+      "expected_result": "Album 'test' opened, photo with delete icon displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"image_preferences_1\"]/a[4]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php?photo_uuid=ad60dc33-c3ae-4bb7-b3d0-e475dba3f148",
+      "expected_result": "Confirmation dialog appears asking to delete the photo"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"btn_yes\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php?photo_uuid=ad60dc33-c3ae-4bb7-b3d0-e475dba3f148",
+      "expected_result": "Photo is deleted, page refreshes (or dialog closes)"
+    }
+  ]
+}

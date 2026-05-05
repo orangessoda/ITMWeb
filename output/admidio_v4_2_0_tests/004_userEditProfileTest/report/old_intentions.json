@@ -1,0 +1,41 @@
+{
+  "case_goal": "Verify that a user can edit their profile successfully in Admidio.",
+  "summary": "The test navigates to the user profile edit page, modifies profile fields (e.g., first name, last name), saves changes, and confirms the updates are reflected.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "",
+      "value": "",
+      "page_url": "/adm_program/modules/profile/profile_edit.php",
+      "expected_result": "User profile edit page is displayed."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "first_name_input",
+      "value": "UpdatedFirstName",
+      "page_url": "/adm_program/modules/profile/profile_edit.php",
+      "expected_result": "First name field shows the entered text."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "last_name_input",
+      "value": "UpdatedLastName",
+      "page_url": "/adm_program/modules/profile/profile_edit.php",
+      "expected_result": "Last name field shows the entered text."
+    },
+    {
+      "action_type": "click",
+      "target": "save_button",
+      "value": "",
+      "page_url": "/adm_program/modules/profile/profile_edit.php",
+      "expected_result": "Changes are saved and a success message is displayed."
+    },
+    {
+      "action_type": "navigate",
+      "target": "",
+      "value": "",
+      "page_url": "/adm_program/modules/profile/profile.php",
+      "expected_result": "Profile page shows updated first and last name."
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "case_goal": "Verify that admin can edit folder upload permissions by selecting multiple roles and saving successfully.",
+  "summary": "Admin logs in, navigates to Documents & Files, opens folder permissions, selects multiple roles (General Groups, Courses, Teams) for upload rights, saves, and returns to documents list.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Page opened with title 'Demo-Organisation - Overview'"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"plg_usr_login_name\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"plg_usr_password\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login succeeded, page title 'Demo-Organisation - Overview' with logged-in menu"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"documents-files\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "Navigated to Documents & Files page, title 'Demo-Organisation - Documents & Files'"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"menu_item_documents_permissions\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Opened folder permissions page, title 'Demo-Organisation - Set folder permissions'"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"adm_roles_upload_right_group\"]/div/span/span[1]/span/ul/li/input",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Dropdown opened for upload rights selection"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/span/span/span/ul/li[2]/ul/li[1]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Role 'General Groups' selected for upload rights"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"adm_roles_upload_right_group\"]/div/span/span[1]/span/ul/li/input",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Dropdown reopened"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/span/span/span/ul/li[3]/ul/li[1]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Role 'Courses' selected for upload rights"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"adm_roles_upload_right_group\"]/div/span/span[1]/span/ul/li/input",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Dropdown reopened"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/span/span/span/ul/li[4]/ul/li[1]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Role 'Teams' selected for upload rights"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"btn_save\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files_function.php?mode=7&folder_uuid=d645582c-82f5-47eb-b6c1-7693bbba5466",
+      "expected_result": "Permissions saved, redirected to note page with title 'Demo-Organisation - Note' and 'Next' button"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"content\"]/div[2]/button",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "Returned to Documents & Files page with title 'Demo-Organisation - Documents & Files'"
+    }
+  ]
+}

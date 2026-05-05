@@ -240,7 +240,19 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
     _trace_force_no_proxy = _trace_env("ITMWEB_BROWSER_NO_PROXY_SERVER", "1") != "0"
     _trace_use_isolated_profile = _trace_env("ITMWEB_BROWSER_ISOLATED_PROFILE", "1") != "0"
     _trace_isolated_profile_root = _trace_env("ITMWEB_BROWSER_ISOLATED_PROFILE_ROOT", "")
+    _trace_close_browser_on_error = _trace_env("ITMWEB_CLOSE_BROWSER_ON_ERROR", "0") == "1"
     _trace_created_profile_dirs = []
+    _trace_driver_refs = []
+
+    def _cleanup_trace_drivers():
+        if not _trace_close_browser_on_error:
+            return
+        for driver in list(_trace_driver_refs):
+            try:
+                driver.quit()
+            except Exception:
+                pass
+        _trace_driver_refs.clear()
 
     def _cleanup_trace_profiles():
         for profile_dir in list(_trace_created_profile_dirs):
@@ -250,6 +262,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             except Exception:
                 pass
 
+    atexit.register(_cleanup_trace_drivers)
     atexit.register(_cleanup_trace_profiles)
 
     def _chrome_option_args(options):
@@ -347,6 +360,7 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             _safe_print(tb_text.rstrip("\\n"))
         except Exception:
             pass
+        _cleanup_trace_drivers()
         os._exit(1)
 
     if _hold_on_error:
@@ -362,6 +376,14 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
             while time.time() < end_at:
                 time.sleep(1)
         sys.excepthook = _hold_excepthook
+    elif _trace_close_browser_on_error:
+        _orig_excepthook = sys.excepthook
+
+        def _close_excepthook(exc_type, exc, tb):
+            _cleanup_trace_drivers()
+            _orig_excepthook(exc_type, exc, tb)
+
+        sys.excepthook = _close_excepthook
 
     def _format_locator(element):
         locator = getattr(element, "_itmweb_trace_locator", None)
@@ -388,7 +410,12 @@ BOOTSTRAP_ACTION_LOG = textwrap.dedent(
 
         def _chrome_ctor_with_trace_options(*args, **kwargs):
             kwargs["options"] = _ensure_trace_chrome_options(kwargs.get("options"))
-            return _orig_chrome_ctor(*args, **kwargs)
+            driver = _orig_chrome_ctor(*args, **kwargs)
+            try:
+                _trace_driver_refs.append(driver)
+            except Exception:
+                pass
+            return driver
 
         SeleniumWebDriver.Chrome = _chrome_ctor_with_trace_options
 

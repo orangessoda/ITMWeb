@@ -1,0 +1,55 @@
+{
+  "case_goal": "Verify successful login with valid credentials 'admin'/'admin'.",
+  "summary": "Navigate to login page, fill in username and password fields, click the login button, and confirm landing on Desktop page.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "http://collabtive-old.local:8084/",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Page title is 'Login @ Collabtive'"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": ""
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Page title changes to 'Desktop @ Collabtive' and URL becomes 'http://collabtive-old.local:8084/index.php?mode=login'"
+    }
+  ]
+}

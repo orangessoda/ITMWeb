@@ -1,0 +1,174 @@
+{
+  "case_goal": "Add a time tracking entry for a project in Collabtive",
+  "summary": "Login to Collabtive, navigate to project 'test', open time tracker form, fill in date (14.03.2024), start time (09:00), end time (12:00), add comment 'test' in the rich text editor, select task option 2, and submit the time entry.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page loaded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username input found"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username input cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"username\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username 'admin' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password input found"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password input cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"pass\"]",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password 'admin' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[3]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login form submitted (login button area clicked)"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Desktop page loaded after successful login"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[1]/div[2]/div[2]/div/div[4]/div/div[2]/div[2]/table/tbody/tr[1]/td[2]/div/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Project 'test' page opened"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"trackerhead_toggle\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Time tracker section expanded"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"ttday\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Date field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"ttday\"]",
+      "value": "14.03.2024",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Date '14.03.2024' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"datepicker_addtt\"]/table/tbody/tr[8]/td/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Date picker closed (date confirmed)"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"started\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Start time field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"started\"]",
+      "value": "09:00",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Start time '09:00' entered"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=//*[@id=\"ended\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "End time field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=//*[@id=\"ended\"]",
+      "value": "12:00",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "End time '12:00' entered"
+    },
+    {
+      "action_type": "switch_frame",
+      "target": "xpath=//*[@id=\"trackcomm_ifr\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Switched to rich text editor iframe"
+    },
+    {
+      "action_type": "clear",
+      "target": "xpath=/html/body",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Editor body cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "xpath=/html/body",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Comment 'test' entered"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"ttask\"]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Task dropdown clicked"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"ttask\"]/option[2]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1",
+      "expected_result": "Second task option selected"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"trackeradd\"]/fieldset/div[9]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/manageproject.php?action=showproject&id=1&mode=timeadded",
+      "expected_result": "Time entry added successfully (page shows mode=timeadded)"
+    }
+  ]
+}

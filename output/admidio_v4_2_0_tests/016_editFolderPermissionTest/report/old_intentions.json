@@ -1,0 +1,104 @@
+{
+  "case_goal": "Edit folder permissions for the 'test' folder",
+  "summary": "As admin, navigate to Documents & Files, open the 'test' folder, access permissions, set upload rights by selecting three roles from the dropdown, and save.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login form displayed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"next_page\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "User logged in, overview page with admin menu"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"documents-files\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Navigated to Documents & Files page"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div[2]/div/table/tbody/tr/td[2]/a",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php",
+      "expected_result": "Entered the 'test' folder"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"menu_item_documents_permissions\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/documents_files.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Opened permissions page for the folder"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"adm_roles_upload_right_group\"]/div/span/span[1]/span/ul/li/input",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Upload rights dropdown opened"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/span/span/span/ul/li[1]/ul/li[1]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "First role selected"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"adm_roles_upload_right_group\"]/div/span/span[1]/span/ul/li/input",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Upload rights dropdown opened again"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/span/span/span/ul/li[2]/ul/li[1]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Second role selected"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"adm_roles_upload_right_group\"]/div/span/span[1]/span/ul/li/input",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Upload rights dropdown opened again"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/span/span/span/ul/li[3]/ul/li[1]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Third role selected"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"btn_save\"]",
+      "value": null,
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/documents-files/folder_config.php?folder_uuid=90dbbe8f-8e23-4855-92b5-edb47e5bf81a",
+      "expected_result": "Permissions saved, redirected to note page with 'Next' button"
+    }
+  ]
+}

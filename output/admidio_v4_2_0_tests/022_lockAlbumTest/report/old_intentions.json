@@ -1,0 +1,55 @@
+{
+  "case_goal": "Verify that an admin user can successfully lock a photo album.",
+  "summary": "Logs in as admin, navigates to the Photos module, opens the dropdown menu for an existing album, clicks 'Lock album', and verifies the album is locked by the presence of an 'Unlock album' button.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://admidio-old.local:8082/adm_program/overview.php",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Home page is displayed with login form."
+    },
+    {
+      "action_type": "set",
+      "target": "xpath=//*[@id=\"plg_usr_login_name\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Username field is filled with 'admin'."
+    },
+    {
+      "action_type": "set",
+      "target": "xpath=//*[@id=\"plg_usr_password\"]",
+      "value": "admin",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Password field is filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"next_page\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Login is successful, 'My profile' and 'Sign out' links appear, and admin menu items are displayed."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"photo\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Navigates to the Photos page, which shows photo albums and a 'Create album' button."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id=\"dropdownMenuButton\"]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Dropdown menu for the album becomes visible, revealing 'Edit album', 'Lock album', and 'Delete album' options."
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=/html/body/div[2]/div/div[2]/div/div[2]/div/div/div/h5/div/div/a[2]",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/modules/photos/photos.php",
+      "expected_result": "Album is locked. The dropdown menu closes, and an 'Unlock album' button appears on the page instead of 'Lock album'."
+    }
+  ]
+}

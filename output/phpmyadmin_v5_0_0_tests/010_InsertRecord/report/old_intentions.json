@@ -1,0 +1,6 @@
+{
+  "case_goal": "010_InsertRecord",
+  "summary": "Migrate phpmyadmin_v5_0_0_tests/010_InsertRecord.",
+  "steps": [],
+  "error": "APIStatusError"
+}

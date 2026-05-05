@@ -1,0 +1,83 @@
+{
+  "case_goal": "Edit an existing customer's contact information in Collabtive",
+  "summary": "Login as admin, navigate to Customer Administration, edit the first customer's phone numbers and zip code, then save.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page is displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "username",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "type",
+      "target": "pass",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"loginform\"]/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Desktop page is displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"mainmenue\"]/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "Project Administration page is displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"contentwrapper\"]/div[1]/ul/li[2]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=customers",
+      "expected_result": "Customer Administration page is displayed"
+    },
+    {
+      "action_type": "click",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div[3]/table/tbody/tr[1]/td[5]/a[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=customers",
+      "expected_result": "Edit form for first customer is displayed"
+    },
+    {
+      "action_type": "type",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div[2]/div/form/fieldset/div[4]/input",
+      "value": "789",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=customers",
+      "expected_result": "Phone 1 field updated"
+    },
+    {
+      "action_type": "type",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div[2]/div/form/fieldset/div[5]/input",
+      "value": "789",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=customers",
+      "expected_result": "Phone 2 field updated"
+    },
+    {
+      "action_type": "type",
+      "target": "/html/body/div[1]/div[2]/div[2]/div/div/div[3]/div[2]/div/form/fieldset/div[9]/input",
+      "value": "100000",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=customers",
+      "expected_result": "ZIP code field updated"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id=\"form_editcustomer\"]/div/form/fieldset/div[15]/button[1]",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=customers&mode=edited",
+      "expected_result": "Customer edit confirmed, page shows 'mode=edited'"
+    }
+  ]
+}

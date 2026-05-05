@@ -1,0 +1,6 @@
+{
+  "case_goal": "012_addUserTest",
+  "summary": "Migrate mrbs_v1_11_1_tests/012_addUserTest.",
+  "steps": [],
+  "error": "APIStatusError"
+}

@@ -180,7 +180,7 @@ class DOMCollector:
             }
             return nodes.map((el, index) => {
               const attrs = {};
-              ['id','name','type','href','class','title','aria-label','role','value'].forEach(name => {
+              ['id','name','type','href','class','title','aria-label','role','value','data-bs-dismiss','data-dismiss'].forEach(name => {
                 if (el.hasAttribute && el.hasAttribute(name)) attrs[name] = el.getAttribute(name) || '';
               });
               return {
@@ -224,7 +224,7 @@ class ActionExecutor:
     def execute(self, candidate: FulfillmentOption) -> ActionRecord:
         action = ActionRecord(candidate.action_type, candidate.selector, str(candidate.metadata.get("value", "")), candidate.explanation)
         try:
-            element = self._resolve_element(candidate) if candidate.action_type != "wait" else None
+            element = self._resolve_element(candidate) if candidate.action_type not in {"wait", "accept_alert", "dismiss_alert"} else None
             value = str(candidate.metadata.get("value", "") or "")
             if candidate.action_type == "click":
                 element.click()
@@ -242,6 +242,10 @@ class ActionExecutor:
                 element.send_keys(Keys.RETURN)
             elif candidate.action_type == "wait":
                 time.sleep(float(value or 1))
+            elif candidate.action_type == "accept_alert":
+                self.session.driver.switch_to.alert.accept()
+            elif candidate.action_type == "dismiss_alert":
+                self.session.driver.switch_to.alert.dismiss()
             else:
                 element.click()
             self.session._wait_for_document_ready()

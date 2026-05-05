@@ -1,0 +1,104 @@
+{
+  "case_goal": "Add a new user to Collabtive system",
+  "summary": "Login as admin, navigate to User Administration, fill in new user form with test data, and submit.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://collabtive-old.local:8084/",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Login page loaded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='username']",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Username field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='pass']",
+      "value": "admin",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='loginform']/fieldset/div[4]/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/",
+      "expected_result": "Redirect to Desktop page"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='mainmenue']/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/index.php?mode=login",
+      "expected_result": "Navigate to Project Administration"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='contentwrapper']/div[1]/ul/li[3]/a",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=projects",
+      "expected_result": "User Administration page loaded"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='add_butn_member']",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Add user form revealed"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='name']",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Name field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='pass']",
+      "value": "12345",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Password field filled"
+    },
+    {
+      "action_type": "select",
+      "target": "//*[@id='roleselect']",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Role selected"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='email']",
+      "value": "test@gmail.com",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Email field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='company']",
+      "value": "test",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Company field filled"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "//*[@id='rate']",
+      "value": "123",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users",
+      "expected_result": "Rate field filled"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='form_member']/div/form/fieldset/div[8]/div/button",
+      "value": "",
+      "page_url": "http://collabtive-old.local:8084/admin.php?action=users&mode=added",
+      "expected_result": "User added successfully, URL updated with mode=added"
+    }
+  ]
+}

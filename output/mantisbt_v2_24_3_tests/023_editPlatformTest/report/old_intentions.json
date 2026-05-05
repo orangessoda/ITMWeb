@@ -1,0 +1,104 @@
+{
+  "case_goal": "Edit an existing platform profile in MantisBT",
+  "summary": "This test logs in as admin, navigates to Platform Configuration management, selects an existing profile, edits its platform name and description, and submits the update to verify the profile is updated successfully.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://mantis-old.local:8080/login_page.php",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Login page is displayed"
+    },
+    {
+      "action_type": "input",
+      "target": "#username",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_page.php",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='login-form']/fieldset/input[2]",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Navigated to password page"
+    },
+    {
+      "action_type": "input",
+      "target": "#password",
+      "value": "admin",
+      "page_url": "http://mantis-old.local:8080/login_password_page.php",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='login-form']/fieldset/input[3]",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/my_view_page.php",
+      "expected_result": "Navigated to My View page"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=管理",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_overview_page.php",
+      "expected_result": "Navigated to Manage Overview page"
+    },
+    {
+      "action_type": "click",
+      "target": "xpath=//*[@id='main-container']/div[2]/div[2]/div/ul/li[6]/a",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Navigated to Profile Management page"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='account-profile-update-form']/div/div[2]/div[1]/div/table/tbody/tr[1]/td[2]/label",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Edit action selected"
+    },
+    {
+      "action_type": "click",
+      "target": "#select-profile",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Dropdown opened"
+    },
+    {
+      "action_type": "select",
+      "target": "#select-profile/option[2]",
+      "value": "Windows Windows11 version 23H2",
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Profile 'Windows Windows11 version 23H2' selected"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='account-profile-update-form']/div/div[2]/div[2]/input",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/account_prof_edit_page.php?profile_id=1",
+      "expected_result": "Navigated to edit page for profile id 1"
+    },
+    {
+      "action_type": "input",
+      "target": "//*[@id='main-container']/div[2]/div[2]/div/div/form/div/div[2]/div[1]/div/table/tbody/tr[1]/td/input",
+      "value": "Microsoft",
+      "page_url": "http://mantis-old.local:8080/account_prof_edit_page.php?profile_id=1",
+      "expected_result": "Platform field updated to 'Microsoft'"
+    },
+    {
+      "action_type": "input",
+      "target": "//*[@id='main-container']/div[2]/div[2]/div/div/form/div/div[2]/div[1]/div/table/tbody/tr[4]/td/textarea",
+      "value": "123",
+      "page_url": "http://mantis-old.local:8080/account_prof_edit_page.php?profile_id=1",
+      "expected_result": "Description field updated to '123'"
+    },
+    {
+      "action_type": "click",
+      "target": "//*[@id='main-container']/div[2]/div[2]/div/div/form/div/div[2]/div[2]/input",
+      "value": null,
+      "page_url": "http://mantis-old.local:8080/manage_prof_menu_page.php",
+      "expected_result": "Navigated back to Profile Management page with updated profile 'Microsoft Windows11 version 23H2' visible"
+    }
+  ]
+}
