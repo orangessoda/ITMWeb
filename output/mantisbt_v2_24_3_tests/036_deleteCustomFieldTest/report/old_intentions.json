@@ -1,6 +1,0 @@
-{
-  "case_goal": "036_deleteCustomFieldTest",
-  "summary": "Migrate mantisbt_v2_24_3_tests/036_deleteCustomFieldTest.",
-  "steps": [],
-  "error": "APIStatusError"
-}

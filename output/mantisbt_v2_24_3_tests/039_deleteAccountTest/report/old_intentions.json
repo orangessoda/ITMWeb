@@ -1,6 +1,0 @@
-{
-  "case_goal": "039_deleteAccountTest",
-  "summary": "Migrate mantisbt_v2_24_3_tests/039_deleteAccountTest.",
-  "steps": [],
-  "error": "APIStatusError"
-}

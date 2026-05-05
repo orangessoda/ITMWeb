@@ -1,6 +1,0 @@
-{
-  "case_goal": "027_addProblemNoteTest",
-  "summary": "Migrate mantisbt_v2_24_3_tests/027_addProblemNoteTest.",
-  "steps": [],
-  "error": "APIStatusError"
-}

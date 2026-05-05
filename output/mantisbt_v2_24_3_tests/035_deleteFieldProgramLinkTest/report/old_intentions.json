@@ -1,6 +1,0 @@
-{
-  "case_goal": "035_deleteFieldProgramLinkTest",
-  "summary": "Migrate mantisbt_v2_24_3_tests/035_deleteFieldProgramLinkTest.",
-  "steps": [],
-  "error": "APIStatusError"
-}

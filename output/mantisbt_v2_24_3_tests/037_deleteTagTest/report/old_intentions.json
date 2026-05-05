@@ -1,6 +1,0 @@
-{
-  "case_goal": "037_deleteTagTest",
-  "summary": "Migrate mantisbt_v2_24_3_tests/037_deleteTagTest.",
-  "steps": [],
-  "error": "APIStatusError"
-}

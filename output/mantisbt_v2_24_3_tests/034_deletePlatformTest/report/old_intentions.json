@@ -1,6 +1,0 @@
-{
-  "case_goal": "034_deletePlatformTest",
-  "summary": "Migrate mantisbt_v2_24_3_tests/034_deletePlatformTest.",
-  "steps": [],
-  "error": "APIStatusError"
-}
