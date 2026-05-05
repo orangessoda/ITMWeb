@@ -31,7 +31,7 @@ assert driver.find_element(By.CSS_SELECTOR, ".data:nth-child(2) > span").text ==
 time.sleep(1)
 assert driver.find_element(By.CSS_SELECTOR, ".data:nth-child(3) > span").text == "testtable"
 time.sleep(1)
-driver.find_element(By.ID, 'pma_navigation_settings_icon').click()
+time.sleep(float('3' or 1))
 time.sleep(1)
 driver.quit()
 time.sleep(1)

@@ -1,6 +1,55 @@
 {
-  "case_goal": "007_CreateTable",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/007_CreateTable.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Create a new table named testtable in the test database",
+  "summary": "Login to phpMyAdmin, navigate to the test database, create a table with specified properties, and verify its structure",
+  "steps": [
+    {
+      "action_type": "open",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "phpMyAdmin login page is displayed with username and password fields"
+    },
+    {
+      "action_type": "login",
+      "target": "username and password",
+      "value": "admin / admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Successfully logged in and redirected to main page with navigation panel"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": "test",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Navigated to test database structure page"
+    },
+    {
+      "action_type": "fill_table_creation_form",
+      "target": "table name and columns",
+      "value": "testtable",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Table creation form is filled with name 'testtable' and column definitions"
+    },
+    {
+      "action_type": "click",
+      "target": "name=do_save_data",
+      "value": "Save",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Table is created and page reloads showing 'testtable' in navigation and structure"
+    },
+    {
+      "action_type": "verify",
+      "target": "navigation tree element for testtable",
+      "value": "//*[@id=\"pma_navigation_tree_content\"]//a[normalize-space()=\"testtable\"]",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Table 'testtable' appears in the left navigation tree"
+    },
+    {
+      "action_type": "verify",
+      "target": "column type and comment in table structure",
+      "value": "xpath for first and second row bdo elements",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Column details (type and comment) are displayed correctly in the table structure view"
+    }
+  ]
 }

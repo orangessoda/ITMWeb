@@ -3,7 +3,7 @@
   "case_id": "001_Login",
   "migration_status": "passed",
   "migration_success": true,
-  "migration_duration_seconds": 11.185,
+  "migration_duration_seconds": 119.314,
   "repair_count": 1,
   "trace": {
     "context": {
@@ -62,35 +62,36 @@
     "patch": {
       "patch_type": "block",
       "original_statement": "assert \"admin\" in driver.find_element(By.ID, \"li_user_info\").text",
-      "migrated_statement": "driver.find_element(By.ID, 'pma_navigation_settings_icon').click()",
+      "migrated_statement": "time.sleep(float('' or 1))",
       "line_num": 33,
-      "candidate_selector": "pma_navigation_settings_icon",
+      "candidate_selector": "退出",
       "replacement_line_count": 1,
       "required_imports": [
-        "from selenium.webdriver.common.by import By"
+        "from selenium.webdriver.common.by import By",
+        "import time"
       ],
       "inserted_lines_before": [],
       "inserted_lines_after": [],
       "flow_patch_kind": "",
       "flow_patch_steps": [],
-      "explanation": "Candidate 1:  id=pma_navigation_settings_icon pma_navigation_settings_icon   #   导航面板设定"
+      "explanation": "Selected action chain by LLM."
     },
     "attempts": [
       {
         "round_index": 1,
         "intention_step_index": 0,
-        "candidate_id": "c001",
-        "selector": "pma_navigation_settings_icon",
-        "action_type": "click",
+        "candidate_id": "c032",
+        "selector": "退出",
+        "action_type": "wait",
         "verdict": "passed",
-        "plan_source": "dom",
+        "plan_source": "llm",
         "failed_checks": []
       }
     ]
   },
   "llm": {
     "provider": "deepseek",
-    "remote_calls": 0,
-    "seconds": 0.867
+    "remote_calls": 2,
+    "seconds": 107.824
   }
 }

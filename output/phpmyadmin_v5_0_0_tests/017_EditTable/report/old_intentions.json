@@ -1,6 +1,69 @@
 {
-  "case_goal": "017_EditTable",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/017_EditTable.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Rename table 'testtable' to 'newtestable' and update its comment to '新用户表' in phpMyAdmin.",
+  "summary": "Login to phpMyAdmin, navigate to the 'test' database, rename the table 'testtable' to 'newtestable' with a new comment, and confirm the new table name appears.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "chrome://new-tab-page/",
+      "expected_result": "Login page is loaded with username and password fields."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field is cleared and contains 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field is cleared and contains 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login succeeds, redirect to main page with title containing 'phpmyadmin-db-old'."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Navigate to 'test' database structure page with table 'testtable' visible."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "css=table:nth-child(2) tr:nth-child(1) input",
+      "value": "newtestable",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Table rename input is cleared and filled with 'newtestable'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "name=comment",
+      "value": "新用户表",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Comment field is cleared and filled with '新用户表'."
+    },
+    {
+      "action_type": "click",
+      "target": "css=.btn:nth-child(2)",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Form submitted, navigate to table operations page for the renamed table."
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text=newtestable",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_operations.php?db=test&table=testtable",
+      "expected_result": "Element with text 'newtestable' is located, confirming the rename was successful."
+    }
+  ]
 }

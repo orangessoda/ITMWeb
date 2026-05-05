@@ -1,6 +1,125 @@
 {
-  "case_goal": "009_ModifyField",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/009_ModifyField.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Modify a field in a table using phpMyAdmin",
+  "summary": "Login to phpMyAdmin, navigate to the 'test' database, select the 'testtable', change a field (name) via its edit link, save the change, and verify the modification by checking a CSS selector.",
+  "steps": [
+    {
+      "action_type": "execute_script",
+      "target": "document.body.style.zoom='80%'",
+      "value": "",
+      "page_url": "chrome://new-tab-page/",
+      "expected_result": "Page zoom set to 80%"
+    },
+    {
+      "action_type": "get",
+      "target": "",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "phpMyAdmin login page displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "input_username",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username input field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "id=input_username",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username 'admin' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "input_password",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password input field located"
+    },
+    {
+      "action_type": "clear",
+      "target": "id=input_password",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password 'admin' entered"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "input_go",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login submit button located"
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login form submitted, homepage displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text",
+      "value": "test",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Link to 'test' database located"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Navigated to structure page of 'test' database"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "field_0_4",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Link to edit field 'name' located (implied from context)"
+    },
+    {
+      "action_type": "click",
+      "target": "id=field_0_4",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable&goto=tbl_structure.php&back=tbl_structure.php&field=name&change_column=1",
+      "expected_result": "Edit column page for field 'name' displayed"
+    },
+    {
+      "action_type": "find_element",
+      "target": "name",
+      "value": "do_save_data",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable&goto=tbl_structure.php&back=tbl_structure.php&field=name&change_column=1",
+      "expected_result": "Save button located"
+    },
+    {
+      "action_type": "click",
+      "target": "name=do_save_data",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable&goto=tbl_structure.php&back=tbl_structure.php&field=name&change_column=1",
+      "expected_result": "Field change saved, page reloaded with updated structure"
+    },
+    {
+      "action_type": "find_element",
+      "target": "css selector",
+      "value": "tr:nth-child(2) em",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable&goto=tbl_structure.php&back=tbl_structure.php&field=name&change_column=1",
+      "expected_result": "Element confirming field modification located"
+    }
+  ]
 }

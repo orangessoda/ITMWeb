@@ -1,6 +1,139 @@
 {
-  "case_goal": "011_SearchRecord",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/011_SearchRecord.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "To verify that searching for a record in the test database's testtable works correctly by entering the name '张三' and submitting the search form.",
+  "summary": "Log in to phpMyAdmin with admin/admin, navigate to the test database, open the testtable search page, enter '张三' into the search field, click submit, and verify the success message and data rows.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Page opened"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "input_username",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "id=input_username",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "input_password",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "id=input_password",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "input_go",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Click succeeded (login)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "link text",
+      "value": "test",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Click succeeded (navigate to test database)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "id",
+      "value": "fieldID_1",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "id=fieldID_1",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Clear succeeded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=fieldID_1",
+      "value": "张三",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Typing succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": "name",
+      "value": "submit",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "click",
+      "target": "name=submit",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Click succeeded (search submitted)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "css selector",
+      "value": ".success",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Element located (success message)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "css selector",
+      "value": ".data:nth-child(5) > span",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Element located (data row)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "css selector",
+      "value": ".data:nth-child(6) > span",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_select.php?db=test&table=testtable",
+      "expected_result": "Element located (data row)"
+    }
+  ]
 }

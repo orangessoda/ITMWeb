@@ -1,6 +1,69 @@
 {
-  "case_goal": "019_DeleteIndex",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/019_DeleteIndex.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Delete an index (likely the primary key) from the table 'newtestable' in the 'test' database using phpMyAdmin.",
+  "summary": "Log into phpMyAdmin, navigate to the test database, open the structure of the newtestable table, click the drop index anchor for the primary key index, and confirm the deletion.",
+  "steps": [
+    {
+      "action_type": "execute_script",
+      "target": "document.body.style.zoom='80%'",
+      "value": "",
+      "page_url": "chrome://new-tab-page/",
+      "expected_result": "Page zoom set to 80%"
+    },
+    {
+      "action_type": "get",
+      "target": "",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "phpMyAdmin login page loaded"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field filled with 'admin'"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field filled with 'admin'"
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login submitted; redirect to server page: http://phpmyadmin-old.local:8092/index.php"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Navigate to database structure page: http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=newtestable",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Navigate to table structure page: http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=newtestable"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=.row_span:nth-child(3) .drop_primary_key_index_anchor > .nowrap",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=newtestable",
+      "expected_result": "Confirmation dialog appears for dropping the primary key index"
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=.submitOK",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=newtestable",
+      "expected_result": "Index deleted; page reloads with updated structure and success message"
+    }
+  ]
 }

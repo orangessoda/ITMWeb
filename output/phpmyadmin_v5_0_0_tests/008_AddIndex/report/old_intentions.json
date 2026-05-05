@@ -1,6 +1,69 @@
 {
-  "case_goal": "008_AddIndex",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/008_AddIndex.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Verify that an index can be added to a table in phpMyAdmin.",
+  "summary": "Login to phpMyAdmin, navigate to the 'test' database, and add an index named 'name_index' to the 'testtable' table.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "phpMyAdmin login page is displayed."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field is filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field is filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "User is logged in and the main phpMyAdmin page is displayed with database list."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "The 'test' database structure page is shown."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=testtable",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "The 'testtable' table structure page is displayed."
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=.ui-button:nth-child(1)",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable",
+      "expected_result": "Index creation dialog or form appears."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_index_name",
+      "value": "name_index",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable",
+      "expected_result": "Index name field is filled with 'name_index'."
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=.row_span:nth-child(3) th",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=testtable",
+      "expected_result": "The index is added and the table structure page is updated."
+    }
+  ]
 }

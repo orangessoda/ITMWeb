@@ -1,6 +1,83 @@
 {
-  "case_goal": "003_AddAccount",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/003_AddAccount.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Add a new user account in phpMyAdmin and verify successful login with new credentials.",
+  "summary": "Admin logs in, navigates to user accounts, adds a new user (newuser/123456), logs out, logs in as new user, and confirms the account exists.",
+  "steps": [
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "PhpMyAdmin login page is displayed with username, password, and language selection."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field is filled with 'admin'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field is filled with 'admin'."
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Page redirects to index.php; user is logged in as admin."
+    },
+    {
+      "action_type": "click",
+      "target": "link text=账户",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Navigate to server_privileges.php with user accounts list."
+    },
+    {
+      "action_type": "click",
+      "target": "id=add_user_anchor",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/server_privileges.php?viewing_mode=server",
+      "expected_result": "Add user form is opened (server_privileges.php?adduser=1)."
+    },
+    {
+      "action_type": "click",
+      "target": "css selector=.ic_s_loggoff",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/server_privileges.php?adduser=1",
+      "expected_result": "User is logged out and returns to login page."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_username",
+      "value": "newuser",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Username field is cleared and filled with 'newuser'."
+    },
+    {
+      "action_type": "send_keys",
+      "target": "id=input_password",
+      "value": "123456",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Password field is cleared and filled with '123456'."
+    },
+    {
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Login with new user succeeds; page shows main panel with navigation."
+    },
+    {
+      "action_type": "find_element",
+      "target": "id=li_user_info",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Element li_user_info is found, confirming new user is logged in."
+    }
+  ]
 }

@@ -1,6 +1,86 @@
 {
-  "case_goal": "001_Login",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/001_Login.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Verify that a user can successfully log in to phpMyAdmin using valid credentials (admin/admin) and that the user info element is displayed after login. The process is performed twice to ensure repeatability.",
+  "summary": "Navigate to phpMyAdmin login page, clear and enter username 'admin', clear and enter password 'admin', click login button, verify that the user info element (li_user_info) is present on the resulting page. Then repeat the entire process a second time.",
+  "steps": [
+    {
+      "step_number": 1,
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login page loaded with username, password fields and submit button"
+    },
+    {
+      "step_number": 2,
+      "action_type": "clear_and_send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field cleared and populated with 'admin'"
+    },
+    {
+      "step_number": 3,
+      "action_type": "clear_and_send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field cleared and populated with 'admin'"
+    },
+    {
+      "step_number": 4,
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login form submitted, page navigates to index.php with title containing 'phpmyadmin-db-old'"
+    },
+    {
+      "step_number": 5,
+      "action_type": "verify_element",
+      "target": "id=li_user_info",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Element with id 'li_user_info' is present, indicating successful login"
+    },
+    {
+      "step_number": 6,
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login page loaded again (possibly after logout or navigation)"
+    },
+    {
+      "step_number": 7,
+      "action_type": "clear_and_send_keys",
+      "target": "id=input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field cleared and populated with 'admin'"
+    },
+    {
+      "step_number": 8,
+      "action_type": "clear_and_send_keys",
+      "target": "id=input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field cleared and populated with 'admin'"
+    },
+    {
+      "step_number": 9,
+      "action_type": "click",
+      "target": "id=input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login form submitted again"
+    },
+    {
+      "step_number": 10,
+      "action_type": "verify_element",
+      "target": "id=li_user_info",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Element with id 'li_user_info' is present, confirming second login"
+    }
+  ]
 }

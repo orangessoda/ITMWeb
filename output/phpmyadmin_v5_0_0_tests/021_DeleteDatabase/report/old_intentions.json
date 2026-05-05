@@ -1,6 +1,83 @@
 {
-  "case_goal": "021_DeleteDatabase",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/021_DeleteDatabase.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Delete the 'test' database from phpMyAdmin",
+  "summary": "Logs into phpMyAdmin, selects the 'test' database, and deletes it via the operations page.",
+  "steps": [
+    {
+      "action_type": "execute_script",
+      "target": "document.body.style.zoom='80%'",
+      "value": null,
+      "page_url": "chrome://new-tab-page/",
+      "expected_result": "JavaScript executed to set zoom to 80%"
+    },
+    {
+      "action_type": "get",
+      "target": "http://phpmyadmin-old.local:8092/",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "phpMyAdmin login page loaded"
+    },
+    {
+      "action_type": "clear",
+      "target": "input_username",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username entered"
+    },
+    {
+      "action_type": "clear",
+      "target": "input_password",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field cleared"
+    },
+    {
+      "action_type": "send_keys",
+      "target": "input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password entered"
+    },
+    {
+      "action_type": "click",
+      "target": "input_go",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Login submitted, main page loaded"
+    },
+    {
+      "action_type": "click",
+      "target": "test",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Navigated to 'test' database structure page"
+    },
+    {
+      "action_type": "click",
+      "target": "drop_db_anchor",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Clicked drop database anchor, navigated to operations page with delete option"
+    },
+    {
+      "action_type": "click",
+      "target": ".submitOK",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/db_operations.php?db=test",
+      "expected_result": "Confirmed deletion, database removed (page reloads)"
+    },
+    {
+      "action_type": "find_element",
+      "target": "html/body",
+      "value": null,
+      "page_url": "http://phpmyadmin-old.local:8092/db_operations.php?db=test",
+      "expected_result": "Body element located (after deletion)"
+    }
+  ]
 }

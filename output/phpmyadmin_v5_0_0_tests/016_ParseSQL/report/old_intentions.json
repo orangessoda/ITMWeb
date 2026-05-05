@@ -1,6 +1,90 @@
 {
-  "case_goal": "016_ParseSQL",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/016_ParseSQL.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Navigate to phpMyAdmin, log in with admin credentials, select database 'test' and table 'testtable', then parse SQL and verify parsed segments.",
+  "summary": "The test logs into phpMyAdmin, accesses the test database and testtable, clicks the '解析 SQL' (Parse SQL) link, and then checks for parsed SQL data and notices.",
+  "steps": [
+    {
+      "action_type": "execute_script",
+      "target": "document.body.style.zoom='80%'",
+      "value": "",
+      "page_url": "chrome://new-tab-page/",
+      "expected_result": "javascript executed"
+    },
+    {
+      "action_type": "get",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "page opened"
+    },
+    {
+      "action_type": "type",
+      "target": "input_username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "type",
+      "target": "input_password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "typing succeeded"
+    },
+    {
+      "action_type": "click",
+      "target": "input_go",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=test",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=testtable",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/sql.php?server=1&db=test&table=testtable&pos=0",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "click",
+      "target": "link text=解析 SQL",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/sql.php?server=1&db=test&table=testtable&pos=0",
+      "expected_result": "click succeeded"
+    },
+    {
+      "action_type": "find_element",
+      "target": ".data:nth-child(1) > span",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/sql.php?server=1&db=test&table=testtable&pos=0",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "find_element",
+      "target": ".data:nth-child(2) > span",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/sql.php?server=1&db=test&table=testtable&pos=0",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "find_element",
+      "target": ".data:nth-child(3) > span",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/sql.php?server=1&db=test&table=testtable&pos=0",
+      "expected_result": "element located"
+    },
+    {
+      "action_type": "find_element",
+      "target": ".notice:nth-child(3)",
+      "value": "",
+      "page_url": "http://phpmyadmin-old.local:8092/sql.php?server=1&db=test&table=testtable&pos=0",
+      "expected_result": "element located"
+    }
+  ]
 }

@@ -1,6 +1,62 @@
 {
-  "case_goal": "018_DeleteField",
-  "summary": "Migrate phpmyadmin_v5_0_0_tests/018_DeleteField.",
-  "steps": [],
-  "error": "APIStatusError"
+  "case_goal": "Delete a field from table 'newtestable' in database 'test' and verify the table structure page loads without error.",
+  "summary": "Log in to phpMyAdmin, navigate to database 'test', select table 'newtestable', click the drop action for the second field, confirm deletion, and verify the table structure page is displayed.",
+  "steps": [
+    {
+      "action_type": "navigate",
+      "target": "url",
+      "value": "http://phpmyadmin-old.local:8092/",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "phpMyAdmin login page is displayed with username and password fields."
+    },
+    {
+      "action_type": "login",
+      "target": "username",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Username field is cleared and filled."
+    },
+    {
+      "action_type": "login",
+      "target": "password",
+      "value": "admin",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Password field is cleared and filled."
+    },
+    {
+      "action_type": "click",
+      "target": "login_button",
+      "value": "input_go",
+      "page_url": "http://phpmyadmin-old.local:8092/",
+      "expected_result": "Redirected to main phpMyAdmin page with database list, including 'test'."
+    },
+    {
+      "action_type": "click",
+      "target": "link",
+      "value": "test",
+      "page_url": "http://phpmyadmin-old.local:8092/index.php",
+      "expected_result": "Redirected to db_structure.php for database 'test'."
+    },
+    {
+      "action_type": "click",
+      "target": "drop_field",
+      "value": "tr:nth-child(2) > .drop .nowrap",
+      "page_url": "http://phpmyadmin-old.local:8092/db_structure.php?server=1&db=test",
+      "expected_result": "Redirected to tbl_structure.php for table 'newtestable' with delete confirmation options."
+    },
+    {
+      "action_type": "click",
+      "target": "confirm_delete",
+      "value": "submitOK",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=newtestable",
+      "expected_result": "Field deleted, redirect back to tbl_structure.php for the same table."
+    },
+    {
+      "action_type": "verify",
+      "target": "table_structure",
+      "value": "#tablestructure",
+      "page_url": "http://phpmyadmin-old.local:8092/tbl_structure.php?db=test&table=newtestable",
+      "expected_result": "Table structure element is present on the page."
+    }
+  ]
 }
