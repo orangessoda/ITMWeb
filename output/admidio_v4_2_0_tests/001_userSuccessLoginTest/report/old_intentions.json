@@ -1,41 +1,69 @@
 {
-  "case_goal": "Verify that an existing user can successfully log in to Admidio.",
-  "summary": "Navigate to the overview page, enter valid credentials (admin/admin), click Sign in, and confirm authentication by the presence of user-specific links and user name.",
+  "case_goal": "Test successful user login with valid credentials",
+  "summary": "Navigate to homepage, fill in login form with admin/admin, submit, verify successful login by presence of user-specific links",
   "steps": [
     {
       "action_type": "get",
       "target": "url",
       "value": "http://admidio-old.local:8082/adm_program/overview.php",
       "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
-      "expected_result": "Login page appears with fields for username, password, organization, and a Sign in button."
+      "expected_result": "Page opened with login form visible"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='plg_usr_login_name']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='plg_usr_login_name']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Field cleared"
     },
     {
       "action_type": "send_keys",
-      "target": "//*[@id=\"plg_usr_login_name\"]",
+      "target": "//*[@id='plg_usr_login_name']",
       "value": "admin",
       "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
-      "expected_result": "Login name field is cleared and text 'admin' is entered."
+      "expected_result": "'admin' typed into field"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='plg_usr_password']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Element located"
+    },
+    {
+      "action_type": "clear",
+      "target": "//*[@id='plg_usr_password']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Field cleared"
     },
     {
       "action_type": "send_keys",
-      "target": "//*[@id=\"plg_usr_password\"]",
+      "target": "//*[@id='plg_usr_password']",
       "value": "admin",
       "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
-      "expected_result": "Password field is cleared and text 'admin' is entered."
+      "expected_result": "'admin' typed into field"
+    },
+    {
+      "action_type": "find_element",
+      "target": "//*[@id='next_page']",
+      "value": "",
+      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
+      "expected_result": "Element located"
     },
     {
       "action_type": "click",
-      "target": "//*[@id=\"next_page\"]",
+      "target": "//*[@id='next_page']",
       "value": "",
       "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
-      "expected_result": "Form submitted; page redirects or reloads showing authenticated state."
-    },
-    {
-      "action_type": "verify",
-      "target": "",
-      "value": "",
-      "page_url": "http://admidio-old.local:8082/adm_program/overview.php",
-      "expected_result": "Page displays 'My profile' link, 'Sign out' link, and user name 'Paul Schmidt' (or 'admin') indicating successful login."
+      "expected_result": "Page reloaded showing logged-in state (e.g., 'My profile', 'Sign out' links)"
     }
   ]
 }
