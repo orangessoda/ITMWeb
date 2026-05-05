@@ -125,7 +125,7 @@ class LLMClient:
             ),
             "case_id": case_id,
             "suite_name": suite_name,
-            "action_log": action_log_text,
+            "action_log": self._compact_action_log_text(action_log_text),
         }
         if not self._should_use_remote():
             self.runtime_stats.fallback_calls += 1
@@ -190,6 +190,8 @@ class LLMClient:
                 "\"selector\":\"...\",\"selector_type\":\"id|css|xpath|name|link_text\",\"value\":\"optional\"}]}]}. "
                 "For get/open_url put the URL in value. For execute_script put the JavaScript in value. "
                 "For default_content, accept_alert, and dismiss_alert selector may be empty. "
+                "If the target field is hidden or not interactable, include a visible click step that opens or reveals "
+                "the form before the input/select/clear step. "
                 "Do not skip popup confirmation actions: if the old script confirms a dialog, the migrated chain "
                 "must include the equivalent alert accept or confirmation-button click. "
                 "Prefer stable selectors in this order: id, name, link_text, partial_link_text, xpath, css. "
@@ -207,12 +209,12 @@ class LLMClient:
             response = self._call_json(payload)
             choices = self._choices_from_response(response, candidates)
             self.runtime_stats.remote_calls += 1
-            return choices or candidates
+            return choices
         except Exception as exc:
             self.runtime_stats.fallback_calls += 1
             self.runtime_stats.fallback_tasks.append("choose_repair_actions")
             self.runtime_stats.fallback_reasons.append(exc.__class__.__name__)
-            return candidates
+            return []
         finally:
             self.runtime_stats.task_seconds["choose_repair_actions"] = (
                 self.runtime_stats.task_seconds.get("choose_repair_actions", 0.0) + time.perf_counter() - started
@@ -223,9 +225,61 @@ class LLMClient:
         if not log_path:
             return ""
         try:
-            return Path(log_path).read_text(encoding="utf-8", errors="ignore")
+            return self._compact_action_log_text(Path(log_path).read_text(encoding="utf-8", errors="ignore"))
         except OSError:
             return ""
+
+    def _compact_action_log_text(self, text: str, max_chars: int = 20000) -> str:
+        lines: list[str] = []
+        for raw_line in str(text or "").splitlines():
+            line = raw_line.strip()
+            if not line or line in {"[stdout]", "[stderr]"}:
+                continue
+            if line.startswith("[PAGE_STATE]"):
+                summary = self._compact_page_state_line(line)
+                if summary:
+                    lines.append(summary)
+                continue
+            if line.startswith("[ACTION]"):
+                lines.append(line)
+        compact = "\n".join(lines)
+        if len(compact) <= max_chars:
+            return compact
+        head_size = max_chars // 2
+        tail_size = max_chars - head_size
+        return compact[:head_size] + "\n...[action_log_truncated]...\n" + compact[-tail_size:]
+
+    def _compact_page_state_line(self, line: str) -> str:
+        try:
+            payload = json.loads(line.split("]", 1)[1].strip())
+        except Exception:
+            return ""
+        widgets: list[dict[str, Any]] = []
+        for widget in payload.get("widgets", []) or []:
+            if not isinstance(widget, dict):
+                continue
+            text = str(widget.get("text", "") or "").strip()
+            item = {
+                "tag": widget.get("tag", ""),
+                "text": text[:80],
+                "id": widget.get("id", ""),
+                "name": widget.get("name", ""),
+                "type": widget.get("type", ""),
+                "href": widget.get("href", ""),
+                "visible": bool(widget.get("visible", True)),
+            }
+            if item["text"] or item["id"] or item["name"] or item["href"]:
+                widgets.append(item)
+            if len(widgets) >= 40:
+                break
+        summary = {
+            "action_index": payload.get("action_index", 0),
+            "trigger": payload.get("trigger", ""),
+            "url": payload.get("url", ""),
+            "title": payload.get("title", ""),
+            "widgets": widgets,
+        }
+        return "[PAGE_STATE_SUMMARY] " + json.dumps(summary, ensure_ascii=False, separators=(",", ":"))
 
     def _control_payload(self, index: int, candidate: FulfillmentOption) -> dict[str, Any]:
         element = candidate.element
@@ -269,7 +323,7 @@ class LLMClient:
                 base = candidates[index - 1] if 1 <= index <= len(candidates) else None
                 if primary_base is None and base is not None:
                     primary_base = base
-                selector = str(step.get("selector", "") or (base.selector if base else ""))
+                selector = str(base.selector if base is not None else (step.get("selector", "") or ""))
                 action_type = self._normalize_action(str(step.get("action_type", "") or (base.action_type if base else "")))
                 if not selector and action_type not in {
                     "wait",
@@ -281,7 +335,11 @@ class LLMClient:
                     "dismiss_alert",
                 }:
                     continue
-                selector_type = str(step.get("selector_type", "") or (base.metadata.get("selector_type", "") if base else ""))
+                selector_type = str(
+                    (base.metadata.get("selector_type", "") if base is not None else "")
+                    or step.get("selector_type", "")
+                    or ""
+                )
                 normalized_steps.append(
                     {
                         "action_type": action_type,
@@ -340,11 +398,28 @@ class LLMClient:
                 "provider": self.provider_metadata(),
             },
         )
-        response = client.chat.completions.create(
-            model=str(getattr(self.config, "model_name", "") or "gpt-4o-mini"),
-            messages=messages,
-            temperature=0,
-        )
+        try:
+            response = client.chat.completions.create(
+                model=str(getattr(self.config, "model_name", "") or "gpt-4o-mini"),
+                messages=messages,
+                temperature=0,
+            )
+        except Exception as exc:
+            self._write_dialog_json(
+                dialog_path,
+                {
+                    "index": self.dialog_index,
+                    "task": str(payload.get("task", "") or ""),
+                    "request": payload,
+                    "messages": messages,
+                    "error": {
+                        "type": exc.__class__.__name__,
+                        "message": str(exc),
+                    },
+                    "provider": self.provider_metadata(),
+                },
+            )
+            raise
         text = response.choices[0].message.content or "{}"
         match = re.search(r"\{.*\}", text, re.S)
         parsed = json.loads(match.group(0) if match else text)
@@ -551,9 +626,12 @@ class IntentionMigrationEngine:
                 self._write_script_lines(migrated_script, base_lines)
                 self.patch_applier.apply_patch(migrated_script, patch)
                 candidate_run = self._run_until_failure(migrated_script, max(1, int(patch.line_num or run.next_line)), namespace)
+                failure_line = int(candidate_run.failure.line_num or 0) if candidate_run.failure is not None else 0
+                failure_inside_patch = self._failure_inside_patch(patch, failure_line)
                 breakpoint_passed = candidate_run.success or (
                     candidate_run.failure is not None
                     and int(candidate_run.failure.line_num or 0) != int(run.failure.line_num or 0)
+                    and not failure_inside_patch
                 )
                 attempt = FulfillmentAttemptRecord(
                     round_index=len(attempts) + 1,
@@ -619,6 +697,15 @@ class IntentionMigrationEngine:
         self._close_migration_browser_state()
         return report
 
+    def _failure_inside_patch(self, patch: MigrationPatch, failure_line: int) -> bool:
+        if not failure_line:
+            return False
+        start = int(patch.line_num or 0)
+        if start <= 0:
+            return False
+        inserted_count = max(1, len(str(patch.migrated_statement or "").splitlines()))
+        return start <= failure_line < start + inserted_count
+
     def _close_migration_browser_state(self) -> None:
         self.browser.close()
         self._cleanup_migration_profiles()
@@ -652,6 +739,8 @@ class IntentionMigrationEngine:
         candidates = self._candidates_from_snapshot(trace.snapshot, active_statement)
         self._prepare_candidate_values(candidates, active_statement, trace.context.script_path)
         mapped = self.intent_mapping_library.best_candidate(self._runtime_signature(trace, active_statement))
+        if mapped is not None and not self._mapped_candidate_compatible(active_statement, mapped):
+            mapped = None
         if mapped is not None:
             self._prepare_candidate_values([mapped], active_statement, trace.context.script_path)
             candidates = [mapped]
@@ -673,9 +762,126 @@ class IntentionMigrationEngine:
             patch.replacement_line_count = max(
                 int(patch.replacement_line_count or 1),
                 active_line - int(trace.failure.line_num) + self._statement_line_count(active_statement),
+                self._replacement_count_for_candidate(trace, active_statement, candidate),
             )
             options.append((patch, candidate))
         return _RepairResult(bool(options), options[0][0] if options else None, options[0][1] if options else None, options)
+
+    def _replacement_count_for_candidate(
+        self,
+        trace: TraceBundle,
+        active_statement: str,
+        candidate: FulfillmentOption,
+    ) -> int:
+        base = self._statement_line_count(active_statement)
+        if not self._candidate_includes_followup_click(candidate):
+            return base
+        try:
+            failure_line = int(trace.failure.line_num or 0)
+            script_path = Path(trace.failure.script_path)
+            lines = self.script_analyzer.read_lines(script_path)
+            start = failure_line + self._statement_line_count(active_statement)
+            end_line = failure_line + base - 1
+            for next_line, next_statement in self._iter_statements(lines, start):
+                action = self._action_type(next_statement)
+                if action == "wait":
+                    end_line = next_line + self._statement_line_count(next_statement) - 1
+                    continue
+                if action in {"click", "submit", "js_click"}:
+                    end_line = next_line + self._statement_line_count(next_statement) - 1
+                break
+            return max(base, end_line - failure_line + 1)
+        except Exception:
+            return base
+
+    def _candidate_includes_followup_click(self, candidate: FulfillmentOption) -> bool:
+        steps = candidate.metadata.get("mapped_recipe_steps", [])
+        if not isinstance(steps, list):
+            return False
+        seen_value_action = False
+        for step in steps:
+            if not isinstance(step, dict):
+                continue
+            action = self._normalize_action(str(step.get("action_type", "") or ""))
+            if action in {"input", "clear", "select"}:
+                seen_value_action = True
+                continue
+            if seen_value_action and action in {"click", "submit", "js_click", "confirm_click"}:
+                return True
+        return False
+
+    def _normalize_action(self, action_type: str) -> str:
+        if self.llm is not None:
+            return self.llm._normalize_action(action_type)
+        action = str(action_type or "").strip().lower()
+        return "input" if action == "send_keys" else (action or "click")
+
+    def _mapped_candidate_compatible(self, statement: str, candidate: FulfillmentOption) -> bool:
+        source_terms = self._domain_terms(statement)
+        if not source_terms:
+            return True
+        candidate_terms = self._candidate_domain_terms(candidate)
+        if not candidate_terms:
+            return False
+        source_objects = self._object_domain_terms(source_terms)
+        if source_objects:
+            return bool(source_objects & self._object_domain_terms(candidate_terms))
+        return bool(source_terms & candidate_terms)
+
+    def _candidate_domain_terms(self, candidate: FulfillmentOption) -> set[str]:
+        parts = [
+            candidate.selector,
+            candidate.action_type,
+            candidate.explanation,
+            str(candidate.metadata.get("target_role", "") or ""),
+            str(candidate.metadata.get("target_text", "") or ""),
+            str(candidate.metadata.get("selector_type", "") or ""),
+        ]
+        steps = candidate.metadata.get("mapped_recipe_steps", [])
+        if isinstance(steps, list):
+            for step in steps:
+                if not isinstance(step, dict):
+                    continue
+                parts.extend(
+                    [
+                        str(step.get("selector", "") or ""),
+                        str(step.get("value", "") or ""),
+                        str(step.get("action_type", "") or ""),
+                        str(step.get("target_role", "") or ""),
+                    ]
+                )
+        return self._domain_terms(" ".join(parts))
+
+    def _domain_terms(self, text: str) -> set[str]:
+        normalized = re.sub(r"[^a-z0-9]+", " ", str(text or "").lower())
+        aliases = {
+            "area": ("area", "areas"),
+            "room": ("room", "rooms"),
+            "entry": ("entry", "entries", "booking", "bookings"),
+            "user": ("user", "users"),
+            "period": ("period", "periods"),
+            "report": ("report", "reports"),
+            "search": ("search", "filter", "filters"),
+            "import": ("import", "imports", "upload", "uploads"),
+            "export": ("export", "exports", "download", "downloads"),
+            "copy": ("copy", "duplicate"),
+            "delete": ("delete", "remove"),
+            "edit": ("edit", "update"),
+            "add": ("add", "create", "new"),
+        }
+        terms: set[str] = set()
+        for term, names in aliases.items():
+            if any(re.search(rf"\b{re.escape(name)}\b", normalized) for name in names):
+                terms.add(term)
+        return terms
+
+    def _object_domain_terms(self, terms: set[str]) -> set[str]:
+        return terms & {"area", "room", "entry", "user", "period", "report"}
+
+    def _adopt_namespace_driver(self, namespace: dict[str, Any]) -> None:
+        driver = namespace.get("driver")
+        if driver is not None:
+            self.browser.driver = driver
 
     def _write_script_lines(self, script_path: Path, lines: list[str]) -> None:
         script_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
@@ -722,14 +928,14 @@ class IntentionMigrationEngine:
                 try:
                     source_with_line_offset = ("\n" * max(0, line_num - 1)) + source
                     exec(compile(source_with_line_offset, str(script_path), "exec"), namespace, namespace)
-                    if namespace.get("driver") is not None:
-                        self.browser.driver = namespace["driver"]
+                    self._adopt_namespace_driver(namespace)
                 finally:
                     if original_subprocess is None:
                         sys.modules.pop("subprocess", None)
                     else:
                         sys.modules["subprocess"] = original_subprocess
             except Exception:
+                self._adopt_namespace_driver(namespace)
                 tb = traceback.format_exc()
                 line = self._line_from_traceback(tb, line_num, script_path)
                 statement = self.script_analyzer.get_statement_block(script_path, line) or source
@@ -794,8 +1000,9 @@ class IntentionMigrationEngine:
     def _candidates_from_snapshot(self, snapshot: DOMSnapshot, statement: str) -> list[FulfillmentOption]:
         action = self._action_type(statement)
         candidates: list[FulfillmentOption] = []
-        for index, element in enumerate(self._rank_interactables(snapshot.interactables)[:80], start=1):
-            selector_type, selector = self._selector_for_element(element)
+        selector_counts = self._selector_counts(snapshot.interactables)
+        for index, element in enumerate(self._rank_interactables(snapshot.interactables, selector_counts)[:80], start=1):
+            selector_type, selector = self._selector_for_element(element, selector_counts)
             if not selector:
                 continue
             candidates.append(
@@ -817,9 +1024,13 @@ class IntentionMigrationEngine:
             )
         return candidates
 
-    def _rank_interactables(self, elements: list[ElementRecord]) -> list[ElementRecord]:
-        def rank(element: ElementRecord) -> tuple[int, int, int]:
-            selector_type, selector = self._selector_for_element(element)
+    def _rank_interactables(
+        self,
+        elements: list[ElementRecord],
+        selector_counts: dict[str, dict[str, int]] | None = None,
+    ) -> list[ElementRecord]:
+        def rank(element: ElementRecord) -> tuple[int, int, int, int]:
+            selector_type, selector = self._selector_for_element(element, selector_counts)
             priority = {
                 "id": 0,
                 "name": 1,
@@ -834,6 +1045,16 @@ class IntentionMigrationEngine:
             return hidden, popup_confirm, broad_css, priority
 
         return sorted(elements, key=rank)
+
+    def _selector_counts(self, elements: list[ElementRecord]) -> dict[str, dict[str, int]]:
+        counts: dict[str, dict[str, int]] = {"id": {}, "name": {}}
+        for element in elements:
+            attrs = element.attributes or {}
+            for key in ["id", "name"]:
+                value = str(attrs.get(key, "") or "").strip()
+                if value:
+                    counts[key][value] = counts[key].get(value, 0) + 1
+        return counts
 
     def _is_broad_css_selector(self, selector: str) -> bool:
         value = str(selector or "").strip()
@@ -1308,6 +1529,8 @@ class IntentionMigrationEngine:
             return "select"
         if tag in {"textarea", "input"} and input_type not in {"submit", "button", "image", "reset", "checkbox", "radio"}:
             return "input"
+        if tag in {"a", "button"} or input_type in {"submit", "button", "image", "reset"}:
+            return intended if intended in {"click", "submit"} else "click"
         if intended == "submit" and tag not in {"input", "button"}:
             return "click"
         return intended if intended in {"click", "submit", "input", "select", "clear"} else "click"
@@ -1334,21 +1557,28 @@ class IntentionMigrationEngine:
             ]
         )
 
-    def _selector_for_element(self, element: ElementRecord) -> tuple[str, str]:
+    def _selector_for_element(
+        self,
+        element: ElementRecord,
+        selector_counts: dict[str, dict[str, int]] | None = None,
+    ) -> tuple[str, str]:
         attrs = element.attributes or {}
-        if attrs.get("id"):
+        counts = selector_counts or {"id": {}, "name": {}}
+        element_id = str(attrs.get("id", "") or "").strip()
+        element_name = str(attrs.get("name", "") or "").strip()
+        if element_id and counts.get("id", {}).get(element_id, 1) == 1:
             return "id", str(attrs["id"])
-        if attrs.get("name"):
-            return "name", str(attrs["name"])
-        if element.locator_hint.startswith("id="):
+        if element_name and counts.get("name", {}).get(element_name, 1) == 1:
+            return "name", element_name
+        if element.locator_hint.startswith("id=") and counts.get("id", {}).get(element.locator_hint.split("=", 1)[1], 1) == 1:
             return "id", element.locator_hint.split("=", 1)[1]
-        if element.locator_hint.startswith("name="):
+        if element.locator_hint.startswith("name=") and counts.get("name", {}).get(element.locator_hint.split("=", 1)[1], 1) == 1:
             return "name", element.locator_hint.split("=", 1)[1]
         text = str(element.text or "").strip()
         if element.tag.lower() == "a" and text:
             return "link_text", text
-        if element.css_selector:
-            return "css", element.css_selector
         if element.xpath:
             return "xpath", element.xpath
+        if element.css_selector:
+            return "css", element.css_selector
         return "", ""

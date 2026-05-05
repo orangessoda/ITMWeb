@@ -5,6 +5,7 @@ import shutil
 import tempfile
 import time
 from dataclasses import dataclass
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Any
 
@@ -138,6 +139,13 @@ class DOMCollector:
     def collect(self, case_dir: Path | None = None) -> DOMSnapshot:
         driver = self.session.driver
         html = driver.page_source if driver is not None else ""
+        interactables: list[ElementRecord] = []
+        try:
+            interactables = self.extract_interactables(html)
+        except Exception:
+            interactables = []
+        if not interactables and html:
+            interactables = self.extract_interactables_from_html(html)
         page_source_path = Path("")
         screenshot_path = Path("")
         if case_dir is not None:
@@ -156,7 +164,7 @@ class DOMCollector:
             dom_excerpt=html[:4000],
             screenshot_path=str(screenshot_path) if screenshot_path else "",
             page_source_path=str(page_source_path),
-            interactables=self.extract_interactables(html),
+            interactables=interactables,
         )
 
     def extract_interactables(self, html: str) -> list[ElementRecord]:
@@ -167,8 +175,11 @@ class DOMCollector:
         items = driver.execute_script(
             """
             const nodes = Array.from(document.querySelectorAll('a,button,input,select,textarea,[role=button]')).slice(0, 100);
+            const cssEscape = (window.CSS && typeof window.CSS.escape === 'function')
+              ? window.CSS.escape
+              : (value) => String(value).replace(/["\\\\]/g, '\\\\$&').replace(/\\s+/g, '\\\\ ');
             function cssPath(el) {
-              if (el.id) return '#' + CSS.escape(el.id);
+              if (el.id) return '#' + cssEscape(el.id);
               const parts = [];
               while (el && el.nodeType === Node.ELEMENT_NODE && parts.length < 5) {
                 let part = el.tagName.toLowerCase();
@@ -178,6 +189,28 @@ class DOMCollector:
               }
               return parts.join(' > ');
             }
+            function xpathLiteral(value) {
+              value = String(value);
+              if (!value.includes('"')) return '"' + value + '"';
+              if (!value.includes("'")) return "'" + value + "'";
+              return 'concat("' + value.replace(/"/g, '", \'"\', "') + '")';
+            }
+            function xpathPath(el) {
+              if (el.id) return '//*[@id=' + xpathLiteral(el.id) + ']';
+              const parts = [];
+              while (el && el.nodeType === Node.ELEMENT_NODE) {
+                const tag = el.tagName.toLowerCase();
+                let index = 1;
+                let sibling = el.previousElementSibling;
+                while (sibling) {
+                  if ((sibling.tagName || '').toLowerCase() === tag) index += 1;
+                  sibling = sibling.previousElementSibling;
+                }
+                parts.unshift(tag + '[' + index + ']');
+                el = el.parentElement;
+              }
+              return '/' + parts.join('/');
+            }
             return nodes.map((el, index) => {
               const attrs = {};
               ['id','name','type','href','class','title','aria-label','role','value','data-bs-dismiss','data-dismiss'].forEach(name => {
@@ -186,9 +219,10 @@ class DOMCollector:
               return {
                 index: index + 1,
                 tag: (el.tagName || '').toLowerCase(),
-                text: (el.innerText || el.textContent || '').trim(),
+                text: (el.innerText || el.textContent || el.value || el.getAttribute('aria-label') || el.getAttribute('title') || '').trim(),
                 attrs,
                 css: cssPath(el),
+                xpath: xpathPath(el),
                 visible: !!(el.offsetWidth || el.offsetHeight || el.getClientRects().length),
                 enabled: !el.disabled
               };
@@ -209,12 +243,113 @@ class DOMCollector:
                     is_visible=bool(item.get("visible", True)),
                     is_enabled=bool(item.get("enabled", True)),
                     css_selector=str(item.get("css", "")),
+                    xpath=str(item.get("xpath", "")),
                 )
             )
         return records
 
+    def extract_interactables_from_html(self, html: str) -> list[ElementRecord]:
+        parser = _InteractableHTMLParser()
+        try:
+            parser.feed(html or "")
+            parser.close()
+        except Exception:
+            return []
+        return parser.records[:100]
+
     def compress_dom(self, html: str) -> str:
         return html[:4000]
+
+
+class _InteractableHTMLParser(HTMLParser):
+    interactable_tags = {"a", "button", "input", "select", "textarea"}
+    void_tags = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
+
+    def __init__(self) -> None:
+        super().__init__(convert_charrefs=True)
+        self.records: list[ElementRecord] = []
+        self.stack: list[dict[str, Any]] = []
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        tag = tag.lower()
+        attrs_dict = {str(key).lower(): str(value or "") for key, value in attrs}
+        entry: dict[str, Any] = {"tag": tag, "record": None, "text": []}
+        if tag in self.interactable_tags or attrs_dict.get("role") == "button":
+            text = attrs_dict.get("value") or attrs_dict.get("aria-label") or attrs_dict.get("title") or ""
+            hint = f"id={attrs_dict['id']}" if attrs_dict.get("id") else (f"name={attrs_dict['name']}" if attrs_dict.get("name") else "")
+            record = ElementRecord(
+                index=len(self.records) + 1,
+                tag=tag,
+                locator_hint=hint,
+                text=text,
+                attributes=attrs_dict,
+                is_visible=self._visible(attrs_dict),
+                is_enabled="disabled" not in attrs_dict,
+                xpath=self._xpath_for(tag, attrs_dict, text),
+                css_selector=self._css_for(tag, attrs_dict),
+            )
+            self.records.append(record)
+            entry["record"] = record
+        if tag not in self.void_tags:
+            self.stack.append(entry)
+
+    def handle_endtag(self, tag: str) -> None:
+        tag = tag.lower()
+        while self.stack:
+            entry = self.stack.pop()
+            record = entry.get("record")
+            if record is not None:
+                text = " ".join(" ".join(entry.get("text", [])).split())
+                if text and not record.text:
+                    record.text = text
+                    if not record.xpath:
+                        record.xpath = self._xpath_for(record.tag, record.attributes, text)
+            if entry.get("tag") == tag:
+                break
+
+    def handle_data(self, data: str) -> None:
+        if not data or not data.strip():
+            return
+        for entry in self.stack:
+            if entry.get("record") is not None:
+                entry.setdefault("text", []).append(data)
+
+    def _visible(self, attrs: dict[str, str]) -> bool:
+        style = attrs.get("style", "").replace(" ", "").lower()
+        hidden = "hidden" in attrs or attrs.get("type", "").lower() == "hidden"
+        hidden = hidden or "display:none" in style or "visibility:hidden" in style
+        return not hidden
+
+    def _css_for(self, tag: str, attrs: dict[str, str]) -> str:
+        if attrs.get("id"):
+            return f"#{self._css_escape(attrs['id'])}"
+        if attrs.get("name"):
+            escaped_name = attrs["name"].replace('"', '\\"')
+            return f'{tag}[name="{escaped_name}"]'
+        return ""
+
+    def _xpath_for(self, tag: str, attrs: dict[str, str], text: str) -> str:
+        if attrs.get("id"):
+            return f"//*[@id={self._xpath_literal(attrs['id'])}]"
+        if attrs.get("name"):
+            return f"//{tag}[@name={self._xpath_literal(attrs['name'])}]"
+        value = attrs.get("value") or text
+        if tag == "input" and value:
+            return f"//input[@value={self._xpath_literal(value)}]"
+        if tag in {"button", "a"} and value:
+            return f"//{tag}[normalize-space(.)={self._xpath_literal(value)}]"
+        return ""
+
+    def _css_escape(self, value: str) -> str:
+        return value.replace("\\", "\\\\").replace('"', '\\"').replace(" ", "\\ ")
+
+    def _xpath_literal(self, value: str) -> str:
+        if '"' not in value:
+            return f'"{value}"'
+        if "'" not in value:
+            return f"'{value}'"
+        parts = value.split('"')
+        return "concat(" + ', \'"\', '.join(f'"{part}"' for part in parts) + ")"
 
 
 class ActionExecutor:
