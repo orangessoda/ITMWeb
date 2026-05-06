@@ -41,16 +41,26 @@ def _order_key(path: Path) -> tuple[int, str]:
     return (int(prefix) if prefix.isdigit() else 999999, path.name.lower())
 
 
+def _visible_py_files(path: Path) -> list[Path]:
+    return [item for item in path.glob("*.py") if not item.name.startswith("_")]
+
+
+def _visible_dirs(path: Path) -> list[Path]:
+    return [item for item in path.iterdir() if item.is_dir() and not item.name.startswith("_")]
+
+
 def _scripts(root: str, start_index: int | None = None, limit: int | None = None) -> list[Path]:
     path = Path(root).resolve()
     if path.is_file():
         scripts = [path]
-    elif any(path.glob("*.py")):
-        scripts = sorted(path.glob("*.py"), key=_order_key)
     else:
-        scripts = []
-        for app in sorted([item for item in path.iterdir() if item.is_dir()], key=lambda item: item.name.lower()):
-            scripts.extend(sorted(app.glob("*.py"), key=_order_key))
+        app_dirs = sorted(_visible_dirs(path), key=lambda item: item.name.lower())
+        if app_dirs:
+            scripts = []
+            for app in app_dirs:
+                scripts.extend(sorted(_visible_py_files(app), key=_order_key))
+        else:
+            scripts = sorted(_visible_py_files(path), key=_order_key)
     if start_index is not None:
         scripts = scripts[max(0, start_index - 1) :]
     if limit is not None:

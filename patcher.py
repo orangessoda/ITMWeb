@@ -293,13 +293,12 @@ class ReplayRunner:
                     text=True,
                     env=env,
                 )
-                try:
-                    return_code = process.wait(timeout=self._timeout_seconds())
-                except subprocess.TimeoutExpired:
+                return_code, timed_out = self._wait_for_process_or_log_idle_timeout(process, log_path)
+                if timed_out:
                     self._kill_process_tree(process.pid)
                     return_code = None
-                    timeout = self._timeout_seconds()
-                    message = f"Replay timed out after {timeout} seconds."
+                    timeout = self._idle_timeout_seconds()
+                    message = f"Replay action_log had no updates for {timeout} seconds."
                     with log_path.open("a", encoding="utf-8", errors="ignore") as handle:
                         handle.write(f"\n[stderr]\n{message}\n")
                     stdout_file.seek(0)
@@ -310,7 +309,7 @@ class ReplayRunner:
                         script_path=str(script_path),
                         line_num=0,
                         broken_statement="",
-                        error_type="ReplayTimeout",
+                        error_type="ReplayIdleTimeout",
                         traceback=stderr,
                         message=message,
                     )
@@ -347,7 +346,30 @@ class ReplayRunner:
         except OSError:
             pass
 
-    def _timeout_seconds(self) -> int | None:
+    def _wait_for_process_or_log_idle_timeout(self, process: subprocess.Popen[str], log_path: Path) -> tuple[int | None, bool]:
+        idle_timeout = self._idle_timeout_seconds()
+        last_signature = self._log_signature(log_path)
+        last_update = time.perf_counter()
+        while True:
+            return_code = process.poll()
+            if return_code is not None:
+                return return_code, False
+            signature = self._log_signature(log_path)
+            if signature != last_signature:
+                last_signature = signature
+                last_update = time.perf_counter()
+            elif idle_timeout is not None and time.perf_counter() - last_update >= idle_timeout:
+                return None, True
+            time.sleep(0.5)
+
+    def _log_signature(self, log_path: Path) -> tuple[int, int]:
+        try:
+            stat = log_path.stat()
+            return int(stat.st_mtime_ns), int(stat.st_size)
+        except OSError:
+            return 0, 0
+
+    def _idle_timeout_seconds(self) -> int | None:
         try:
             trace_config = getattr(self.config, "trace", None)
             value = int(

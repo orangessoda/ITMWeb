@@ -2,6 +2,9 @@
 __pycache__/
 *.py[cod]
 
+# Runtime output artifacts
+output/
+
 # Runtime folders/files generated with a leading underscore, at any depth.
 _*/
 _*

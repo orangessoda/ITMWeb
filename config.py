@@ -11,7 +11,6 @@ from .schemas import BrowserType
 ROOT_DIR = Path(__file__).resolve().parent.parent
 PACKAGE_DIR = ROOT_DIR / "itmweb"
 OUTPUT_DIR = PACKAGE_DIR / "output"
-MINIMAX_DEFAULT_API_KEY = "sk-cp-18GlF0KOr4iPznt7BWcV_o_OTCCLdc4tv2YI6-1R3YrbrmtZwtbk0EKTddGEr0ZqDDED5BbEYI4zISF80NagyF2tMs8ubzwYBVLoD-Glsh0ge0MM23cMz-s"
 
 
 def _env_str(name: str, default: str) -> str:
@@ -95,7 +94,7 @@ class ModelConfig:
     api_base: str = "https://api.deepseek.com"
     api_key_env: str = "ITMWEB_DEEPSEEK_API_KEY"
     mode: str = "remote"
-    api_key_value: str = "sk-72babea71fd9486e921a2faa3061d7d2"
+    api_key_value: str = ""
     temperature: float = 0.1
     max_tokens: int = 2200
     strict_llm: bool = False
@@ -140,7 +139,7 @@ class ArtifactConfig:
 @dataclass(slots=True)
 class TraceConfig:
     script_timeout_seconds: int = 90
-    replay_timeout_seconds: int = 90
+    replay_timeout_seconds: int = 30
     stdout_tail_chars: int = 4000
     stderr_tail_chars: int = 4000
     keep_browser_on_trace_failure: bool = False
@@ -168,7 +167,7 @@ class ProjectConfig:
 def load_config() -> ProjectConfig:
     config = ProjectConfig()
     provider = _env_str("ITMWEB_LLM_PROVIDER", _env_str("ITMWEB_MODEL_PROVIDER", config.model.provider)).lower()
-    if provider not in {"deepseek", "minimax", "gpt"}:
+    if provider not in {"deepseek", "gpt"}:
         provider = "deepseek"
     config.model.provider = provider
     config.model.mode = _env_str("ITMWEB_MODEL_MODE", config.model.mode)
@@ -182,11 +181,6 @@ def load_config() -> ProjectConfig:
         config.model.api_base = _env_str("ITMWEB_GPT_API_BASE", "https://aihubmix.com/v1")
         config.model.api_key_env = _env_str("ITMWEB_GPT_API_KEY_ENV", "ITMWEB_GPT_API_KEY")
         config.model.api_key_value = _env_str("ITMWEB_GPT_API_KEY", config.model.api_key_value)
-    else:
-        config.model.model_name = _env_str("ITMWEB_MINIMAX_MODEL_NAME", "MiniMax-M2.7")
-        config.model.api_base = _env_str("ITMWEB_MINIMAX_API_BASE", "https://api.minimaxi.com/v1")
-        config.model.api_key_env = _env_str("ITMWEB_MINIMAX_API_KEY_ENV", "ITMWEB_MINIMAX_API_KEY")
-        config.model.api_key_value = _env_str("ITMWEB_MINIMAX_API_KEY", MINIMAX_DEFAULT_API_KEY)
     config.model.model_name = _env_str("ITMWEB_MODEL_NAME", config.model.model_name)
     config.model.api_base = _env_str("ITMWEB_API_BASE", config.model.api_base)
     config.model.api_key_env = _env_str("ITMWEB_API_KEY_ENV", config.model.api_key_env)
